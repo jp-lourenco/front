@@ -5,6 +5,10 @@ const { Sider } = Layout;
 
 export const SiderStyled = styled(Sider)`
   height: 100vh;
+
+  @media (max-width: 992px) {
+    display: none;
+  }
 `;
 
 export const Logo = styled.a`

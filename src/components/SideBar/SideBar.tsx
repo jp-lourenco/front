@@ -9,9 +9,10 @@ const SideBar: React.FC = () => {
   return (
     <SiderStyled
       theme="dark"
+      width="256"
       collapsedWidth="0"
       collapsible
-      collapsed={toggleShow}
+      collapsed={!toggleShow}
       trigger={null}
     >
       <ContainerLogo>
