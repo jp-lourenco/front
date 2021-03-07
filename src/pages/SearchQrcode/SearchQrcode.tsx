@@ -8,7 +8,7 @@ import {
   ItemStyled,
 } from './styles/SearchQrcode';
 import api from '../../services/api';
-import { Select } from 'antd';
+import { Select, Form } from 'antd';
 
 const SearchQrcode: React.FC = () => {
   const [batchSelected, setBatchSelected] = useState<string>();
@@ -20,6 +20,8 @@ const SearchQrcode: React.FC = () => {
   const [batchCodes, setbatchCodes] = useState<string[]>([]);
 
   const [qrcode, setQrcode] = useState<string>();
+
+  const [form] = Form.useForm();
 
   useEffect(() => {
     api
@@ -42,6 +44,11 @@ const SearchQrcode: React.FC = () => {
       })
       .then((response) => {
         setFoods(response.data.foods);
+        setFoodSelected(response.data.foods[0]);
+        form.setFieldsValue({
+          lote: undefined,
+          alimento: response.data.foods[0],
+        });
       })
       .catch((error) => {
         setFoods([]);
@@ -58,6 +65,10 @@ const SearchQrcode: React.FC = () => {
       })
       .then((response) => {
         setbatchCodes(response.data.batch_codes);
+        setBatchSelected(response.data.batch_codes[0]);
+        form.setFieldsValue({
+          lote: response.data.batch_codes[0],
+        });
       })
       .catch((error) => {
         setbatchCodes([]);
@@ -84,6 +95,7 @@ const SearchQrcode: React.FC = () => {
   return (
     <Container>
       <FormStyled
+        form={form}
         name="form"
         layout="vertical"
         onFinish={handleFinish}
@@ -118,7 +130,7 @@ const SearchQrcode: React.FC = () => {
         </ItemStyled>
         {foods.length > 0 ? (
           <ItemStyled
-            name="Alimento"
+            name="alimento"
             label="Alimento"
             required
             tooltip="Este é um campo obrigatório"
@@ -147,7 +159,7 @@ const SearchQrcode: React.FC = () => {
         ) : null}
         {batchCodes.length > 0 ? (
           <ItemStyled
-            name="Lote"
+            name="lote"
             label="Lote"
             required
             tooltip="Este é um campo obrigatório"
