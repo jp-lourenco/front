@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Drawer from '../Drawer';
 import { ToggleContext } from '../BasicLayout';
 import {
@@ -13,12 +13,6 @@ const Header: React.FC = () => {
   const { toggleShow, setToggleShow } = useContext(ToggleContext);
   const [visible, setVisible] = useState(false);
 
-  useEffect(() => {
-    if (window.innerWidth > 992) {
-      setToggleShow(true);
-    }
-  }, []);
-
   return (
     <HeaderStyled>
       {toggleShow ? (
@@ -28,7 +22,7 @@ const Header: React.FC = () => {
       )}
       <MenuOutlinedStyled onClick={() => setVisible(true)} />
       <DrawerStyled
-        title="BIOTrace"
+        title="BioTRACE"
         placement="left"
         onClose={() => setVisible(false)}
         visible={visible}
