@@ -10,12 +10,12 @@ interface ContextProps {
 }
 
 export const ToggleContext = createContext<ContextProps>({
-  toggleShow: false,
+  toggleShow: true,
   setToggleShow: () => {},
 });
 
 const BasicLayout: React.FC = ({ children }) => {
-  const [toggleShow, setToggleShow] = useState<boolean>(false);
+  const [toggleShow, setToggleShow] = useState<boolean>(true);
 
   return (
     <ToggleContext.Provider value={{ toggleShow, setToggleShow }}>
