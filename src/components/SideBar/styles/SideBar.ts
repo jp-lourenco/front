@@ -4,7 +4,7 @@ import { Layout } from 'antd';
 const { Sider } = Layout;
 
 export const SiderStyled = styled(Sider)`
-  height: 100vh;
+  min-height: 100vh;
 
   @media (max-width: 992px) {
     display: none;
