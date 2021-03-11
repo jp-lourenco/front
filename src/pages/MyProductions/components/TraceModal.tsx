@@ -25,7 +25,7 @@ const TraceModal: React.FC = () => {
         batchSelected['history'] ? (
           <Timeline>
             {batchSelected['history'].map((item: any, index: number) => {
-              if (item.transition != 'Lojista recebeu') {
+              if (item.transition !== 'Lojista recebeu') {
                 return (
                   <Timeline.Item key={index} position="right">
                     {item.transition} - {moment(item.date).format('llll')}

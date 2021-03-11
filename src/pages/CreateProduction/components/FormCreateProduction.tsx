@@ -75,7 +75,7 @@ const FormCreateProduction: React.FC = () => {
   useEffect(() => {
     const res: string[] = [];
     foods.forEach((item) => {
-      if (item.category == categorySelected) {
+      if (item.category === categorySelected) {
         res.push(item.food_name);
       }
     });

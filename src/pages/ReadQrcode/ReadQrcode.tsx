@@ -23,7 +23,7 @@ const ReadQrcode: React.FC = () => {
       value={{ result, setResult, isCameraEnabled, setCameraEnabled }}
     >
       <Container>
-        {result == false ? (
+        {result === false ? (
           <Camera />
         ) : (
           [

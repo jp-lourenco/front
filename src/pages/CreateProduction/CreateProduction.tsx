@@ -20,7 +20,7 @@ const CreateProduction: React.FC = () => {
   return (
     <CreateProductionContext.Provider value={{ result, setResult }}>
       <Container>
-        {result == false ? (
+        {result === false ? (
           <FormCreateProduction />
         ) : (
           [

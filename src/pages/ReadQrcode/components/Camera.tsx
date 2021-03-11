@@ -1,9 +1,7 @@
-import React, { useContext, useState } from 'react';
-import { Button, notification, Result } from 'antd';
-import { useDispatch, useSelector } from 'react-redux';
-import { LoadingOutlined } from '@ant-design/icons';
+import React, { useContext } from 'react';
+import { notification } from 'antd';
+import { useDispatch } from 'react-redux';
 import {
-  Container,
   ButtonStyled,
   QrReaderStyled,
   ButtonCancelarStyled,

@@ -160,21 +160,21 @@ const ProductionsTable: React.FC = () => {
           { text: 'Em progresso', value: 'Em progresso' },
         ],
         onFilter: (value: string, record: any) => {
-          if (value == 'Finalizado') {
-            return record.current_state == 'Lojista recebeu';
+          if (value === 'Finalizado') {
+            return record.current_state === 'Lojista recebeu';
           } else {
-            return record.current_state != 'Lojista recebeu';
+            return record.current_state !== 'Lojista recebeu';
           }
         },
         sorter: (a: any) => {
-          if (a.current_state == 'Lojista recebeu') {
+          if (a.current_state === 'Lojista recebeu') {
             return true;
           } else {
             return false;
           }
         },
         render: (item: any) => {
-          if (item == 'Lojista recebeu') {
+          if (item === 'Lojista recebeu') {
             return (
               <span>
                 <Badge status="success" />

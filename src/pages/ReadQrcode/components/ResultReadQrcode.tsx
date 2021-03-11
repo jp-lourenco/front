@@ -19,7 +19,7 @@ const ResultReadQrcode: React.FC = () => {
 
   return (
     <>
-      {error && result == true ? (
+      {error && result === true ? (
         <Result
           key="error"
           status="error"
