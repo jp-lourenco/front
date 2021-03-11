@@ -7,9 +7,10 @@ const Drawer: React.FC = () => {
 
   const items = [
     { key: '1', label: 'Dashboard', path: '/admin/dashboard' },
-    { key: '2', label: 'Meus Lotes', path: '/admin/lotes' },
-    { key: '3', label: 'Entregar/Receber lote', path: '/admin/ler-qrcode' },
-    { key: '4', label: 'Pesquisar QR Code', path: '/admin/pesquisar-qrcode' },
+    { key: '2', label: 'Minhas Produções', path: '/admin/producoes' },
+    { key: '3', label: 'Criar Produção', path: '/admin/criar-producao' },
+    { key: '4', label: 'Entregar/Receber lote', path: '/admin/ler-qrcode' },
+    { key: '5', label: 'Pesquisar QR Code', path: '/admin/pesquisar-qrcode' },
   ];
 
   const [selectedKey, setSelectedKey] = useState(
