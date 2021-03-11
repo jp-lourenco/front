@@ -1,4 +1,4 @@
-import { BatchCode } from './types';
+import { BatchCode, Production } from './types';
 
 export function createProductionRequest() {
   return {
@@ -62,5 +62,104 @@ export function setBatchCodes({
   return {
     type: '@production/SET_BATCH_CODES',
     payload: { batch_code, index },
+  };
+}
+
+export function getProductionsByUserRequest() {
+  return {
+    type: '@production/GET_PRODUCTIONS_BY_USER_REQUEST',
+  };
+}
+
+export function getProductionsByUserSuccess({
+  productions,
+}: {
+  productions: Production[];
+}) {
+  return {
+    type: '@production/GET_PRODUCTIONS_BY_USER_SUCCESS',
+    payload: {
+      productions,
+    },
+  };
+}
+
+export function getProductionsByUserFailure() {
+  return {
+    type: '@production/GET_PRODUCTIONS_BY_USER_FAILURE',
+  };
+}
+
+export function setMyProductionsFiltered({
+  myProductionsFiltered,
+}: {
+  myProductionsFiltered: Production[];
+}) {
+  return {
+    type: '@production/SET_MY_PRODUCTIONS_FILTERED',
+    payload: { myProductionsFiltered },
+  };
+}
+
+export function editProductionRequest({ _id }: { _id: string }) {
+  return {
+    type: '@production/EDIT_PRODUCTION_REQUEST',
+    payload: { _id },
+  };
+}
+
+export function editProductionSuccess() {
+  return {
+    type: '@production/EDIT_PRODUCTION_SUCCESS',
+  };
+}
+
+export function editProductionFailure() {
+  return {
+    type: '@production/EDIT_PRODUCTION_FAILURE',
+  };
+}
+
+export function setProductionStart({
+  production_start,
+}: {
+  production_start: string | undefined;
+}) {
+  return {
+    type: '@production/SET_PRODUCTION_START',
+    payload: { production_start },
+  };
+}
+
+export function setProductionLocation({
+  production_location,
+}: {
+  production_location: string;
+}) {
+  return {
+    type: '@production/SET_PRODUCTION_LOCATION',
+    payload: { production_location },
+  };
+}
+
+export function setProductionDescription({
+  production_description,
+}: {
+  production_description: string;
+}) {
+  return {
+    type: '@production/SET_PRODUCTION_DESCRIPTION',
+    payload: { production_description },
+  };
+}
+
+export function setProductionEnd({
+  production_end,
+}: {
+  production_end: string | undefined;
+}) {
+  return {
+    type: '@production/SET_PRODUCTION_END',
+    payload: { production_end },
   };
 }

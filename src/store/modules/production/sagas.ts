@@ -27,6 +27,81 @@ export function* createProduction() {
   }
 }
 
+export function* editProduction({
+  payload,
+}: {
+  payload: { _id: string };
+  type: string;
+}) {
+  try {
+    const {
+      title,
+      production_start,
+      production_location,
+      production_end,
+      production_description,
+      batch_codes,
+    } = yield select(({ production }) => production);
+
+    const headerParams = {
+      user_id: '1',
+    };
+
+    if (batch_codes.length > 0) {
+      yield call(
+        api.put,
+        'productions/' + payload._id,
+        {
+          title: title,
+          production_start: production_start,
+          production_location: production_location,
+          production_end: production_end,
+          production_description: production_description,
+          batchs: batch_codes,
+        },
+        { headers: headerParams },
+      );
+    } else {
+      yield call(
+        api.put,
+        'productions/' + payload._id,
+        {
+          title: title,
+          production_start: production_start,
+          production_location: production_location,
+          production_end: production_end,
+          production_description: production_description,
+        },
+        { headers: headerParams },
+      );
+    }
+    yield put(actions.editProductionSuccess());
+    yield put(actions.getProductionsByUserRequest());
+  } catch (err) {
+    yield put(actions.editProductionFailure());
+  }
+}
+
+export function* getProductionsByUser() {
+  try {
+    const headerParams = {
+      user_id: '1',
+    };
+
+    const { data } = yield call(api.get, 'productions', {
+      headers: headerParams,
+    });
+    yield put(actions.getProductionsByUserSuccess({ productions: data }));
+  } catch (err) {
+    yield put(actions.getProductionsByUserFailure());
+  }
+}
+
 export default all([
   takeLatest('@production/CREATE_PRODUCTION_REQUEST', createProduction),
+  takeLatest('@production/EDIT_PRODUCTION_REQUEST', editProduction),
+  takeLatest(
+    '@production/GET_PRODUCTIONS_BY_USER_REQUEST',
+    getProductionsByUser,
+  ),
 ]);

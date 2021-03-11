@@ -7,7 +7,15 @@ const initialState: ProductionState = {
   title: '',
   category: '',
   food_name: '',
+  production_start: '',
+  production_end: '',
+  production_location: '',
+  production_description: '',
   batch_codes: [],
+  loadingGetProductionsByUserRequest: false,
+  myProductions: [],
+  myProductionsFiltered: [],
+  loadingEditProductionRequest: false,
 };
 
 export default function production(
@@ -26,12 +34,20 @@ export default function production(
         ...state,
         loadingCreateProductionRequest: false,
         error: false,
+        title: '',
+        category: '',
+        food_name: '',
+        batch_codes: [],
       };
     case '@production/CREATE_PRODUCTION_FAILURE':
       return {
         ...state,
         error: true,
         loadingCreateProductionRequest: false,
+        title: '',
+        category: '',
+        food_name: '',
+        batch_codes: [],
       };
     case '@production/SET_TITLE':
       return {
@@ -65,6 +81,78 @@ export default function production(
       return {
         ...state,
         batch_codes: state.batch_codes,
+      };
+    case '@production/GET_PRODUCTIONS_BY_USER_REQUEST':
+      return {
+        ...state,
+        loadingGetProductionsByUserRequest: true,
+      };
+    case '@production/GET_PRODUCTIONS_BY_USER_SUCCESS':
+      return {
+        ...state,
+        loadingGetProductionsByUserRequest: false,
+        myProductions: action.payload.productions,
+        myProductionsFiltered: action.payload.productions,
+      };
+    case '@production/GET_PRODUCTIONS_BY_USER_FAILURE':
+      return {
+        ...state,
+        loadingGetProductionsByUserRequest: false,
+      };
+    case '@production/SET_MY_PRODUCTIONS_FILTERED':
+      return {
+        ...state,
+        myProductionsFiltered: action.payload.myProductionsFiltered,
+      };
+    case '@production/SET_PRODUCTION_START':
+      return {
+        ...state,
+        production_start: action.payload.production_start,
+      };
+    case '@production/SET_PRODUCTION_LOCATION':
+      return {
+        ...state,
+        production_location: action.payload.production_location,
+      };
+    case '@production/SET_PRODUCTION_DESCRIPTION':
+      return {
+        ...state,
+        production_description: action.payload.production_description,
+      };
+    case '@production/SET_PRODUCTION_END':
+      return {
+        ...state,
+        production_end: action.payload.production_end,
+      };
+    case '@production/EDIT_PRODUCTION_REQUEST':
+      return {
+        ...state,
+        loadingEditProductionRequest: true,
+        error: false,
+      };
+    case '@production/EDIT_PRODUCTION_SUCCESS':
+      return {
+        ...state,
+        loadingEditProductionRequest: false,
+        error: false,
+        title: '',
+        production_start: '',
+        production_end: '',
+        production_location: '',
+        production_description: '',
+        batch_codes: [],
+      };
+    case '@production/EDIT_PRODUCTION_FAILURE':
+      return {
+        ...state,
+        error: true,
+        loadingEditProductionRequest: false,
+        title: '',
+        production_start: '',
+        production_end: '',
+        production_location: '',
+        production_description: '',
+        batch_codes: [],
       };
     default:
       return state;
