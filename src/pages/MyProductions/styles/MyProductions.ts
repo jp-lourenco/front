@@ -1,23 +1,22 @@
 import styled from 'styled-components/macro';
 import Search from 'antd/lib/input/Search';
-import { Button, Form, Input, DatePicker, Modal } from 'antd';
+import { Button, Form, Input, DatePicker, Modal, Select } from 'antd';
 import { MinusCircleOutlined } from '@ant-design/icons';
 
 const { Item } = Form;
 
-export const ButtonStyled = styled(Button)`
+export const Text = styled.p`
+  padding-bottom: 25px;
+`;
+
+export const ContentStyled = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   width: 300px;
-
-  @media (max-width: 374px) {
-    width: 250px;
-  }
 `;
 
-export const ButtonRefresh = styled(Button)`
-  margin-bottom: 10px;
-  margin-left: 5px;
-  border-radius: 100px;
-`;
+/* Form */
 
 export const DatePickerStyled = styled(DatePicker)`
   width: 300px;
@@ -27,11 +26,12 @@ export const DatePickerStyled = styled(DatePicker)`
   }
 `;
 
-export const ContentStyled = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+export const ButtonStyled = styled(Button)`
   width: 300px;
+
+  @media (max-width: 374px) {
+    width: 250px;
+  }
 `;
 
 export const MinusCircleOutlinedStyled = styled(MinusCircleOutlined)`
@@ -45,6 +45,10 @@ export const ItemStyled = styled(Item)`
   margin-bottom: 15px;
 `;
 
+export const SelectStyled = styled(Select)`
+  width: 300px;
+`;
+
 export const InputStyled = styled(Input)`
   width: 300px;
 
@@ -52,6 +56,14 @@ export const InputStyled = styled(Input)`
     width: 250px;
   }
 `;
+
+export const ModalStyled = styled(Modal)`
+  .ant-modal-body {
+    padding: 24px 24px 0px;
+  }
+`;
+
+/* Table Header */
 
 export const HeaderStyled = styled.div`
   display: flex;
@@ -85,10 +97,6 @@ export const Label = styled.p`
   }
 `;
 
-export const Text = styled.p`
-  padding-bottom: 25px;
-`;
-
 export const SearchStyled = styled(Search)`
   width: 250px;
   margin-bottom: 10px;
@@ -102,8 +110,28 @@ export const SearchStyled = styled(Search)`
   }
 `;
 
-export const ModalStyled = styled(Modal)`
-  .ant-modal-body {
-    padding: 24px 24px 0px;
+export const ButtonRefresh = styled(Button)`
+  margin-bottom: 10px;
+  margin-left: 5px;
+  margin-right: 5px;
+`;
+
+export const ButtonAdd = styled(Button)`
+  margin-bottom: 10px;
+  margin-left: 5px;
+  margin-left: auto;
+
+  @media (max-width: 374px) {
+    display: none;
+  }
+`;
+
+export const ButtonIconAdd = styled(Button)`
+  margin-bottom: 10px;
+  margin-left: 5px;
+  display: none;
+
+  @media (max-width: 374px) {
+    display: block;
   }
 `;

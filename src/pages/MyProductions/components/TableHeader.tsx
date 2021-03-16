@@ -1,20 +1,25 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Dropdown, Menu } from 'antd';
+import { Button, Dropdown, Menu } from 'antd';
 import {
   HeaderStyled,
   Label,
   LinkDropdownStyled,
   SearchStyled,
   ButtonRefresh,
+  ButtonAdd,
+  ButtonIconAdd,
 } from '../styles/MyProductions';
-import { DownOutlined, SyncOutlined } from '@ant-design/icons';
+import { DownOutlined, PlusOutlined, SyncOutlined } from '@ant-design/icons';
 import {
   getProductionsByUserRequest,
   setMyProductionsFiltered,
 } from '../../../store/modules/production/actions';
+import { MyProductionsContext } from '../MyProductions';
 
 const TableHeader: React.FC = () => {
+  const { setVisibleCreateModal } = useContext(MyProductionsContext);
+
   const [filterSelect, setFilterSelect] = useState('title');
   const [labelSearch, setlabelSearch] = useState('título');
 
@@ -70,10 +75,27 @@ const TableHeader: React.FC = () => {
       <ButtonRefresh
         size="small"
         type="primary"
+        shape="circle"
         onClick={() => dispatch(getProductionsByUserRequest())}
       >
         <SyncOutlined />
       </ButtonRefresh>
+      <ButtonAdd
+        icon={<PlusOutlined />}
+        size="small"
+        shape="round"
+        type="primary"
+        onClick={() => setVisibleCreateModal(true)}
+      >
+        Nova produção
+      </ButtonAdd>
+      <ButtonIconAdd
+        icon={<PlusOutlined />}
+        size="small"
+        shape="round"
+        type="primary"
+        onClick={() => setVisibleCreateModal(true)}
+      />
     </HeaderStyled>
   );
 };
