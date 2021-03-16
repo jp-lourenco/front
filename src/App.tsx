@@ -7,7 +7,6 @@ import SignIn from './pages/SignIn';
 import SearchQrcode from './pages/SearchQrcode';
 import ReadQrcode from './pages/ReadQrcode';
 import MyProductions from './pages/MyProductions';
-import CreateProduction from './pages/CreateProduction';
 
 const App: React.FC = () => {
   return (
@@ -23,9 +22,6 @@ const App: React.FC = () => {
             </Route>
             <Route path="/admin/producoes">
               <MyProductions />
-            </Route>
-            <Route path="/admin/criar-producao">
-              <CreateProduction />
             </Route>
             <Route path="/admin/ler-qrcode">
               <ReadQrcode />
