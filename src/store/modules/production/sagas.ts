@@ -22,6 +22,7 @@ export function* createProduction() {
       });
     }
     yield put(actions.createProductionSuccess());
+    yield put(actions.getProductionsByUserRequest());
   } catch (err) {
     yield put(actions.createProductionFailure());
   }
