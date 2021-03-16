@@ -3,7 +3,8 @@ import TableHeader from './components/TableHeader';
 import ProductionsTable from './components/ProductionsTable';
 import { Batch, Production } from '../../store/modules/production/types';
 import TraceModal from './components/TraceModal';
-import EditModal from './components/EditModal';
+import EditModal from './components/Edit/EditModal';
+import CreateModal from './components/Create/CreateModal';
 
 export const MyProductionsContext = createContext({
   batchSelected: {
@@ -19,11 +20,14 @@ export const MyProductionsContext = createContext({
   setProductionSelected: (productionSelected: Production) => {},
   visibleEditModal: false,
   setVisibleEditModal: (visibleEditModal: boolean) => {},
+  visibleCreateModal: false,
+  setVisibleCreateModal: (visibleCreateModal: boolean) => {},
 });
 
 const MyProductions: React.FC = () => {
   const [visibleTraceModal, setVisibleTraceModal] = useState(false);
   const [visibleEditModal, setVisibleEditModal] = useState(false);
+  const [visibleCreateModal, setVisibleCreateModal] = useState(false);
   const [productionSelected, setProductionSelected] = useState<any>({});
   const [batchSelected, setBatchSelected] = useState<any>({
     key: '',
@@ -43,12 +47,15 @@ const MyProductions: React.FC = () => {
         setProductionSelected,
         visibleEditModal,
         setVisibleEditModal,
+        visibleCreateModal,
+        setVisibleCreateModal,
       }}
     >
       <TableHeader />
       <ProductionsTable />
       <TraceModal />
       <EditModal />
+      <CreateModal />
     </MyProductionsContext.Provider>
   );
 };
