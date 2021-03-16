@@ -12,8 +12,9 @@ import {
   addBatchCodes,
   setBatchCodes,
   editProductionRequest,
-} from '../../../store/modules/production/actions';
-import { BatchCode } from '../../../store/modules/production/types';
+  resetFormProduction,
+} from '../../../../store/modules/production/actions';
+import { BatchCode } from '../../../../store/modules/production/types';
 import {
   DatePickerStyled,
   FormStyled,
@@ -22,8 +23,8 @@ import {
   ButtonStyled,
   ContentStyled,
   MinusCircleOutlinedStyled,
-} from '../styles/MyProductions';
-import { MyProductionsContext } from '../MyProductions';
+} from '../../styles/MyProductions';
+import { MyProductionsContext } from '../../MyProductions';
 import { EditProductionContext } from './EditModal';
 import 'moment/locale/pt-br';
 import moment from 'moment';
@@ -68,15 +69,7 @@ const EditForm: React.FC = () => {
   };
 
   const handleCancel = () => {
-    dispatch(setTitle({ title: '' }));
-    dispatch(setProductionStart({ production_start: '' }));
-    dispatch(setProductionLocation({ production_location: '' }));
-    dispatch(
-      setProductionDescription({
-        production_description: '',
-      }),
-    );
-    dispatch(setProductionEnd({ production_end: '' }));
+    dispatch(resetFormProduction());
     setVisibleEditModal(false);
     setResult(false);
   };

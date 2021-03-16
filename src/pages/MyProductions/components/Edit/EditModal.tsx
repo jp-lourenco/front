@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState } from 'react';
 import { Modal } from 'antd';
-import { MyProductionsContext } from '../MyProductions';
+import { MyProductionsContext } from '../../MyProductions';
 import EditForm from './EditForm';
 import { LoadingOutlined } from '@ant-design/icons';
 import ResultEdit from './ResultEdit';
@@ -26,7 +26,7 @@ const EditModal: React.FC = () => {
     <EditProductionContext.Provider value={{ result, setResult }}>
       <Modal
         visible={visibleEditModal}
-        title={`Adicionar Informação`}
+        title={`Gerir Informação`}
         onOk={() => setVisibleEditModal(false)}
         onCancel={() => {}}
         closable={false}
