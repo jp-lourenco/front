@@ -154,6 +154,18 @@ export default function production(
         production_description: '',
         batch_codes: [],
       };
+    case '@production/RESET_FORM_PRODUCTION':
+      return {
+        ...state,
+        title: '',
+        category: '',
+        food_name: '',
+        production_start: '',
+        production_end: '',
+        production_location: '',
+        production_description: '',
+        batch_codes: [],
+      };
     default:
       return state;
   }

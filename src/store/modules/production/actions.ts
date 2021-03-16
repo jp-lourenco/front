@@ -163,3 +163,9 @@ export function setProductionEnd({
     payload: { production_end },
   };
 }
+
+export function resetFormProduction() {
+  return {
+    type: '@production/RESET_FORM_PRODUCTION',
+  };
+}
