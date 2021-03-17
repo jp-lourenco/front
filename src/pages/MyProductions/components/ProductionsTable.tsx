@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Badge, message, Modal, Popconfirm } from 'antd';
+import { Badge, Modal } from 'antd';
 import {
   deleteProductionRequest,
   getProductionsByUserRequest,
@@ -105,7 +105,25 @@ const ProductionsTable: React.FC = () => {
       key: 'production_start',
       width: 150,
       align: 'center',
-      render: (item) => item && moment(item).format('llll'),
+      render: (item) => item && moment(item).format('LL'),
+      sorter: (a: any, b: any, sortOrder) => {
+        if (sortOrder === 'ascend') {
+          if (a.production_start === undefined) {
+            return 1;
+          } else if (b.production_start === undefined) {
+            return -1;
+          }
+        } else {
+          if (a.production_start === undefined) {
+            return -1;
+          } else if (b.production_start === undefined) {
+            return 1;
+          }
+        }
+        return (
+          moment(a.production_start).unix() - moment(b.production_start).unix()
+        );
+      },
     },
     {
       title: 'Local da produção',
@@ -113,6 +131,22 @@ const ProductionsTable: React.FC = () => {
       key: 'production_location',
       width: 150,
       align: 'center',
+      sorter: (a: any, b: any, sortOrder) => {
+        if (sortOrder === 'ascend') {
+          if (a.production_location === undefined) {
+            return 1;
+          } else if (b.production_location === undefined) {
+            return -1;
+          }
+        } else {
+          if (a.production_location === undefined) {
+            return -1;
+          } else if (b.production_location === undefined) {
+            return 1;
+          }
+        }
+        return a.production_location.localeCompare(b.production_location);
+      },
     },
     {
       title: 'Fim da produção',
@@ -120,7 +154,25 @@ const ProductionsTable: React.FC = () => {
       key: 'production_end',
       width: 150,
       align: 'center',
-      render: (item) => item && moment(item).format('llll'),
+      render: (item) => item && moment(item).format('LL'),
+      sorter: (a: any, b: any, sortOrder) => {
+        if (sortOrder === 'ascend') {
+          if (a.production_end === undefined) {
+            return 1;
+          } else if (b.production_end === undefined) {
+            return -1;
+          }
+        } else {
+          if (a.production_end === undefined) {
+            return -1;
+          } else if (b.production_end === undefined) {
+            return 1;
+          }
+        }
+        return (
+          moment(a.production_end).unix() - moment(b.production_end).unix()
+        );
+      },
     },
     {
       title: 'Descrição da producão',
@@ -128,6 +180,22 @@ const ProductionsTable: React.FC = () => {
       key: 'production_description',
       width: 150,
       align: 'center',
+      sorter: (a: any, b: any, sortOrder) => {
+        if (sortOrder === 'ascend') {
+          if (a.production_description === undefined) {
+            return 1;
+          } else if (b.production_description === undefined) {
+            return -1;
+          }
+        } else {
+          if (a.production_description === undefined) {
+            return -1;
+          } else if (b.production_description === undefined) {
+            return 1;
+          }
+        }
+        return a.production_description.localeCompare(b.production_description);
+      },
     },
     {
       title: 'Gerir Informação',
