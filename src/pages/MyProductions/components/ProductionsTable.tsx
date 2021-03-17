@@ -1,7 +1,8 @@
 import React, { useContext, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Badge } from 'antd';
+import { Badge, message, Modal, Popconfirm } from 'antd';
 import {
+  deleteProductionRequest,
   getProductionsByUserRequest,
   setProductionDescription,
   setProductionEnd,
@@ -12,7 +13,11 @@ import {
 import { Production, Batch } from '../../../store/modules/production/types';
 import Table, { ColumnsType } from 'antd/es/table';
 import { MyProductionsContext } from '../MyProductions';
-import { EditOutlined } from '@ant-design/icons';
+import {
+  DeleteOutlined,
+  EditOutlined,
+  ExclamationCircleOutlined,
+} from '@ant-design/icons';
 import 'moment/locale/pt-br';
 import moment from 'moment';
 
@@ -21,6 +26,8 @@ interface ObjectKeys {
 }
 
 interface ProductionProps extends Production, ObjectKeys {}
+
+const { confirm } = Modal;
 
 const ProductionsTable: React.FC = () => {
   const {
@@ -50,6 +57,21 @@ const ProductionsTable: React.FC = () => {
     dispatch(setProductionEnd({ production_end: item?.production_end }));
     setVisibleEditModal(true);
   };
+
+  function showConfirm(item: any) {
+    console.log(item);
+    confirm({
+      title: 'Tem certeza que deseja excluir essa produção?',
+      icon: <ExclamationCircleOutlined />,
+      content: 'Cuidado! Essa ação não pode ser desfeita.',
+      okText: 'Sim',
+      cancelText: 'Não',
+      onOk() {
+        dispatch(deleteProductionRequest({ production_id: item?.key }));
+      },
+      onCancel() {},
+    });
+  }
 
   const columns: ColumnsType<ProductionProps> = [
     {
@@ -108,15 +130,24 @@ const ProductionsTable: React.FC = () => {
       align: 'center',
     },
     {
-      title: 'Adicionar Informação',
+      title: 'Gerir Informação',
       width: 100,
       dataIndex: '1',
       key: '1',
       align: 'center',
       render: (_, item) => (
-        <a onClick={() => showEditModal(item)}>
-          <EditOutlined />
-        </a>
+        <>
+          <a onClick={() => showEditModal(item)}>
+            <EditOutlined />
+          </a>
+
+          <a
+            onClick={() => showConfirm(item)}
+            style={{ marginLeft: 5, color: '#ff2000' }}
+          >
+            <DeleteOutlined />
+          </a>
+        </>
       ),
     },
   ];
@@ -235,6 +266,11 @@ const ProductionsTable: React.FC = () => {
       }}
       dataSource={myProductionsFiltered}
       scroll={{ x: true }}
+      pagination={{
+        defaultPageSize: 10,
+        showSizeChanger: true,
+        pageSizeOptions: ['10', '25', '50', '100'],
+      }}
     />
   );
 };

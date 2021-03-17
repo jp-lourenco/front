@@ -169,3 +169,28 @@ export function resetFormProduction() {
     type: '@production/RESET_FORM_PRODUCTION',
   };
 }
+
+export function deleteProductionRequest({
+  production_id,
+}: {
+  production_id: string;
+}) {
+  return {
+    type: '@production/DELETE_PRODUCTION_REQUEST',
+    payload: {
+      production_id,
+    },
+  };
+}
+
+export function deleteProductionSuccess() {
+  return {
+    type: '@production/DELETE_PRODUCTION_SUCCESS',
+  };
+}
+
+export function deleteProductionFailure() {
+  return {
+    type: '@production/DELETE_PRODUCTION_FAILURE',
+  };
+}

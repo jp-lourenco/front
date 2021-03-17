@@ -1,3 +1,4 @@
+import { message } from 'antd';
 import { takeLatest, call, put, all, select } from 'redux-saga/effects';
 import api from '../../../services/api';
 import * as actions from './actions';
@@ -98,6 +99,35 @@ export function* getProductionsByUser() {
   }
 }
 
+export function* deleteProduction({
+  payload,
+}: {
+  payload: { production_id: string };
+  type: string;
+}) {
+  try {
+    const headerParams = {
+      user_id: '1',
+    };
+
+    console.log('aqui');
+
+    const { data } = yield call(
+      api.delete,
+      'productions/' + payload.production_id,
+      {
+        headers: headerParams,
+      },
+    );
+    yield put(actions.deleteProductionSuccess());
+    yield put(actions.getProductionsByUserRequest());
+    message.success('Produção deletada!');
+  } catch (err) {
+    yield put(actions.deleteProductionFailure());
+    message.error('Alguma coisa deu errada!');
+  }
+}
+
 export default all([
   takeLatest('@production/CREATE_PRODUCTION_REQUEST', createProduction),
   takeLatest('@production/EDIT_PRODUCTION_REQUEST', editProduction),
@@ -105,4 +135,5 @@ export default all([
     '@production/GET_PRODUCTIONS_BY_USER_REQUEST',
     getProductionsByUser,
   ),
+  takeLatest('@production/DELETE_PRODUCTION_REQUEST', deleteProduction),
 ]);
