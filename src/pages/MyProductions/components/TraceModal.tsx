@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { Timeline } from 'antd';
 import { MyProductionsContext } from '../MyProductions';
 import { ModalStyled, Text } from '../styles/MyProductions';
+import { History } from '../../../store/modules/production/types';
 import 'moment/locale/pt-br';
 import moment from 'moment';
 
@@ -24,10 +25,16 @@ const TraceModal: React.FC = () => {
       {batchSelected ? (
         batchSelected['history'] ? (
           <Timeline>
-            {batchSelected['history'].map((item: any, index: number) => {
-              if (item.transition !== 'Lojista recebeu') {
+            {batchSelected['history'].map((item: History, index: number) => {
+              if (item.transition.includes('tentou')) {
                 return (
-                  <Timeline.Item key={index} position="right">
+                  <Timeline.Item color="red" key={index}>
+                    Erro: {item.transition} - {moment(item.date).format('llll')}
+                  </Timeline.Item>
+                );
+              } else if (item.transition !== 'Lojista recebeu') {
+                return (
+                  <Timeline.Item key={index}>
                     {item.transition} - {moment(item.date).format('llll')}
                   </Timeline.Item>
                 );

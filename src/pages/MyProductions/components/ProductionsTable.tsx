@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Badge, Modal } from 'antd';
+import { Alert, Badge, Modal } from 'antd';
 import {
   deleteProductionRequest,
   getProductionsByUserRequest,
@@ -17,6 +17,7 @@ import {
   DeleteOutlined,
   EditOutlined,
   ExclamationCircleOutlined,
+  InfoCircleFilled,
 } from '@ant-design/icons';
 import 'moment/locale/pt-br';
 import moment from 'moment';
@@ -352,9 +353,29 @@ const ProductionsTable: React.FC = () => {
         title: 'Visualizar Rastreabilidade',
         dataIndex: 'batch_code',
         key: 'batch_code',
-        render: (dataIndex: any, batch: any) => (
-          <a onClick={() => showModalTrace(batch)}>Visualizar</a>
-        ),
+        render: (dataIndex: any, batch: any) => {
+          if (batch?.history?.length > 0) {
+            if (
+              batch?.history[batch?.history?.length - 1]?.transition.includes(
+                'tentou',
+              )
+            ) {
+              return (
+                <span>
+                  <InfoCircleFilled
+                    style={{ color: '#faad14', marginRight: 3 }}
+                  />
+                  <a onClick={() => showModalTrace(batch)}>Visualizar</a>
+                </span>
+              );
+            }
+          }
+          return (
+            <span>
+              <a onClick={() => showModalTrace(batch)}>Visualizar</a>
+            </span>
+          );
+        },
         width: 100,
       },
     ];
