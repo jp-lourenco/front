@@ -20,6 +20,7 @@ import {
 } from '@ant-design/icons';
 import 'moment/locale/pt-br';
 import moment from 'moment';
+import DropdownRangePicker from './DropdownRangePicker';
 
 interface ObjectKeys {
   [key: string]: string | undefined | Batch[] | null;
@@ -31,13 +32,21 @@ const { confirm } = Modal;
 
 const ProductionsTable: React.FC = () => {
   const {
+    categories,
+    foods,
+    locations,
+    myProductionsFiltered,
+    loadingGetProductionsByUserRequest,
+  } = useSelector((state: any) => state.production);
+
+  const {
     setBatchSelected,
     setVisibleTraceModal,
     setProductionSelected,
     setVisibleEditModal,
   } = useContext(MyProductionsContext);
 
-  const showModalTrace = (batch: any) => {
+  const showModalTrace = (batch: Batch) => {
     setBatchSelected(batch);
     setVisibleTraceModal(true);
   };
@@ -58,8 +67,7 @@ const ProductionsTable: React.FC = () => {
     setVisibleEditModal(true);
   };
 
-  function showConfirm(item: any) {
-    console.log(item);
+  function showConfirm(item: ProductionProps) {
     confirm({
       title: 'Tem certeza que deseja excluir essa produção?',
       icon: <ExclamationCircleOutlined />,
@@ -81,7 +89,8 @@ const ProductionsTable: React.FC = () => {
       key: 'title',
       fixed: 'left',
       align: 'center',
-      sorter: (a: any, b: any) => a.title.localeCompare(b.title),
+      sorter: (a: ProductionProps, b: ProductionProps) =>
+        a.title.localeCompare(b.title),
     },
     {
       title: 'Categoria',
@@ -89,7 +98,11 @@ const ProductionsTable: React.FC = () => {
       dataIndex: 'category',
       key: 'category',
       align: 'center',
-      sorter: (a: any, b: any) => a.category.localeCompare(b.category),
+      filters: categories,
+      sorter: (a: ProductionProps, b: ProductionProps) =>
+        a.category.localeCompare(b.category),
+      onFilter: (value: any, record: ProductionProps) =>
+        record.category.indexOf(value) === 0,
     },
     {
       title: 'Alimento',
@@ -97,7 +110,11 @@ const ProductionsTable: React.FC = () => {
       dataIndex: 'food_name',
       key: 'food_name',
       align: 'center',
-      sorter: (a: any, b: any) => a.food_name.localeCompare(b.food_name),
+      filters: foods,
+      sorter: (a: ProductionProps, b: ProductionProps) =>
+        a.food_name.localeCompare(b.food_name),
+      onFilter: (value: any, record: ProductionProps) =>
+        record.food_name.indexOf(value) === 0,
     },
     {
       title: 'Início da produção',
@@ -106,7 +123,7 @@ const ProductionsTable: React.FC = () => {
       width: 150,
       align: 'center',
       render: (item) => item && moment(item).format('LL'),
-      sorter: (a: any, b: any, sortOrder) => {
+      sorter: (a: ProductionProps, b: ProductionProps, sortOrder) => {
         if (sortOrder === 'ascend') {
           if (a.production_start === undefined) {
             return 1;
@@ -124,6 +141,24 @@ const ProductionsTable: React.FC = () => {
           moment(a.production_start).unix() - moment(b.production_start).unix()
         );
       },
+      filterDropdown: DropdownRangePicker,
+      onFilter: (value: any, record: ProductionProps) => {
+        if (record.production_start === undefined) {
+          return false;
+        }
+        if (
+          moment(record.production_start).isBetween(
+            value['start'],
+            value['end'],
+            'days',
+            '[]',
+          )
+        ) {
+          return true;
+        } else {
+          return false;
+        }
+      },
     },
     {
       title: 'Local da produção',
@@ -131,7 +166,8 @@ const ProductionsTable: React.FC = () => {
       key: 'production_location',
       width: 150,
       align: 'center',
-      sorter: (a: any, b: any, sortOrder) => {
+      filters: locations,
+      sorter: (a: ProductionProps, b: ProductionProps, sortOrder) => {
         if (sortOrder === 'ascend') {
           if (a.production_location === undefined) {
             return 1;
@@ -147,6 +183,8 @@ const ProductionsTable: React.FC = () => {
         }
         return a.production_location.localeCompare(b.production_location);
       },
+      onFilter: (value: any, record: ProductionProps) =>
+        record?.production_location?.indexOf(value) === 0,
     },
     {
       title: 'Fim da produção',
@@ -155,7 +193,7 @@ const ProductionsTable: React.FC = () => {
       width: 150,
       align: 'center',
       render: (item) => item && moment(item).format('LL'),
-      sorter: (a: any, b: any, sortOrder) => {
+      sorter: (a: ProductionProps, b: ProductionProps, sortOrder) => {
         if (sortOrder === 'ascend') {
           if (a.production_end === undefined) {
             return 1;
@@ -173,6 +211,24 @@ const ProductionsTable: React.FC = () => {
           moment(a.production_end).unix() - moment(b.production_end).unix()
         );
       },
+      filterDropdown: DropdownRangePicker,
+      onFilter: (value: any, record: ProductionProps) => {
+        if (record.production_end === undefined) {
+          return false;
+        }
+        if (
+          moment(record.production_end).isBetween(
+            value['start'],
+            value['end'],
+            'days',
+            '[]',
+          )
+        ) {
+          return true;
+        } else {
+          return false;
+        }
+      },
     },
     {
       title: 'Descrição da producão',
@@ -180,7 +236,7 @@ const ProductionsTable: React.FC = () => {
       key: 'production_description',
       width: 150,
       align: 'center',
-      sorter: (a: any, b: any, sortOrder) => {
+      sorter: (a: ProductionProps, b: ProductionProps, sortOrder) => {
         if (sortOrder === 'ascend') {
           if (a.production_description === undefined) {
             return 1;
@@ -203,7 +259,7 @@ const ProductionsTable: React.FC = () => {
       dataIndex: '1',
       key: '1',
       align: 'center',
-      render: (_, item) => (
+      render: (_, item: ProductionProps) => (
         <>
           <a onClick={() => showEditModal(item)}>
             <EditOutlined />
@@ -221,12 +277,13 @@ const ProductionsTable: React.FC = () => {
   ];
 
   const expandedRowRender = (record: any) => {
-    const columns: any = [
+    const columns: ColumnsType<Batch> = [
       {
         title: 'Código do lote',
         dataIndex: 'batch_code',
         key: 'batch_code',
-        sorter: (a: any, b: any) => a.batch_code.localeCompare(b.batch_code),
+        sorter: (a: Batch, b: Batch) =>
+          a.batch_code.localeCompare(b.batch_code),
         width: 100,
       },
       {
@@ -244,9 +301,9 @@ const ProductionsTable: React.FC = () => {
           { text: 'Transformador enviou', value: 'Transformador enviou' },
           { text: 'Lojista recebeu', value: 'Lojista recebeu' },
         ],
-        sorter: (a: any, b: any) =>
+        sorter: (a: Batch, b: Batch) =>
           a.current_state.localeCompare(b.current_state),
-        onFilter: (value: string, record: any) =>
+        onFilter: (value: any, record: Batch) =>
           record.current_state.indexOf(value) === 0,
         width: 100,
       },
@@ -258,21 +315,21 @@ const ProductionsTable: React.FC = () => {
           { text: 'Finalizado', value: 'Finalizado' },
           { text: 'Em progresso', value: 'Em progresso' },
         ],
-        onFilter: (value: string, record: any) => {
+        onFilter: (value: any, record: Batch) => {
           if (value === 'Finalizado') {
             return record.current_state === 'Lojista recebeu';
           } else {
             return record.current_state !== 'Lojista recebeu';
           }
         },
-        sorter: (a: any) => {
+        sorter: (a: Batch) => {
           if (a.current_state === 'Lojista recebeu') {
-            return true;
+            return 1;
           } else {
-            return false;
+            return 0;
           }
         },
-        render: (item: any) => {
+        render: (item: string) => {
           if (item === 'Lojista recebeu') {
             return (
               <span>
@@ -311,11 +368,6 @@ const ProductionsTable: React.FC = () => {
       />
     );
   };
-
-  const {
-    myProductionsFiltered,
-    loadingGetProductionsByUserRequest,
-  } = useSelector((state: any) => state.production);
 
   const dispatch = useDispatch();
 

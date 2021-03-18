@@ -13,6 +13,13 @@ export interface ProductionState {
   myProductions: Production[];
   myProductionsFiltered: Production[];
   loadingEditProductionRequest: boolean;
+  categories: Filter[];
+  foods: Filter[];
+  locations: Filter[];
+}
+interface Filter {
+  text: string;
+  value: string;
 }
 
 export interface BatchCode {
@@ -25,13 +32,13 @@ export interface Production {
   producer_id: string;
   category: string;
   food_name: string;
-  production_start: string | null;
-  production_description: string | null;
-  production_end: string | null;
-  production_location: string | null;
+  production_start: string | undefined;
+  production_description: string | undefined;
+  production_end: string | undefined;
+  production_location: string | undefined;
   created: string;
   updated: string;
-  Batchs: Batch[] | null;
+  Batchs: Batch[] | undefined;
 }
 
 export interface Batch {

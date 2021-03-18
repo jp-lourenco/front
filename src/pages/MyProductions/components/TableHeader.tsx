@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, Dropdown, Menu } from 'antd';
+import { Dropdown, Menu } from 'antd';
 import {
   HeaderStyled,
   Label,
@@ -42,8 +42,18 @@ const TableHeader: React.FC = () => {
 
   const handleFilter = ({ key }: any) => {
     const selected = parseInt(key);
-    const statusMap = ['title', 'category', 'food_name'];
-    const statusMaplabelSearch = ['título', 'categoria', 'alimento'];
+    const statusMap = [
+      'title',
+      'category',
+      'food_name',
+      'production_description',
+    ];
+    const statusMaplabelSearch = [
+      'título',
+      'categoria',
+      'alimento',
+      'descrição',
+    ];
     const value = statusMap[selected];
     const valuelabelSearch = statusMaplabelSearch[selected];
     setFilterSelect(value);
@@ -56,6 +66,7 @@ const TableHeader: React.FC = () => {
         <Menu.Item key="0">Título</Menu.Item>
         <Menu.Item key="1">Categoria</Menu.Item>
         <Menu.Item key="2">Alimento</Menu.Item>
+        <Menu.Item key="2">Descrição</Menu.Item>
       </Menu>
     );
   };

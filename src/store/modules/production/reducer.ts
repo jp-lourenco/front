@@ -16,6 +16,9 @@ const initialState: ProductionState = {
   myProductions: [],
   myProductionsFiltered: [],
   loadingEditProductionRequest: false,
+  categories: [],
+  foods: [],
+  locations: [],
 };
 
 export default function production(
@@ -88,11 +91,31 @@ export default function production(
         loadingGetProductionsByUserRequest: true,
       };
     case '@production/GET_PRODUCTIONS_BY_USER_SUCCESS':
+      let categories = action.payload.productions.map(
+        (item: any) => item.category,
+      );
+      categories = new Set(categories);
+      categories = [...[...categories]];
+      categories = categories.map((item: any) => ({ value: item, text: item }));
+      let foods = action.payload.productions.map((item: any) => item.food_name);
+      foods = new Set(foods);
+      foods = [...[...foods]];
+      foods = foods.map((item: any) => ({ value: item, text: item }));
+      let locations = action.payload.productions.map(
+        (item: any) => item.production_location,
+      );
+      locations = new Set(locations);
+      locations.delete(undefined);
+      locations = [...[...locations]];
+      locations = locations.map((item: any) => ({ value: item, text: item }));
       return {
         ...state,
         loadingGetProductionsByUserRequest: false,
         myProductions: action.payload.productions,
         myProductionsFiltered: action.payload.productions,
+        categories: categories,
+        foods: foods,
+        locations: locations,
       };
     case '@production/GET_PRODUCTIONS_BY_USER_FAILURE':
       return {
