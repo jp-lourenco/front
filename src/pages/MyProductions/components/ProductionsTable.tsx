@@ -22,6 +22,7 @@ import {
 import 'moment/locale/pt-br';
 import moment from 'moment';
 import DropdownRangePicker from './DropdownRangePicker';
+import { deleteBatchRequest } from '../../../store/modules/batch/actions';
 
 interface ObjectKeys {
   [key: string]: string | undefined | Batch[] | null;
@@ -68,7 +69,7 @@ const ProductionsTable: React.FC = () => {
     setVisibleEditModal(true);
   };
 
-  function showConfirm(item: ProductionProps) {
+  function showConfirmDeleteProduction(item: ProductionProps) {
     confirm({
       title: 'Tem certeza que deseja excluir essa produção?',
       icon: <ExclamationCircleOutlined />,
@@ -77,6 +78,20 @@ const ProductionsTable: React.FC = () => {
       cancelText: 'Não',
       onOk() {
         dispatch(deleteProductionRequest({ production_id: item?.key }));
+      },
+      onCancel() {},
+    });
+  }
+
+  function showConfirmDeleteBatch(item: Batch) {
+    confirm({
+      title: 'Tem certeza que deseja excluir esse lote?',
+      icon: <ExclamationCircleOutlined />,
+      content: 'Cuidado! Essa ação não pode ser desfeita.',
+      okText: 'Sim',
+      cancelText: 'Não',
+      onOk() {
+        dispatch(deleteBatchRequest({ batch_id: item?.key }));
       },
       onCancel() {},
     });
@@ -267,7 +282,7 @@ const ProductionsTable: React.FC = () => {
           </a>
 
           <a
-            onClick={() => showConfirm(item)}
+            onClick={() => showConfirmDeleteProduction(item)}
             style={{ marginLeft: 5, color: '#ff2000' }}
           >
             <DeleteOutlined />
@@ -353,6 +368,7 @@ const ProductionsTable: React.FC = () => {
         title: 'Visualizar Rastreabilidade',
         dataIndex: 'batch_code',
         key: 'batch_code',
+        width: 100,
         render: (dataIndex: any, batch: any) => {
           if (batch?.history?.length > 0) {
             if (
@@ -376,7 +392,27 @@ const ProductionsTable: React.FC = () => {
             </span>
           );
         },
+      },
+      {
+        title: 'Gerir Informação',
         width: 100,
+        dataIndex: '1',
+        key: '1',
+        align: 'center',
+        render: (_, item: Batch) => (
+          <>
+            <a onClick={() => {}}>
+              <EditOutlined />
+            </a>
+
+            <a
+              onClick={() => showConfirmDeleteBatch(item)}
+              style={{ marginLeft: 5, color: '#ff2000' }}
+            >
+              <DeleteOutlined />
+            </a>
+          </>
+        ),
       },
     ];
 
