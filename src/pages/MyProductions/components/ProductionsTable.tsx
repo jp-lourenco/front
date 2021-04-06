@@ -1,6 +1,6 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Alert, Badge, Modal } from 'antd';
+import { Badge, Modal } from 'antd';
 import {
   deleteProductionRequest,
   getProductionsByUserRequest,
@@ -42,6 +42,8 @@ const ProductionsTable: React.FC = () => {
   } = useSelector((state: any) => state.production);
 
   const {
+    selectedRowKeys,
+    setSelectedRowKeys,
     setBatchSelected,
     setVisibleTraceModal,
     setProductionSelected,
@@ -416,8 +418,18 @@ const ProductionsTable: React.FC = () => {
       },
     ];
 
+    const onSelectChange = (selectedRowKeys: React.Key[]) => {
+      setSelectedRowKeys(selectedRowKeys);
+    };
+
+    const rowSelection = {
+      selectedRowKeys,
+      onChange: onSelectChange,
+    };
+
     return (
       <Table
+        rowSelection={rowSelection}
         scroll={{ x: true }}
         columns={columns}
         dataSource={record.batchs}
