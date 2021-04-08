@@ -38,7 +38,7 @@ export interface Production {
   production_location: string | undefined;
   created: string;
   updated: string;
-  Batchs: Batch[] | undefined;
+  batchs: Batch[] | undefined;
 }
 
 export interface Batch {
