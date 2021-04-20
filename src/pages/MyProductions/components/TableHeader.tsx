@@ -16,6 +16,7 @@ import {
   setMyProductionsFiltered,
 } from '../../../store/modules/production/actions';
 import { MyProductionsContext } from '../MyProductions';
+import { useUserRole } from '../../../hooks/useUserRole';
 
 const TableHeader: React.FC = () => {
   const { setVisibleCreateModal } = useContext(MyProductionsContext);
@@ -24,6 +25,8 @@ const TableHeader: React.FC = () => {
   const [labelSearch, setlabelSearch] = useState('título');
 
   const { myProductions } = useSelector((state: any) => state.production);
+
+  const userRole = useUserRole();
 
   const dispatch = useDispatch();
 
@@ -91,15 +94,19 @@ const TableHeader: React.FC = () => {
       >
         <SyncOutlined />
       </ButtonRefresh>
-      <ButtonAdd
-        icon={<PlusOutlined />}
-        size="small"
-        shape="round"
-        type="primary"
-        onClick={() => setVisibleCreateModal(true)}
-      >
-        Nova produção
-      </ButtonAdd>
+      {userRole === 'ADMIN_PRODUCER' ? (
+        <ButtonAdd
+          icon={<PlusOutlined />}
+          size="small"
+          shape="round"
+          type="primary"
+          onClick={() => setVisibleCreateModal(true)}
+        >
+          Nova produção
+        </ButtonAdd>
+      ) : (
+        ''
+      )}
       <ButtonIconAdd
         icon={<PlusOutlined />}
         size="small"

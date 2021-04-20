@@ -23,6 +23,7 @@ import 'moment/locale/pt-br';
 import moment from 'moment';
 import DropdownRangePicker from './DropdownRangePicker';
 import { deleteBatchRequest } from '../../../store/modules/batch/actions';
+import { useUserRole } from '../../../hooks/useUserRole';
 
 interface ObjectKeys {
   [key: string]: string | undefined | Batch[] | null;
@@ -31,6 +32,12 @@ interface ObjectKeys {
 interface ProductionProps extends Production, ObjectKeys {}
 
 const { confirm } = Modal;
+
+const rolesAllowedEdit = [
+  'ADMIN_PRODUCER',
+  'ADMIN_TRANSFORMATION',
+  'ADMIN_SHOOPER',
+];
 
 const ProductionsTable: React.FC = () => {
   const {
@@ -49,6 +56,8 @@ const ProductionsTable: React.FC = () => {
     setProductionSelected,
     setVisibleEditModal,
   } = useContext(MyProductionsContext);
+
+  const userRole = useUserRole();
 
   const showModalTrace = (batch: Batch) => {
     setBatchSelected(batch);
@@ -274,25 +283,40 @@ const ProductionsTable: React.FC = () => {
     {
       title: 'Gerir Informação',
       width: 100,
+      className: rolesAllowedEdit.includes(userRole) ? 'show' : 'hide',
       dataIndex: '1',
       key: '1',
       align: 'center',
-      render: (_, item: ProductionProps) => (
-        <>
-          <a onClick={() => showEditModal(item)}>
-            <EditOutlined />
-          </a>
+      render: (_, item: ProductionProps) => {
+        if (rolesAllowedEdit.includes(userRole)) {
+          return (
+            <>
+              <a onClick={() => showEditModal(item)}>
+                <EditOutlined />
+              </a>
 
-          <a
-            onClick={() => showConfirmDeleteProduction(item)}
-            style={{ marginLeft: 5, color: '#ff2000' }}
-          >
-            <DeleteOutlined />
-          </a>
-        </>
-      ),
+              <a
+                onClick={() => showConfirmDeleteProduction(item)}
+                style={{ marginLeft: 5, color: '#ff2000' }}
+              >
+                <DeleteOutlined />
+              </a>
+            </>
+          );
+        }
+      },
     },
   ];
+
+  const getColumns = () => {
+    return columns.filter(({ className }) => {
+      if (className === 'hide') {
+        return false;
+      } else {
+        return true;
+      }
+    });
+  };
 
   const expandedRowRender = (record: any) => {
     const columns: ColumnsType<Batch> = [
@@ -399,24 +423,39 @@ const ProductionsTable: React.FC = () => {
         title: 'Gerir Informação',
         width: 100,
         dataIndex: '1',
+        className: rolesAllowedEdit.includes(userRole) ? 'show' : 'hide',
         key: '1',
         align: 'center',
-        render: (_, item: Batch) => (
-          <>
-            <a onClick={() => {}}>
-              <EditOutlined />
-            </a>
+        render: (_, item: Batch) => {
+          if (rolesAllowedEdit.includes(userRole)) {
+            return (
+              <>
+                <a onClick={() => {}}>
+                  <EditOutlined />
+                </a>
 
-            <a
-              onClick={() => showConfirmDeleteBatch(item)}
-              style={{ marginLeft: 5, color: '#ff2000' }}
-            >
-              <DeleteOutlined />
-            </a>
-          </>
-        ),
+                <a
+                  onClick={() => showConfirmDeleteBatch(item)}
+                  style={{ marginLeft: 5, color: '#ff2000' }}
+                >
+                  <DeleteOutlined />
+                </a>
+              </>
+            );
+          }
+        },
       },
     ];
+
+    const getColumns = () => {
+      return columns.filter(({ className }) => {
+        if (className === 'hide') {
+          return false;
+        } else {
+          return true;
+        }
+      });
+    };
 
     const onSelectChange = (selectedRowKeys: React.Key[]) => {
       setSelectedRowKeys(selectedRowKeys);
@@ -431,7 +470,7 @@ const ProductionsTable: React.FC = () => {
       <Table
         rowSelection={rowSelection}
         scroll={{ x: true }}
-        columns={columns}
+        columns={getColumns()}
         dataSource={record.batchs}
         pagination={false}
       />
@@ -448,7 +487,7 @@ const ProductionsTable: React.FC = () => {
     <Table
       loading={loadingGetProductionsByUserRequest}
       className="components-table-demo-nested"
-      columns={columns}
+      columns={getColumns()}
       expandable={{
         expandedRowRender,
         rowExpandable: (record) => (record?.batchs?.length ? true : false),
