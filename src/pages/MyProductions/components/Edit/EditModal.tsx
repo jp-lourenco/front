@@ -3,7 +3,7 @@ import { Modal } from 'antd';
 import { MyProductionsContext } from '../../MyProductions';
 import EditForm from './EditForm';
 import { LoadingOutlined } from '@ant-design/icons';
-import ResultEdit from './ResultEdit';
+import EditResult from './EditResult';
 import { useSelector } from 'react-redux';
 
 export const EditProductionContext = createContext({
@@ -40,7 +40,7 @@ const EditModal: React.FC = () => {
             loadingEditProductionRequest ? (
               <LoadingOutlined style={{ fontSize: 24 }} spin />
             ) : (
-              <ResultEdit />
+              <EditResult />
             ),
           ]
         )}

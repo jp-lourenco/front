@@ -4,7 +4,7 @@ import { Modal } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import { MyProductionsContext } from '../../MyProductions';
 import CreateForm from './CreateForm';
-import ResultCreate from './ResultCreate';
+import CreateResult from './CreateResult';
 
 export const CreateProductionContext = createContext({
   result: false,
@@ -40,7 +40,7 @@ const CreateModal: React.FC = () => {
             loadingCreateProductionRequest ? (
               <LoadingOutlined style={{ fontSize: 24 }} spin />
             ) : (
-              <ResultCreate />
+              <CreateResult />
             ),
           ]
         )}
