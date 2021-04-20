@@ -1,15 +1,44 @@
 import React, { useEffect, useState } from 'react';
 import { MenuStyled, MenuItemStyled } from './styles/Drawer';
 import { Link, useLocation } from 'react-router-dom';
+import { useUserRole } from '../../hooks/useUserRole';
 
 const Drawer: React.FC = () => {
   const location = useLocation();
 
+  const userRole = useUserRole();
+
   const items = [
-    { key: '1', label: 'Dashboard', path: '/admin/dashboard' },
-    { key: '2', label: 'Minhas Produções', path: '/admin/producoes' },
-    { key: '3', label: 'Entregar/Receber lote', path: '/admin/ler-qrcode' },
-    { key: '4', label: 'Pesquisar QR Code', path: '/admin/pesquisar-qrcode' },
+    {
+      key: '1',
+      label: 'Dashboard',
+      path: '/admin/dashboard',
+      roles: ['ADMIN_PRODUCER', 'ADMIN_TRANSPORTER'],
+    },
+    {
+      key: '2',
+      label: 'Minhas Produções',
+      path: '/admin/producoes',
+      roles: ['ADMIN_PRODUCER', 'ADMIN_TRANSPORTER'],
+    },
+    {
+      key: '3',
+      label: 'Entregar/Receber lote',
+      path: '/admin/ler-qrcode',
+      roles: '*',
+    },
+    {
+      key: '4',
+      label: 'Meus Funcionários',
+      path: '/admin/funcionarios',
+      roles: ['ADMIN_PRODUCER', 'ADMIN_TRANSPORTER'],
+    },
+    {
+      key: '5',
+      label: 'Pesquisar QR Code',
+      path: '/admin/pesquisar-qrcode',
+      roles: ['EMPLOYEE_PRODUCER'],
+    },
   ];
 
   const [selectedKey, setSelectedKey] = useState(
@@ -26,13 +55,17 @@ const Drawer: React.FC = () => {
     <MenuStyled
       theme="dark"
       mode="inline"
-      selectedKeys={selectedKey ? [selectedKey] : ['1']}
+      selectedKeys={selectedKey ? [selectedKey] : ['']}
     >
-      {items.map((item) => (
-        <MenuItemStyled key={item.key}>
-          <Link to={item.path}>{item.label}</Link>
-        </MenuItemStyled>
-      ))}
+      {items.map((item) => {
+        if (item.roles === '*' || item.roles?.includes(userRole)) {
+          return (
+            <MenuItemStyled key={item.key}>
+              <Link to={item.path}>{item.label}</Link>
+            </MenuItemStyled>
+          );
+        }
+      })}
     </MenuStyled>
   );
 };
