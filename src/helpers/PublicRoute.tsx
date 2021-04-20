@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
 import { useSelector } from 'react-redux';
+import api from '../services/api';
 
 interface TokenJWT {
   exp: number;
@@ -23,18 +24,25 @@ const PublicRoute = ({
 
   useEffect(() => {
     let token = localStorage.getItem('token');
-    if (token) {
-      let tokenExpiration = jwtDecode<TokenJWT>(token)?.exp;
-      let dateNow = new Date();
+    api
+      .get('verify-token', { headers: { Authorization: 'Bearer ' + token } })
+      .then(() => {
+        if (token) {
+          let tokenExpiration = jwtDecode<TokenJWT>(token)?.exp;
+          let dateNow = new Date();
 
-      if (tokenExpiration < dateNow.getTime() / 1000) {
+          if (tokenExpiration < dateNow.getTime() / 1000) {
+            setIsAuthenticated(false);
+          } else {
+            setIsAuthenticated(true);
+          }
+        } else {
+          setIsAuthenticated(false);
+        }
+      })
+      .catch((error) => {
         setIsAuthenticated(false);
-      } else {
-        setIsAuthenticated(true);
-      }
-    } else {
-      setIsAuthenticated(false);
-    }
+      });
   }, [isSignedIn]);
 
   if (isAuthenticated == null) {

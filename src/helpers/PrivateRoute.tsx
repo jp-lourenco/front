@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
 import { useSelector } from 'react-redux';
+import api from '../services/api';
 
 interface TokenJWT {
   exp: number;
@@ -27,23 +28,30 @@ const PrivateRoute = ({
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    if (token) {
-      const tokenExpiration = jwtDecode<TokenJWT>(token)?.exp;
-      const userRole = jwtDecode<TokenJWT>(token)?.role;
-      const dateNow = new Date();
-      if (tokenExpiration < dateNow.getTime() / 1000) {
-        setIsAuthenticated(false);
-      } else {
-        setIsAuthenticated(true);
-        if (roles === '*' || roles?.includes(userRole)) {
-          setCanPermission(true);
+    api
+      .get('verify-token', { headers: { Authorization: 'Bearer ' + token } })
+      .then(() => {
+        if (token) {
+          const tokenExpiration = jwtDecode<TokenJWT>(token)?.exp;
+          const userRole = jwtDecode<TokenJWT>(token)?.role;
+          const dateNow = new Date();
+          if (tokenExpiration < dateNow.getTime() / 1000) {
+            setIsAuthenticated(false);
+          } else {
+            setIsAuthenticated(true);
+            if (roles === '*' || roles?.includes(userRole)) {
+              setCanPermission(true);
+            } else {
+              setCanPermission(false);
+            }
+          }
         } else {
-          setCanPermission(false);
+          setIsAuthenticated(false);
         }
-      }
-    } else {
-      setIsAuthenticated(false);
-    }
+      })
+      .catch((error) => {
+        setIsAuthenticated(false);
+      });
   }, [isSignedIn]);
 
   if (isAuthenticated == null) {
