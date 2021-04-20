@@ -31,7 +31,7 @@ import {
   FooterText,
 } from './styles/Home';
 
-const Home = () => {
+const Home: React.FC = () => {
   return (
     <>
       <Background>
