@@ -20,7 +20,9 @@ const SignInForm: React.FC = () => {
     SignInContext,
   );
 
-  const { email, password } = useSelector((state: any) => state.auth);
+  const { email, password, loadingSignInRequest } = useSelector(
+    (state: any) => state.auth,
+  );
 
   const dispatch = useDispatch();
 
@@ -85,7 +87,11 @@ const SignInForm: React.FC = () => {
         </ItemStyled>
 
         <ItemStyled>
-          <ButtonStyled type="primary" htmlType="submit">
+          <ButtonStyled
+            type="primary"
+            htmlType="submit"
+            loading={loadingSignInRequest}
+          >
             Entrar
           </ButtonStyled>
         </ItemStyled>
