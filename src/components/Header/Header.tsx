@@ -7,11 +7,30 @@ import {
   MenuOutlinedStyled,
   MenuUnfoldOutlinedStyled,
   DrawerStyled,
+  AvatarStyled,
 } from './styles/Header';
+import { UserOutlined } from '@ant-design/icons';
+import { Dropdown, Menu } from 'antd';
+import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { logoutRequest } from '../../store/modules/auth/actions';
 
 const Header: React.FC = () => {
   const { toggleShow, setToggleShow } = useContext(ToggleContext);
   const [visible, setVisible] = useState(false);
+
+  const dispatch = useDispatch();
+
+  const menu = (
+    <Menu>
+      <Menu.Item>
+        <Link to="/admin/perfil">Meu Perfil</Link>
+      </Menu.Item>
+      <Menu.Item>
+        <a onClick={() => dispatch(logoutRequest())}>Sair</a>
+      </Menu.Item>
+    </Menu>
+  );
 
   return (
     <HeaderStyled>
@@ -29,6 +48,9 @@ const Header: React.FC = () => {
       >
         <Drawer />
       </DrawerStyled>
+      <Dropdown overlay={menu} placement="bottomRight">
+        <AvatarStyled size="large" icon={<UserOutlined />} />
+      </Dropdown>
     </HeaderStyled>
   );
 };

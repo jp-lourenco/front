@@ -1,5 +1,5 @@
 import styled from 'styled-components/macro';
-import { Layout, Drawer } from 'antd';
+import { Layout, Drawer, Avatar } from 'antd';
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
@@ -10,6 +10,9 @@ const { Header } = Layout;
 
 export const HeaderStyled = styled(Header)`
   padding: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 export const MenuUnfoldOutlinedStyled = styled(MenuUnfoldOutlined)`
@@ -56,6 +59,17 @@ export const MenuOutlinedStyled = styled(MenuOutlined)`
   }
   @media (min-width: 992px) {
     display: none;
+  }
+`;
+
+export const AvatarStyled = styled(Avatar)`
+  color: #fff;
+  cursor: pointer;
+  transition: color 0.3s;
+  margin: 0 24px;
+
+  &:hover {
+    color: #1890ff;
   }
 `;
 
