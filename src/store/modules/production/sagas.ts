@@ -2,29 +2,49 @@ import { message } from 'antd';
 import { takeLatest, call, put, all, select } from 'redux-saga/effects';
 import api from '../../../services/api';
 import * as actions from './actions';
+import * as actionsAuth from '../auth/actions';
 
 export function* createProduction() {
   try {
+    const token = localStorage.getItem('token');
+
+    const headerParams = {
+      Authorization: 'Bearer ' + token,
+    };
+
     const { title, category, food_name, batch_codes } = yield select(
       ({ production }) => production,
     );
     if (batch_codes.length > 0) {
-      yield call(api.post, 'productions', {
-        title: title,
-        category: category,
-        food_name: food_name,
-        batchs: batch_codes,
-      });
+      yield call(
+        api.post,
+        'productions',
+        {
+          title: title,
+          category: category,
+          food_name: food_name,
+          batchs: batch_codes,
+        },
+        { headers: headerParams },
+      );
     } else {
-      yield call(api.post, 'productions', {
-        title: title,
-        category: category,
-        food_name: food_name,
-      });
+      yield call(
+        api.post,
+        'productions',
+        {
+          title: title,
+          category: category,
+          food_name: food_name,
+        },
+        { headers: headerParams },
+      );
     }
     yield put(actions.createProductionSuccess());
     yield put(actions.getProductionsByUserRequest());
   } catch (err) {
+    if (err.response.status === 403 || err.response.status === 401) {
+      yield put(actionsAuth.logoutRequest());
+    }
     yield put(actions.createProductionFailure());
   }
 }
@@ -45,8 +65,10 @@ export function* editProduction({
       batch_codes,
     } = yield select(({ production }) => production);
 
+    const token = localStorage.getItem('token');
+
     const headerParams = {
-      user_id: '1',
+      Authorization: 'Bearer ' + token,
     };
 
     if (batch_codes.length > 0) {
@@ -80,14 +102,19 @@ export function* editProduction({
     yield put(actions.editProductionSuccess());
     yield put(actions.getProductionsByUserRequest());
   } catch (err) {
+    if (err.response.status === 403 || err.response.status === 401) {
+      yield put(actionsAuth.logoutRequest());
+    }
     yield put(actions.editProductionFailure());
   }
 }
 
 export function* getProductionsByUser() {
   try {
+    const token = localStorage.getItem('token');
+
     const headerParams = {
-      user_id: '1',
+      Authorization: 'Bearer ' + token,
     };
 
     const { data } = yield call(api.get, 'productions', {
@@ -95,6 +122,9 @@ export function* getProductionsByUser() {
     });
     yield put(actions.getProductionsByUserSuccess({ productions: data }));
   } catch (err) {
+    if (err.response.status === 403 || err.response.status === 401) {
+      yield put(actionsAuth.logoutRequest());
+    }
     yield put(actions.getProductionsByUserFailure());
   }
 }
@@ -106,11 +136,11 @@ export function* deleteProduction({
   type: string;
 }) {
   try {
-    const headerParams = {
-      user_id: '1',
-    };
+    const token = localStorage.getItem('token');
 
-    console.log('aqui');
+    const headerParams = {
+      Authorization: 'Bearer ' + token,
+    };
 
     const { data } = yield call(
       api.delete,
@@ -123,6 +153,9 @@ export function* deleteProduction({
     yield put(actions.getProductionsByUserRequest());
     message.success('Produção deletada!');
   } catch (err) {
+    if (err.response.status === 403 || err.response.status === 401) {
+      yield put(actionsAuth.logoutRequest());
+    }
     yield put(actions.deleteProductionFailure());
     message.error('Alguma coisa deu errada!');
   }
