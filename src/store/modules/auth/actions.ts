@@ -44,22 +44,57 @@ export function signUpFailure({ message }: { message: string }) {
   };
 }
 
-export function resetPasswordRequest() {
+export function forgotPasswordRequest() {
   return {
-    type: '@auth/RESET_PASSWORD_REQUEST',
+    type: '@auth/FORGET_PASSWORD_REQUEST',
   };
 }
 
-export function resetPasswordSuccess() {
+export function forgotPasswordSuccess() {
   return {
-    type: '@auth/RESET_PASSWORD_SUCCESS',
+    type: '@auth/FORGET_PASSWORD_SUCCESS',
   };
 }
 
-export function resetPasswordFailure({ message }: { message: string }) {
+export function forgotPasswordFailure() {
   return {
-    type: '@auth/RESET_PASSWORD_FAILURE',
-    payload: { message },
+    type: '@auth/FORGET_PASSWORD_FAILURE',
+  };
+}
+
+export function verifyCodeRequest() {
+  return {
+    type: '@auth/VERIFY_CODE_REQUEST',
+  };
+}
+
+export function verifyCodeSuccess() {
+  return {
+    type: '@auth/VERIFY_CODE_SUCCESS',
+  };
+}
+
+export function verifyCodeFailure() {
+  return {
+    type: '@auth/VERIFY_CODE_FAILURE',
+  };
+}
+
+export function changePasswordRequest() {
+  return {
+    type: '@auth/CHANGE_PASSWORD_REQUEST',
+  };
+}
+
+export function changePasswordSuccess() {
+  return {
+    type: '@auth/CHANGE_PASSWORD_SUCCESS',
+  };
+}
+
+export function changePasswordFailure() {
+  return {
+    type: '@auth/CHANGE_PASSWORD_FAILURE',
   };
 }
 
@@ -70,14 +105,45 @@ export function setEmail({ email }: { email: string }) {
   };
 }
 
-export function setEmailResetPassword({
-  emailResetPassword,
+export function setEmailForgotPassword({
+  emailForgotPassword,
 }: {
-  emailResetPassword: string;
+  emailForgotPassword: string;
 }) {
   return {
-    type: '@auth/SET_EMAIL_RESET_PASSWORD',
-    payload: { emailResetPassword },
+    type: '@auth/SET_EMAIL_FORGET_PASSWORD',
+    payload: { emailForgotPassword },
+  };
+}
+
+export function setCodeForgotPassword({
+  codeForgotPassword,
+}: {
+  codeForgotPassword: string;
+}) {
+  return {
+    type: '@auth/SET_CODE_FORGET_PASSWORD',
+    payload: { codeForgotPassword },
+  };
+}
+
+export function setNewPassword({ newPassword }: { newPassword: string }) {
+  return {
+    type: '@auth/SET_NEW_PASSWORD',
+    payload: { newPassword },
+  };
+}
+
+export function resetResultChangePassword() {
+  return {
+    type: '@auth/RESET_RESULT_CHANGE_PASSWORD',
+  };
+}
+
+export function setStepForgotPassword({ step }: { step: string }) {
+  return {
+    type: '@auth/SET_STEP_FORGOT_PASSWORD',
+    payload: { step },
   };
 }
 

@@ -4,14 +4,21 @@ import { AnyAction } from 'redux';
 const initialState: AuthState = {
   loadingSignInRequest: false,
   loadingSignUpRequest: false,
-  loadingResetPasswordRequest: false,
+  loadingForgotPasswordRequest: false,
+  loadingVerifyCodeRequest: false,
+  loadingChangePasswordRequest: false,
   signInError: false,
   signUpError: false,
-  resetPasswordError: false,
-  messageResetPassword: '',
+  forgotPasswordError: false,
+  verifyCodeError: false,
+  changePasswordError: false,
   messageSignUp: '',
   email: '',
-  emailResetPassword: '',
+  emailForgotPassword: '',
+  stepForgotPassword: 'Email',
+  code: '',
+  newPassword: '',
+  resultChangePassword: false,
   emailCompany: '',
   password: '',
   companyName: '',
@@ -70,24 +77,63 @@ export default function auth(
         loadingSignUpRequest: false,
         messageSignUp: action.payload.message,
       };
-    case '@auth/RESET_PASSWORD_REQUEST':
+    case '@auth/FORGET_PASSWORD_REQUEST':
       return {
         ...state,
-        loadingResetPasswordRequest: true,
-        resetPasswordError: false,
+        loadingForgotPasswordRequest: true,
+        forgotPasswordError: false,
       };
-    case '@auth/RESET_PASSWORD_SUCCESS':
+    case '@auth/FORGET_PASSWORD_SUCCESS':
       return {
         ...state,
-        loadingResetPasswordRequest: false,
-        resetPasswordError: false,
+        loadingForgotPasswordRequest: false,
+        stepForgotPassword: 'Code',
+        forgotPasswordError: false,
       };
-    case '@auth/RESET_PASSWORD_FAILURE':
+    case '@auth/FORGET_PASSWORD_FAILURE':
       return {
         ...state,
-        loadingResetPasswordRequest: false,
-        resetPasswordError: true,
-        messageResetPassword: action.payload.message,
+        loadingForgotPasswordRequest: false,
+        forgotPasswordError: true,
+      };
+    case '@auth/VERIFY_CODE_REQUEST':
+      return {
+        ...state,
+        loadingVerifyCodeRequest: true,
+        verifyCodeError: false,
+      };
+    case '@auth/VERIFY_CODE_SUCCESS':
+      return {
+        ...state,
+        loadingVerifyCodeRequest: false,
+        stepForgotPassword: 'Password',
+        verifyCodeError: false,
+      };
+    case '@auth/VERIFY_CODE_FAILURE':
+      return {
+        ...state,
+        loadingVerifyCodeRequest: false,
+        verifyCodeError: true,
+      };
+    case '@auth/CHANGE_PASSWORD_REQUEST':
+      return {
+        ...state,
+        loadingChangePasswordRequest: true,
+        changePasswordError: false,
+      };
+    case '@auth/CHANGE_PASSWORD_SUCCESS':
+      return {
+        ...state,
+        loadingChangePasswordRequest: false,
+        stepForgotPassword: 'Email',
+        changePasswordError: false,
+        resultChangePassword: true,
+      };
+    case '@auth/CHANGE_PASSWORD_FAILURE':
+      return {
+        ...state,
+        loadingChangePasswordRequest: false,
+        changePasswordError: true,
       };
     case '@auth/SET_EMAIL':
       return {
@@ -99,10 +145,30 @@ export default function auth(
         ...state,
         emailCompany: action.payload.emailCompany,
       };
-    case '@auth/SET_EMAIL_RESET_PASSWORD':
+    case '@auth/SET_EMAIL_FORGET_PASSWORD':
       return {
         ...state,
-        emailResetPassword: action.payload.emailResetPassword,
+        emailForgotPassword: action.payload.emailForgotPassword,
+      };
+    case '@auth/RESET_RESULT_CHANGE_PASSWORD':
+      return {
+        ...state,
+        resultChangePassword: false,
+      };
+    case '@auth/SET_STEP_FORGOT_PASSWORD':
+      return {
+        ...state,
+        stepForgotPassword: action.payload.step,
+      };
+    case '@auth/SET_NEW_PASSWORD':
+      return {
+        ...state,
+        newPassword: action.payload.newPassword,
+      };
+    case '@auth/SET_CODE_FORGET_PASSWORD':
+      return {
+        ...state,
+        code: action.payload.codeForgotPassword,
       };
     case '@auth/SET_PASSWORD':
       return {

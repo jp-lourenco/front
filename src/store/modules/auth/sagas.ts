@@ -35,23 +35,61 @@ export function* signUp() {
   }
 }
 
-export function* resetPassword() {
+export function* forgotPassword() {
   try {
-    const { emailResetPassword } = yield select(({ auth }) => auth);
-    const { data } = yield call(api.post, 'reset-password', {
-      email: emailResetPassword,
+    const { emailForgotPassword } = yield select(({ auth }) => auth);
+    const { data } = yield call(api.post, 'forgot-password', {
+      email: emailForgotPassword,
     });
 
-    yield put(actions.resetPasswordSuccess());
+    yield put(actions.forgotPasswordSuccess());
   } catch (err) {
-    yield put(
-      actions.resetPasswordFailure({ message: err.response.data.message }),
+    message.error('Email não encontrado');
+    yield put(actions.forgotPasswordFailure());
+  }
+}
+
+export function* verifyCode() {
+  try {
+    const { emailForgotPassword, code } = yield select(({ auth }) => auth);
+
+    console.log(emailForgotPassword, code);
+    const { data } = yield call(api.post, 'verify-code', {
+      email: emailForgotPassword,
+      code: code,
+    });
+
+    yield put(actions.verifyCodeSuccess());
+  } catch (err) {
+    message.error('Código de Verificação Inválido');
+    yield put(actions.verifyCodeFailure());
+  }
+}
+
+export function* changePassword() {
+  try {
+    const { emailForgotPassword, code, newPassword } = yield select(
+      ({ auth }) => auth,
     );
+
+    console.log(emailForgotPassword, code);
+    const { data } = yield call(api.post, 'change-password', {
+      email: emailForgotPassword,
+      code: code,
+      new_password: newPassword,
+    });
+
+    yield put(actions.changePasswordSuccess());
+  } catch (err) {
+    message.error(err.response.data.message);
+    yield put(actions.changePasswordFailure());
   }
 }
 
 export default all([
   takeLatest('@auth/SIGN_IN_REQUEST', signIn),
   takeLatest('@auth/SIGN_UP_REQUEST', signUp),
-  takeLatest('@auth/RESET_PASSWORD_REQUEST', resetPassword),
+  takeLatest('@auth/FORGET_PASSWORD_REQUEST', forgotPassword),
+  takeLatest('@auth/VERIFY_CODE_REQUEST', verifyCode),
+  takeLatest('@auth/CHANGE_PASSWORD_REQUEST', changePassword),
 ]);

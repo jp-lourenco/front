@@ -1,14 +1,21 @@
 export interface AuthState {
   loadingSignInRequest: boolean;
   loadingSignUpRequest: boolean;
-  loadingResetPasswordRequest: boolean;
-  messageResetPassword: string;
+  loadingForgotPasswordRequest: boolean;
+  loadingVerifyCodeRequest: boolean;
+  loadingChangePasswordRequest: boolean;
   messageSignUp: string;
   signUpError: boolean;
   signInError: boolean;
-  resetPasswordError: boolean;
+  forgotPasswordError: boolean;
+  verifyCodeError: boolean;
+  changePasswordError: boolean;
   email: string;
-  emailResetPassword: string;
+  emailForgotPassword: string;
+  stepForgotPassword: string;
+  code: string;
+  newPassword: string;
+  resultChangePassword: boolean;
   emailCompany: string;
   password: string;
   companyName: string;
