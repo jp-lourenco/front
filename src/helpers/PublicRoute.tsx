@@ -23,11 +23,11 @@ const PublicRoute = ({
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
   useEffect(() => {
-    let token = localStorage.getItem('token');
-    api
-      .get('verify-token', { headers: { Authorization: 'Bearer ' + token } })
-      .then(() => {
-        if (token) {
+    const token = localStorage.getItem('token');
+    if (token) {
+      api
+        .get('verify-token', { headers: { Authorization: 'Bearer ' + token } })
+        .then(() => {
           let tokenExpiration = jwtDecode<TokenJWT>(token)?.exp;
           let dateNow = new Date();
 
@@ -36,13 +36,13 @@ const PublicRoute = ({
           } else {
             setIsAuthenticated(true);
           }
-        } else {
+        })
+        .catch((error) => {
           setIsAuthenticated(false);
-        }
-      })
-      .catch((error) => {
-        setIsAuthenticated(false);
-      });
+        });
+    } else {
+      setIsAuthenticated(false);
+    }
   }, [isSignedIn]);
 
   if (isAuthenticated == null) {
