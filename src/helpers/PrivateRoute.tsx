@@ -3,6 +3,7 @@ import { Route, Redirect } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
 import { useSelector } from 'react-redux';
 import api from '../services/api';
+import { BasicLayout } from '../components';
 
 interface TokenJWT {
   exp: number;
@@ -28,10 +29,10 @@ const PrivateRoute = ({
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    api
-      .get('verify-token', { headers: { Authorization: 'Bearer ' + token } })
-      .then(() => {
-        if (token) {
+    if (token) {
+      api
+        .get('verify-token', { headers: { Authorization: 'Bearer ' + token } })
+        .then(() => {
           const tokenExpiration = jwtDecode<TokenJWT>(token)?.exp;
           const userRole = jwtDecode<TokenJWT>(token)?.role;
           const dateNow = new Date();
@@ -45,13 +46,13 @@ const PrivateRoute = ({
               setCanPermission(false);
             }
           }
-        } else {
+        })
+        .catch((error) => {
           setIsAuthenticated(false);
-        }
-      })
-      .catch((error) => {
-        setIsAuthenticated(false);
-      });
+        });
+    } else {
+      setIsAuthenticated(false);
+    }
   }, [isSignedIn]);
 
   if (isAuthenticated == null) {
@@ -60,10 +61,12 @@ const PrivateRoute = ({
 
   if (!isAuthenticated) {
     return <Redirect to="/admin" />;
-  } else if (canPermission) {
+  } else if (isAuthenticated && canPermission) {
     return (
       <Route exact={exact} path={path}>
-        <Component />
+        <BasicLayout>
+          <Component />
+        </BasicLayout>
       </Route>
     );
   } else {
