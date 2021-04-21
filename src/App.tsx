@@ -12,7 +12,6 @@ import {
   Profile,
   MyEmployees,
 } from './pages';
-import { BasicLayout } from './components';
 import { PrivateRoute, PublicRoute } from './helpers';
 
 const App: React.FC = () => {
@@ -27,41 +26,39 @@ const App: React.FC = () => {
             <ReadQrcodeClient />
           </Route>
           <PublicRoute exact path="/admin" component={SignIn} />
-          <BasicLayout>
-            {/* <Route exact path="/admin/dashboard">
+          {/* <Route exact path="/admin/dashboard">
               <h1></h1>
             </Route> */}
-            <PrivateRoute
-              exact
-              path="/admin/producoes"
-              component={MyProductions}
-              roles={['ADMIN_PRODUCER', 'ADMIN_TRANSPORTER']}
-            />
-            <PrivateRoute
-              exact
-              path="/admin/ler-qrcode"
-              component={ReadQrcode}
-              roles={'*'}
-            />
-            <PrivateRoute
-              exact
-              path="/admin/perfil"
-              component={Profile}
-              roles={'*'}
-            />
-            <PrivateRoute
-              exact
-              path="/admin/funcionarios"
-              component={MyEmployees}
-              roles={['ADMIN_PRODUCER', 'ADMIN_TRANSPORTER']}
-            />
-            <PrivateRoute
-              exact
-              path="/admin/pesquisar-qrcode"
-              component={SearchQrcode}
-              roles={['EMPLOYEE_PRODUCER']}
-            />
-          </BasicLayout>
+          <PrivateRoute
+            exact
+            path="/admin/producoes"
+            component={MyProductions}
+            roles={['ADMIN_PRODUCER', 'ADMIN_TRANSPORTER']}
+          />
+          <PrivateRoute
+            exact
+            path="/admin/ler-qrcode"
+            component={ReadQrcode}
+            roles={'*'}
+          />
+          <PrivateRoute
+            exact
+            path="/admin/perfil"
+            component={Profile}
+            roles={'*'}
+          />
+          <PrivateRoute
+            exact
+            path="/admin/funcionarios"
+            component={MyEmployees}
+            roles={['ADMIN_PRODUCER', 'ADMIN_TRANSPORTER']}
+          />
+          <PrivateRoute
+            exact
+            path="/admin/pesquisar-qrcode"
+            component={SearchQrcode}
+            roles={['EMPLOYEE_PRODUCER']}
+          />
         </Switch>
       </Router>
     </Provider>
