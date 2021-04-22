@@ -5,7 +5,8 @@ export interface ProfileState {
   password: string;
   newPassword: string;
   error: boolean;
-  loadingUpdateProfileRequest: boolean;
+  loadingEditProfileRequest: boolean;
+  loadingUpdatePasswordRequest: boolean;
 }
 
 export interface Profile {

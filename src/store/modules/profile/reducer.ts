@@ -8,7 +8,8 @@ const initialState: ProfileState = {
   email: '',
   password: '',
   newPassword: '',
-  loadingUpdateProfileRequest: false,
+  loadingEditProfileRequest: false,
+  loadingUpdatePasswordRequest: false,
 };
 
 export default function profile(
@@ -33,20 +34,35 @@ export default function profile(
         ...state,
         loadingGetMyProfileRequest: false,
       };
-    case '@profile/GET_UPDATE_PROFILE_REQUEST':
+    case '@profile/EDIT_PROFILE_REQUEST':
       return {
         ...state,
-        loadingUpdateProfileRequest: true,
+        loadingEditProfileRequest: true,
       };
-    case '@profile/GET_UPDATE_PROFILE_SUCCESS':
+    case '@profile/EDIT_PROFILE_SUCCESS':
       return {
         ...state,
-        loadingUpdateProfileRequest: false,
+        loadingEditProfileRequest: false,
       };
-    case '@profile/GET_UPDATE_PROFILE_FAILURE':
+    case '@profile/EDIT_PROFILE_FAILURE':
       return {
         ...state,
-        loadingUpdateProfileRequest: false,
+        loadingEditProfileRequest: false,
+      };
+    case '@profile/UPDATE_PASSWORD_REQUEST':
+      return {
+        ...state,
+        loadingUpdatePasswordRequest: true,
+      };
+    case '@profile/UPDATE_PASSWORD_SUCCESS':
+      return {
+        ...state,
+        loadingUpdatePasswordRequest: false,
+      };
+    case '@profile/UPDATE_PASSWORD_FAILURE':
+      return {
+        ...state,
+        loadingUpdatePasswordRequest: false,
       };
     case '@profile/SET_NAME':
       return {

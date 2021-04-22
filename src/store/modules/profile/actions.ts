@@ -39,6 +39,24 @@ export function editProfileFailure() {
   };
 }
 
+export function updatePasswordRequest() {
+  return {
+    type: '@profile/UPDATE_PASSWORD_REQUEST',
+  };
+}
+
+export function updatePasswordSuccess() {
+  return {
+    type: '@profile/UPDATE_PASSWORD_SUCCESS',
+  };
+}
+
+export function updatePasswordFailure() {
+  return {
+    type: '@profile/UPDATE_PASSWORD_FAILURE',
+  };
+}
+
 export function setName({ name }: { name: string }) {
   return {
     type: '@profile/SET_NAME',

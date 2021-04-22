@@ -29,9 +29,7 @@ export function* getMyProfileRequest() {
 
 export function* editProfile() {
   try {
-    const { name, password, newPassword } = yield select(
-      ({ profile }) => profile,
-    );
+    const { name } = yield select(({ profile }) => profile);
 
     const token = localStorage.getItem('token');
 
@@ -39,30 +37,16 @@ export function* editProfile() {
       Authorization: 'Bearer ' + token,
     };
 
-    if (newPassword !== '') {
-      yield call(
-        api.put,
-        'me',
-        {
-          name: name,
-          password: password,
-          newPassword: newPassword,
-        },
-        { headers: headerParams },
-      );
-    } else {
-      yield call(
-        api.put,
-        'me',
-        {
-          name: name,
-          password: password,
-        },
-        { headers: headerParams },
-      );
-    }
+    yield call(
+      api.put,
+      'me',
+      {
+        name: name,
+      },
+      { headers: headerParams },
+    );
+
     yield put(actions.editProfileSuccess());
-    yield put(actions.getMyProfileRequest());
     message.success('Perfil editado com sucesso!');
   } catch (err) {
     if (err.response.status === 403 || err.response.status === 401) {
@@ -73,7 +57,40 @@ export function* editProfile() {
   }
 }
 
+export function* updatePassword() {
+  try {
+    const { password, newPassword } = yield select(({ profile }) => profile);
+
+    const token = localStorage.getItem('token');
+
+    const headerParams = {
+      Authorization: 'Bearer ' + token,
+    };
+
+    yield call(
+      api.put,
+      'me/update-password',
+      {
+        password: password,
+        new_password: newPassword,
+      },
+      { headers: headerParams },
+    );
+
+    yield put(actions.updatePasswordSuccess());
+    message.success('Palavra-passe editada com sucesso!');
+    yield put(actionsAuth.logoutRequest());
+  } catch (err) {
+    if (err.response.status === 403) {
+      yield put(actionsAuth.logoutRequest());
+    }
+    yield put(actions.updatePasswordFailure());
+    message.error(err.response.data.message);
+  }
+}
+
 export default all([
   takeLatest('@profile/GET_MY_PROFILE_REQUEST', getMyProfileRequest),
   takeLatest('@profile/EDIT_PROFILE_REQUEST', editProfile),
+  takeLatest('@profile/UPDATE_PASSWORD_REQUEST', updatePassword),
 ]);
