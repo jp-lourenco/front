@@ -28,3 +28,16 @@ export const InputStyled = styled(Input)`
 export const ButtonStyled = styled(Button)`
   width: 300px;
 `;
+
+export const Text = styled.p`
+  font-size: 13px;
+  color: #888;
+`;
+
+export const List = styled.ul`
+  margin-bottom: 15px;
+`;
+
+export const ListItem = styled.li`
+  margin-bottom: 8px;
+`;
