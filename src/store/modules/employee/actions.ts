@@ -70,3 +70,28 @@ export function createEmployeeFailure() {
     type: '@employee/CREATE_EMPLOYEE_FAILURE',
   };
 }
+
+export function deleteEmployeeRequest({
+  employee_id,
+}: {
+  employee_id: string;
+}) {
+  return {
+    type: '@employee/DELETE_EMPLOYEE_REQUEST',
+    payload: {
+      employee_id,
+    },
+  };
+}
+
+export function deleteEmployeeSuccess() {
+  return {
+    type: '@employee/DELETE_EMPLOYEE_SUCCESS',
+  };
+}
+
+export function deleteEmployeeFailure() {
+  return {
+    type: '@employee/DELETE_EMPLOYEE_FAILURE',
+  };
+}
