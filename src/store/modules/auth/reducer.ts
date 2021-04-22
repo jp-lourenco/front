@@ -19,7 +19,11 @@ const initialState: AuthState = {
   code: '',
   newPassword: '',
   resultChangePassword: false,
-  emailCompany: '',
+  companyEmail: '',
+  companyAddress: '',
+  companyNif: '',
+  companyZipCode: '',
+  companyPhone: '',
   password: '',
   companyName: '',
   companyFunction: '',
@@ -140,10 +144,30 @@ export default function auth(
         ...state,
         email: action.payload.email,
       };
-    case '@auth/SET_EMAIL_COMPANY':
+    case '@auth/SET_COMPANY_EMAIL':
       return {
         ...state,
-        emailCompany: action.payload.emailCompany,
+        companyEmail: action.payload.companyEmail,
+      };
+    case '@auth/SET_COMPANY_ADDRESS':
+      return {
+        ...state,
+        companyAddress: action.payload.companyAddress,
+      };
+    case '@auth/SET_COMPANY_ZIP_CODE':
+      return {
+        ...state,
+        companyZipCode: action.payload.companyZipCode,
+      };
+    case '@auth/SET_COMPANY_NIF':
+      return {
+        ...state,
+        companyNif: action.payload.companyNif,
+      };
+    case '@auth/SET_COMPANY_PHONE':
+      return {
+        ...state,
+        companyPhone: action.payload.companyPhone,
       };
     case '@auth/SET_EMAIL_FORGET_PASSWORD':
       return {

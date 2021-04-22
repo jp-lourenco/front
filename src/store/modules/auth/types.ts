@@ -16,9 +16,13 @@ export interface AuthState {
   code: string;
   newPassword: string;
   resultChangePassword: boolean;
-  emailCompany: string;
   password: string;
+  companyEmail: string;
   companyName: string;
+  companyAddress: string;
+  companyZipCode: string;
+  companyNif: string;
+  companyPhone: string;
   companyFunction: string;
   token: string;
   isSignedIn: boolean;

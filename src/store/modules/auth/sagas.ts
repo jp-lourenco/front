@@ -20,15 +20,36 @@ export function* signIn() {
 
 export function* signUp() {
   try {
-    const { emailCompany, companyName, companyFunction } = yield select(
-      ({ auth }) => auth,
-    );
-    const { data } = yield call(api.post, 'companies', {
-      email: emailCompany,
-      name: companyName,
-      company_function: companyFunction,
-    });
+    const {
+      companyEmail,
+      companyName,
+      companyAddress,
+      companyZipCode,
+      companyNif,
+      companyPhone,
+      companyFunction,
+    } = yield select(({ auth }) => auth);
 
+    if (companyPhone == '') {
+      const { data } = yield call(api.post, 'companies', {
+        email: companyEmail,
+        name: companyName,
+        company_function: companyFunction,
+        address: companyAddress,
+        zip_code: companyZipCode,
+        nif: companyNif,
+      });
+    } else {
+      const { data } = yield call(api.post, 'companies', {
+        email: companyEmail,
+        name: companyName,
+        company_function: companyFunction,
+        address: companyAddress,
+        zip_code: companyZipCode,
+        nif: companyNif,
+        phone: companyPhone,
+      });
+    }
     yield put(actions.signUpSuccess());
   } catch (err) {
     yield put(actions.signUpFailure({ message: err.response.data.message }));

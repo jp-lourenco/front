@@ -147,10 +147,46 @@ export function setStepForgotPassword({ step }: { step: string }) {
   };
 }
 
-export function setEmailCompany({ emailCompany }: { emailCompany: string }) {
+export function setCompanyEmail({ companyEmail }: { companyEmail: string }) {
   return {
-    type: '@auth/SET_EMAIL_COMPANY',
-    payload: { emailCompany },
+    type: '@auth/SET_COMPANY_EMAIL',
+    payload: { companyEmail },
+  };
+}
+
+export function setCompanyAddress({
+  companyAddress,
+}: {
+  companyAddress: string;
+}) {
+  return {
+    type: '@auth/SET_COMPANY_ADDRESS',
+    payload: { companyAddress },
+  };
+}
+
+export function setCompanyZipCode({
+  companyZipCode,
+}: {
+  companyZipCode: string;
+}) {
+  return {
+    type: '@auth/SET_COMPANY_ZIP_CODE',
+    payload: { companyZipCode },
+  };
+}
+
+export function setCompanyNif({ companyNif }: { companyNif: string }) {
+  return {
+    type: '@auth/SET_COMPANY_NIF',
+    payload: { companyNif },
+  };
+}
+
+export function setCompanyPhone({ companyPhone }: { companyPhone: string }) {
+  return {
+    type: '@auth/SET_COMPANY_PHONE',
+    payload: { companyPhone },
   };
 }
 
