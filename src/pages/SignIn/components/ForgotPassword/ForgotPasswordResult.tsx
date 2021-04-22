@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { SignInContext } from '../../SignIn';
 import { resetResultChangePassword } from '../../../../store/modules/auth/actions';
 
-const ResetPasswordResult = () => {
+const ResetPasswordResult: React.FC = () => {
   const { resultChangePassword } = useSelector((state: any) => state.auth);
 
   const dispatch = useDispatch();
