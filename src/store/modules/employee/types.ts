@@ -3,6 +3,8 @@ export interface EmployeeState {
   myEmployees: Employee[];
   myEmployeesFiltered: Employee[];
   email: string;
+  role: string;
+  name: string;
   loadingCreateEmployeeRequest: boolean;
   error: boolean;
 }

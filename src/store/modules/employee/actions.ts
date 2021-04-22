@@ -39,6 +39,20 @@ export function setEmail({ email }: { email: string }) {
   };
 }
 
+export function setName({ name }: { name: string }) {
+  return {
+    type: '@employee/SET_NAME',
+    payload: { name },
+  };
+}
+
+export function setRole({ role }: { role: string }) {
+  return {
+    type: '@employee/SET_ROLE',
+    payload: { role },
+  };
+}
+
 export function createEmployeeRequest() {
   return {
     type: '@employee/CREATE_EMPLOYEE_REQUEST',

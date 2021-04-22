@@ -8,6 +8,8 @@ const initialState: EmployeeState = {
   myEmployees: [],
   myEmployeesFiltered: [],
   email: '',
+  role: '',
+  name: '',
 };
 
 export default function employee(
@@ -41,6 +43,16 @@ export default function employee(
       return {
         ...state,
         email: action.payload.email,
+      };
+    case '@employee/SET_NAME':
+      return {
+        ...state,
+        name: action.payload.name,
+      };
+    case '@employee/SET_ROLE':
+      return {
+        ...state,
+        role: action.payload.role,
       };
     case '@employee/CREATE_EMPLOYEE_REQUEST':
       return {

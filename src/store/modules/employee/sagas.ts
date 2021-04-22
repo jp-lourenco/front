@@ -12,13 +12,15 @@ export function* createEmployee() {
       Authorization: 'Bearer ' + token,
     };
 
-    const { email } = yield select(({ employee }) => employee);
+    const { email, name, role } = yield select(({ employee }) => employee);
 
     yield call(
       api.post,
       'companies/employees',
       {
         email: email,
+        name: name,
+        role: role,
       },
       { headers: headerParams },
     );
