@@ -22,7 +22,7 @@ const ResetPasswordResult: React.FC = () => {
         key="sucesso"
         status="success"
         title="Sucesso!"
-        subTitle="Sua senha foi trocada com sucesso!!"
+        subTitle="Sua palavra-passe foi trocada com sucesso!!"
         extra={[
           <Button key="btn" onClick={() => handleCancel()}>
             Finalizar
