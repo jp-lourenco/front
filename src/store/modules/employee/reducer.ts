@@ -10,6 +10,9 @@ const initialState: EmployeeState = {
   email: '',
   role: '',
   name: '',
+  loadingEditEmployeeRequest: false,
+  errorEdit: false,
+  roleEdit: '',
 };
 
 export default function employee(
@@ -54,6 +57,11 @@ export default function employee(
         ...state,
         role: action.payload.role,
       };
+    case '@employee/SET_ROLE_EDIT':
+      return {
+        ...state,
+        roleEdit: action.payload.role,
+      };
     case '@employee/CREATE_EMPLOYEE_REQUEST':
       return {
         ...state,
@@ -65,14 +73,30 @@ export default function employee(
         ...state,
         loadingCreateEmployeeRequest: false,
         error: false,
-        email: '',
       };
     case '@employee/CREATE_EMPLOYEE_FAILURE':
       return {
         ...state,
         error: true,
         loadingCreateEmployeeRequest: false,
-        email: '',
+      };
+    case '@employee/EDIT_EMPLOYEE_REQUEST':
+      return {
+        ...state,
+        loadingEditEmployeeRequest: true,
+        errorEdit: false,
+      };
+    case '@employee/EDIT_EMPLOYEE_SUCCESS':
+      return {
+        ...state,
+        loadingEditEmployeeRequest: false,
+        errorEdit: false,
+      };
+    case '@employee/EDIT_EMPLOYEE_FAILURE':
+      return {
+        ...state,
+        errorEdit: true,
+        loadingEditEmployeeRequest: false,
       };
     default:
       return state;

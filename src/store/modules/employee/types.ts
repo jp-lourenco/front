@@ -7,6 +7,9 @@ export interface EmployeeState {
   name: string;
   loadingCreateEmployeeRequest: boolean;
   error: boolean;
+  loadingEditEmployeeRequest: boolean;
+  errorEdit: boolean;
+  roleEdit: '';
 }
 
 export interface Employee {

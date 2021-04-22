@@ -71,6 +71,34 @@ export function createEmployeeFailure() {
   };
 }
 
+export function setRoleEdit({ role }: { role: string }) {
+  return {
+    type: '@employee/SET_ROLE_EDIT',
+    payload: { role },
+  };
+}
+
+export function editEmployeeRequest({ employee_id }: { employee_id: string }) {
+  return {
+    type: '@employee/EDIT_EMPLOYEE_REQUEST',
+    payload: {
+      employee_id,
+    },
+  };
+}
+
+export function editEmployeeSuccess() {
+  return {
+    type: '@employee/EDIT_EMPLOYEE_SUCCESS',
+  };
+}
+
+export function editEmployeeFailure() {
+  return {
+    type: '@employee/EDIT_EMPLOYEE_FAILURE',
+  };
+}
+
 export function deleteEmployeeRequest({
   employee_id,
 }: {

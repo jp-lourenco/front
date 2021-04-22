@@ -56,6 +56,39 @@ export function* getEmployeesRequest() {
   }
 }
 
+export function* editEmployee({
+  payload,
+}: {
+  payload: { employee_id: string };
+  type: string;
+}) {
+  try {
+    const { roleEdit } = yield select(({ employee }) => employee);
+
+    const token = localStorage.getItem('token');
+
+    const headerParams = {
+      Authorization: 'Bearer ' + token,
+    };
+
+    const { data } = yield call(
+      api.put,
+      'companies/employees/' + payload.employee_id,
+      { role: roleEdit },
+      {
+        headers: headerParams,
+      },
+    );
+    yield put(actions.editEmployeeSuccess());
+    yield put(actions.getEmployeesRequest());
+  } catch (err) {
+    if (err.response.status === 403 || err.response.status === 401) {
+      yield put(actionsAuth.logoutRequest());
+    }
+    yield put(actions.editEmployeeFailure());
+  }
+}
+
 export function* deleteEmployee({
   payload,
 }: {
@@ -92,4 +125,5 @@ export default all([
   takeLatest('@employee/GET_EMPLOYEES_REQUEST', getEmployeesRequest),
   takeLatest('@employee/CREATE_EMPLOYEE_REQUEST', createEmployee),
   takeLatest('@employee/DELETE_EMPLOYEE_REQUEST', deleteEmployee),
+  takeLatest('@employee/EDIT_EMPLOYEE_REQUEST', editEmployee),
 ]);
