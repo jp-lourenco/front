@@ -16,7 +16,7 @@ import {
 } from '../../../store/modules/auth/actions';
 
 const SignInForm: React.FC = () => {
-  const { setVisibleSignUpModal, setVisibleResetPasswordModal } = useContext(
+  const { setVisibleSignUpModal, setVisibleForgotPasswordModal } = useContext(
     SignInContext,
   );
 
@@ -80,7 +80,7 @@ const SignInForm: React.FC = () => {
         <ItemStyled>
           <ForgotPasswordStyled
             type="link"
-            onClick={() => setVisibleResetPasswordModal(true)}
+            onClick={() => setVisibleForgotPasswordModal(true)}
           >
             Esqueceu a palavra-passe?
           </ForgotPasswordStyled>

@@ -1,18 +1,18 @@
 import React, { createContext, useState } from 'react';
-import ResetPasswordModal from './components/ResetPassword/ResetPasswordModal';
+import ForgotPasswordModal from './components/ForgotPassword/ForgotPasswordModal';
 import SignInForm from './components/SignInForm';
 import SignUpModal from './components/SignUp/SignUpModal';
 
 export const SignInContext = createContext({
   visibleSignUpModal: false,
   setVisibleSignUpModal: (visibleSignUpModal: boolean) => {},
-  visibleResetPasswordModal: false,
-  setVisibleResetPasswordModal: (visibleResetPasswordModal: boolean) => {},
+  visibleForgotPasswordModal: false,
+  setVisibleForgotPasswordModal: (visibleForgotPasswordModal: boolean) => {},
 });
 
 const SignIn: React.FC = () => {
   const [visibleSignUpModal, setVisibleSignUpModal] = useState(false);
-  const [visibleResetPasswordModal, setVisibleResetPasswordModal] = useState(
+  const [visibleForgotPasswordModal, setVisibleForgotPasswordModal] = useState(
     false,
   );
 
@@ -21,12 +21,12 @@ const SignIn: React.FC = () => {
       value={{
         visibleSignUpModal,
         setVisibleSignUpModal,
-        visibleResetPasswordModal,
-        setVisibleResetPasswordModal,
+        visibleForgotPasswordModal,
+        setVisibleForgotPasswordModal,
       }}
     >
       <SignInForm />
-      <ResetPasswordModal />
+      <ForgotPasswordModal />
       <SignUpModal />
     </SignInContext.Provider>
   );
