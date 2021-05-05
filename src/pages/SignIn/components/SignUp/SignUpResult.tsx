@@ -5,9 +5,7 @@ import { SignInContext } from '../../SignIn';
 import { SignUpContext } from './SignUpModal';
 
 const SignUpResult = () => {
-  const { signUpError, messageSignUp } = useSelector(
-    (state: any) => state.auth,
-  );
+  const { signUpError, msgSignUp } = useSelector((state: any) => state.auth);
 
   const { setVisibleSignUpModal } = useContext(SignInContext);
 
@@ -26,7 +24,7 @@ const SignUpResult = () => {
             key="error"
             status="error"
             title="Erro!"
-            subTitle={`${messageSignUp?.toString()}`}
+            subTitle={`${msgSignUp?.toString()}`}
             extra={[
               <Button key="novamente" onClick={() => setResult(false)}>
                 Tentar novamente

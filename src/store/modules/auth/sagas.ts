@@ -52,7 +52,7 @@ export function* signUp() {
     }
     yield put(actions.signUpSuccess());
   } catch (err) {
-    yield put(actions.signUpFailure({ message: err.response.data.message }));
+    yield put(actions.signUpFailure({ msg: err.response.data.msg }));
   }
 }
 
@@ -102,7 +102,7 @@ export function* changePassword() {
 
     yield put(actions.changePasswordSuccess());
   } catch (err) {
-    message.error(err.response.data.message);
+    message.error(err.response.data.msg);
     yield put(actions.changePasswordFailure());
   }
 }

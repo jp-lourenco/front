@@ -12,7 +12,7 @@ const initialState: AuthState = {
   forgotPasswordError: false,
   verifyCodeError: false,
   changePasswordError: false,
-  messageSignUp: '',
+  msgSignUp: '',
   email: '',
   emailForgotPassword: '',
   stepForgotPassword: 'Email',
@@ -79,7 +79,7 @@ export default function auth(
         ...state,
         signUpError: true,
         loadingSignUpRequest: false,
-        messageSignUp: action.payload.message,
+        msgSignUp: action.payload.msg,
       };
     case '@auth/FORGET_PASSWORD_REQUEST':
       return {

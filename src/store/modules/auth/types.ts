@@ -4,7 +4,7 @@ export interface AuthState {
   loadingForgotPasswordRequest: boolean;
   loadingVerifyCodeRequest: boolean;
   loadingChangePasswordRequest: boolean;
-  messageSignUp: string;
+  msgSignUp: string;
   signUpError: boolean;
   signInError: boolean;
   forgotPasswordError: boolean;

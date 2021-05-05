@@ -85,7 +85,7 @@ export function* updatePassword() {
       yield put(actionsAuth.logoutRequest());
     }
     yield put(actions.updatePasswordFailure());
-    message.error(err.response.data.message);
+    message.error(err.response.data.msg);
   }
 }
 

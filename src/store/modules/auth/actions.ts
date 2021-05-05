@@ -37,10 +37,10 @@ export function signUpSuccess() {
   };
 }
 
-export function signUpFailure({ message }: { message: string }) {
+export function signUpFailure({ msg }: { msg: string }) {
   return {
     type: '@auth/SIGN_UP_FAILURE',
-    payload: { message },
+    payload: { msg },
   };
 }
 

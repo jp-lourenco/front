@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { ReadQrcodeContext } from '../ReadQrcode';
 
 const ResultReadQrcode: React.FC = () => {
-  const { error, message } = useSelector((state: any) => state.batch);
+  const { error, msg } = useSelector((state: any) => state.batch);
 
   const { result, setResult, setCameraEnabled } = useContext(ReadQrcodeContext);
 
@@ -24,7 +24,7 @@ const ResultReadQrcode: React.FC = () => {
           key="error"
           status="error"
           title="Erro!"
-          subTitle={`${message?.toString()}`}
+          subTitle={`${msg?.toString()}`}
           extra={[
             <Button
               key="voltar"
