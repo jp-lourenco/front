@@ -39,7 +39,7 @@ const SignInForm: React.FC = () => {
 
   return (
     <Container>
-      <Image src="/logo_Biom.png" alt="Imagem" />
+      <Image src="/logo_Bioma.png" alt="Imagem" />
       <FormStyled
         name="basic"
         layout="vertical"
