@@ -13,6 +13,16 @@ import {
   MyEmployees,
 } from './pages';
 import { PrivateRoute, PublicRoute } from './helpers';
+import Batch from './pages/Batch';
+
+const ADMINS = [
+  'ADMIN_PRODUCER',
+  'ADMIN_TRANSPORTER',
+  'ADMIN_TRANSFORMER',
+  'ADMIN_PACKER',
+  'ADMIN_STORER',
+  'ADMIN_SHOPKEEPERS',
+];
 
 const App: React.FC = () => {
   return (
@@ -25,15 +35,32 @@ const App: React.FC = () => {
           <Route exact path="/rastreabilidade">
             <ReadQrcodeClient />
           </Route>
+          <Route path="/rastreabilidade/">
+            <Batch />
+          </Route>
           <PublicRoute exact path="/admin" component={SignIn} />
-          {/* <Route exact path="/admin/dashboard">
-              <h1></h1>
-            </Route> */}
+          <PrivateRoute
+            exact
+            path="/admin/dashboard"
+            component={() => <h1>DASHBOARD</h1>}
+            roles={'*'}
+          />
           <PrivateRoute
             exact
             path="/admin/producoes"
             component={MyProductions}
-            roles={['ADMIN_PRODUCER', 'ADMIN_TRANSPORTER']}
+            roles={[
+              'ADMIN_PRODUCER',
+              'ADMIN_TRANSPORTER',
+              'ADMIN_TRANSFORMER',
+              'ADMIN_STORER',
+              'ADMIN_SHOPKEEPER',
+              'MANAGER_PRODUCER',
+              'MANAGER_TRANSPORTER',
+              'MANAGER_TRANSFORMER',
+              'MANAGER_STORER',
+              'MANAGER_SHOPKEEPER',
+            ]}
           />
           <PrivateRoute
             exact
@@ -51,7 +78,7 @@ const App: React.FC = () => {
             exact
             path="/admin/funcionarios"
             component={MyEmployees}
-            roles={['ADMIN_PRODUCER', 'ADMIN_TRANSPORTER']}
+            roles={ADMINS}
           />
           <PrivateRoute
             exact
