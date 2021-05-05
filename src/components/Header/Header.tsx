@@ -8,6 +8,7 @@ import {
   MenuUnfoldOutlinedStyled,
   DrawerStyled,
   AvatarStyled,
+  Image,
 } from './styles/Header';
 import { UserOutlined } from '@ant-design/icons';
 import { Dropdown, Menu } from 'antd';
@@ -41,7 +42,7 @@ const Header: React.FC = () => {
       )}
       <MenuOutlinedStyled onClick={() => setVisible(true)} />
       <DrawerStyled
-        title="BioTRACE"
+        title={<Image src="/logo_Bioma.png" />}
         placement="left"
         onClose={() => setVisible(false)}
         visible={visible}

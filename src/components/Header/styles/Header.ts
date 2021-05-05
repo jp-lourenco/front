@@ -100,3 +100,7 @@ export const DrawerStyled = styled(Drawer)`
     display: none;
   }
 `;
+
+export const Image = styled.img`
+  width: 150px;
+`;
