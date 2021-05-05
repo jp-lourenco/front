@@ -7,6 +7,7 @@ import EditModal from './components/Edit/EditModal';
 import EditBatchModal from './components/EditBatch/EditBatchModal';
 import CreateModal from './components/Create/CreateModal';
 import QrcodeList from './components/QrcodeList/QrcodeList';
+import EditFilesModal from './components/EditFiles/EditFilesModal';
 
 export const MyProductionsContext = createContext({
   batchSelected: {
@@ -18,8 +19,10 @@ export const MyProductionsContext = createContext({
   setBatchSelected: (batchSelected: Batch) => {},
   visibleTraceModal: false,
   setVisibleTraceModal: (visibleTraceModal: boolean) => {},
-  productionSelected: { key: '' },
+  productionSelected: { key: '', images_filename: [], videos_filename: [] },
   setProductionSelected: (productionSelected: Production) => {},
+  visibleEditFilesModal: false,
+  setVisibleEditFilesModal: (visibleEditFilesModal: boolean) => {},
   visibleEditModal: false,
   setVisibleEditModal: (visibleEditModal: boolean) => {},
   visibleEditBatchModal: false,
@@ -33,6 +36,7 @@ export const MyProductionsContext = createContext({
 const MyProductions: React.FC = () => {
   const [visibleTraceModal, setVisibleTraceModal] = useState(false);
   const [visibleEditModal, setVisibleEditModal] = useState(false);
+  const [visibleEditFilesModal, setVisibleEditFilesModal] = useState(false);
   const [visibleEditBatchModal, setVisibleEditBatchModal] = useState(false);
   const [visibleCreateModal, setVisibleCreateModal] = useState(false);
   const [productionSelected, setProductionSelected] = useState<any>([]);
@@ -55,6 +59,8 @@ const MyProductions: React.FC = () => {
         setProductionSelected,
         visibleEditModal,
         setVisibleEditModal,
+        visibleEditFilesModal,
+        setVisibleEditFilesModal,
         visibleEditBatchModal,
         setVisibleEditBatchModal,
         visibleCreateModal,
@@ -67,6 +73,7 @@ const MyProductions: React.FC = () => {
       <ProductionsTable />
       <TraceModal />
       <EditModal />
+      <EditFilesModal />
       <EditBatchModal />
       <CreateModal />
       <QrcodeList />

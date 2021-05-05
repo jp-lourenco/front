@@ -1,6 +1,8 @@
 import styled from 'styled-components/macro';
-import { Button, DatePicker, Modal } from 'antd';
+import { Button, DatePicker, Modal, Tabs, Upload } from 'antd';
 import { MinusCircleOutlined } from '@ant-design/icons';
+
+const { TabPane } = Tabs;
 
 export const Text = styled.p`
   padding-bottom: 25px;
@@ -56,5 +58,39 @@ export const ButtonIconAdd = styled(Button)`
 
   @media (max-width: 374px) {
     display: block;
+  }
+`;
+
+export const TabsStyled = styled(Tabs)`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #363636;
+`;
+
+export const TabPaneStyled = styled(TabPane)`
+  width: 250px !important;
+`;
+
+export const ModalFilesStyled = styled(Modal)`
+  .ant-modal-body {
+    padding: 0px;
+  }
+
+  .ant-modal-content {
+    padding: 0px 10px 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+`;
+
+export const UploadStyled = styled(Upload)`
+  .ant-upload-list-picture .ant-upload-list-item,
+  .ant-upload-list-picture-card .ant-upload-list-item {
+    width: 250px !important;
+    margin-right: 8px;
   }
 `;

@@ -70,6 +70,7 @@ const ProductionsTable: React.FC = () => {
     setVisibleTraceModal,
     setProductionSelected,
     setVisibleEditModal,
+    setVisibleEditFilesModal,
     setVisibleEditBatchModal,
   } = useContext(MyProductionsContext);
 
@@ -78,6 +79,11 @@ const ProductionsTable: React.FC = () => {
   const showModalTrace = (batch: Batch) => {
     setBatchSelected(batch);
     setVisibleTraceModal(true);
+  };
+
+  const showModalEditFiles = (item: any) => {
+    setProductionSelected(item);
+    setVisibleEditFilesModal(true);
   };
 
   const showEditModal = (item: any) => {
@@ -155,6 +161,13 @@ const ProductionsTable: React.FC = () => {
       align: 'center',
       sorter: (a: ProductionProps, b: ProductionProps) =>
         a.title.localeCompare(b.title),
+      render: (dataIndex: any, production: any) => {
+        return (
+          <span>
+            <a onClick={() => showModalEditFiles(production)}>{dataIndex}</a>
+          </span>
+        );
+      },
     },
     {
       title: 'Categoria',
