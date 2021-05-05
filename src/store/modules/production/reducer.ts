@@ -11,6 +11,10 @@ const initialState: ProductionState = {
   production_end: '',
   production_location: '',
   production_description: '',
+  temp_min: undefined,
+  temp_max: undefined,
+  umi_min: undefined,
+  umi_max: undefined,
   batch_codes: [],
   loadingGetProductionsByUserRequest: false,
   myProductions: [],
@@ -147,6 +151,26 @@ export default function production(
         ...state,
         production_end: action.payload.production_end,
       };
+    case '@production/SET_TEMP_MIN':
+      return {
+        ...state,
+        temp_min: action.payload.temp_min,
+      };
+    case '@production/SET_TEMP_MAX':
+      return {
+        ...state,
+        temp_max: action.payload.temp_max,
+      };
+    case '@production/SET_UMI_MIN':
+      return {
+        ...state,
+        umi_min: action.payload.umi_min,
+      };
+    case '@production/SET_UMI_MAX':
+      return {
+        ...state,
+        umi_max: action.payload.umi_max,
+      };
     case '@production/EDIT_PRODUCTION_REQUEST':
       return {
         ...state,
@@ -163,6 +187,10 @@ export default function production(
         production_end: '',
         production_location: '',
         production_description: '',
+        temp_max: undefined,
+        temp_min: undefined,
+        umi_max: undefined,
+        umi_min: undefined,
         batch_codes: [],
       };
     case '@production/EDIT_PRODUCTION_FAILURE':
@@ -175,6 +203,10 @@ export default function production(
         production_end: '',
         production_location: '',
         production_description: '',
+        temp_max: undefined,
+        temp_min: undefined,
+        umi_max: undefined,
+        umi_min: undefined,
         batch_codes: [],
       };
     case '@production/RESET_FORM_PRODUCTION':
@@ -187,6 +219,10 @@ export default function production(
         production_end: '',
         production_location: '',
         production_description: '',
+        temp_max: undefined,
+        temp_min: undefined,
+        umi_max: undefined,
+        umi_min: undefined,
         batch_codes: [],
       };
     default:

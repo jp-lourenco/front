@@ -8,7 +8,11 @@ import {
   setProductionEnd,
   setProductionLocation,
   setProductionStart,
+  setTempMax,
+  setTempMin,
   setTitle,
+  setUmiMin,
+  setUmiMax,
 } from '../../../store/modules/production/actions';
 import { Production, Batch } from '../../../store/modules/production/types';
 import Table, { ColumnsType } from 'antd/es/table';
@@ -22,21 +26,32 @@ import {
 import 'moment/locale/pt-br';
 import moment from 'moment';
 import DropdownRangePicker from './DropdownRangePicker';
-import { deleteBatchRequest } from '../../../store/modules/batch/actions';
+import {
+  deleteBatchRequest,
+  setAmountProduced,
+  setBatchCode,
+  setPackingDate,
+  setPackingSize,
+  setProcessedQuantity,
+  setTransformationDescription,
+} from '../../../store/modules/batch/actions';
 import { useUserRole } from '../../../hooks/useUserRole';
 
 interface ObjectKeys {
-  [key: string]: string | undefined | Batch[] | null;
+  [key: string]: string | undefined | Batch[] | null | number;
 }
 
 interface ProductionProps extends Production, ObjectKeys {}
 
 const { confirm } = Modal;
 
-const rolesAllowedEdit = [
+const rolesAllowedEdit = ['ADMIN_PRODUCER', 'MANAGER_PRODUCER'];
+
+const rolesAllowedEditBatch = [
   'ADMIN_PRODUCER',
-  'ADMIN_TRANSFORMATION',
-  'ADMIN_SHOOPER',
+  'MANAGER_PRODUCER',
+  'ADMIN_TRANSFORMER',
+  'MANAGER_TRANSFORMER',
 ];
 
 const ProductionsTable: React.FC = () => {
@@ -55,6 +70,7 @@ const ProductionsTable: React.FC = () => {
     setVisibleTraceModal,
     setProductionSelected,
     setVisibleEditModal,
+    setVisibleEditBatchModal,
   } = useContext(MyProductionsContext);
 
   const userRole = useUserRole();
@@ -77,7 +93,28 @@ const ProductionsTable: React.FC = () => {
       }),
     );
     dispatch(setProductionEnd({ production_end: item?.production_end }));
+    dispatch(setTempMax({ temp_max: item?.temp_max }));
+    dispatch(setTempMin({ temp_min: item?.temp_min }));
+    dispatch(setUmiMax({ umi_max: item?.umi_max }));
+    dispatch(setUmiMin({ umi_min: item?.umi_min }));
     setVisibleEditModal(true);
+  };
+
+  const showEditBatchModal = (item: any) => {
+    setBatchSelected(item);
+    dispatch(setBatchCode({ batch_code: item?.batch_code }));
+    dispatch(setAmountProduced({ amount_produced: item?.amount_produced }));
+    dispatch(
+      setTransformationDescription({
+        transformation_description: item?.transformation_description,
+      }),
+    );
+    dispatch(
+      setProcessedQuantity({ processed_quantity: item?.processed_quantity }),
+    );
+    dispatch(setPackingSize({ packing_size: item?.packing_size }));
+    dispatch(setPackingDate({ packing_date: item?.packing_date }));
+    setVisibleEditBatchModal(true);
   };
 
   function showConfirmDeleteProduction(item: ProductionProps) {
@@ -281,6 +318,56 @@ const ProductionsTable: React.FC = () => {
       },
     },
     {
+      title: 'Temperatura',
+      width: 100,
+      key: 'temp',
+      children: [
+        {
+          title: 'Min',
+          dataIndex: 'temp_min',
+          key: 'temp_min',
+          width: 50,
+          render: (item) => {
+            return item ? <p>{item}°C</p> : '';
+          },
+        },
+        {
+          title: 'Max',
+          dataIndex: 'temp_max',
+          key: 'temp_max',
+          width: 50,
+          render: (item) => {
+            return item ? <p>{item}°C</p> : '';
+          },
+        },
+      ],
+    },
+    {
+      title: 'Humidade',
+      width: 100,
+      key: 'umi',
+      children: [
+        {
+          title: 'Min',
+          dataIndex: 'umi_min',
+          key: 'umi_min',
+          width: 50,
+          render: (item) => {
+            return item ? <p>{item}%</p> : '';
+          },
+        },
+        {
+          title: 'Max',
+          dataIndex: 'umi_max',
+          key: 'umi_max',
+          width: 50,
+          render: (item) => {
+            return item ? <p>{item}%</p> : '';
+          },
+        },
+      ],
+    },
+    {
       title: 'Gerir Informação',
       width: 100,
       className: rolesAllowedEdit.includes(userRole) ? 'show' : 'hide',
@@ -329,6 +416,147 @@ const ProductionsTable: React.FC = () => {
         width: 100,
       },
       {
+        title: 'Quantidade produzida',
+        dataIndex: 'amount_produced',
+        key: 'amount_produced',
+        sorter: (a: Batch, b: Batch, sortOrder) => {
+          if (sortOrder === 'ascend') {
+            if (a.amount_produced === undefined) {
+              return 1;
+            } else if (b.amount_produced === undefined) {
+              return -1;
+            }
+          } else {
+            if (a.amount_produced === undefined) {
+              return -1;
+            } else if (b.amount_produced === undefined) {
+              return 1;
+            }
+          }
+          return a.amount_produced - b.amount_produced;
+        },
+        render: (item) => {
+          return item ? <p>{item}kg</p> : '';
+        },
+        width: 100,
+      },
+      {
+        title: 'Descrição da transformação',
+        dataIndex: 'transformation_description',
+        key: 'transformation_description',
+        sorter: (a: Batch, b: Batch, sortOrder) => {
+          if (sortOrder === 'ascend') {
+            if (a.transformation_description === undefined) {
+              return 1;
+            } else if (b.transformation_description === undefined) {
+              return -1;
+            }
+          } else {
+            if (a.transformation_description === undefined) {
+              return -1;
+            } else if (b.transformation_description === undefined) {
+              return 1;
+            }
+          }
+          return a.transformation_description.localeCompare(
+            b.transformation_description,
+          );
+        },
+        width: 150,
+      },
+      {
+        title: 'Quantidade transformada',
+        dataIndex: 'processed_quantity',
+        key: 'processed_quantity',
+        sorter: (a: Batch, b: Batch, sortOrder) => {
+          if (sortOrder === 'ascend') {
+            if (a.processed_quantity === undefined) {
+              return 1;
+            } else if (b.processed_quantity === undefined) {
+              return -1;
+            }
+          } else {
+            if (a.processed_quantity === undefined) {
+              return -1;
+            } else if (b.processed_quantity === undefined) {
+              return 1;
+            }
+          }
+          return a.processed_quantity - b.processed_quantity;
+        },
+        render: (item) => {
+          return item ? <p>{item}kg</p> : '';
+        },
+        width: 100,
+      },
+      {
+        title: 'Tamanho da Embalagem',
+        dataIndex: 'packing_size',
+        key: 'packing_size',
+        sorter: (a: Batch, b: Batch, sortOrder) => {
+          if (sortOrder === 'ascend') {
+            if (a.packing_size === undefined) {
+              return 1;
+            } else if (b.packing_size === undefined) {
+              return -1;
+            }
+          } else {
+            if (a.packing_size === undefined) {
+              return -1;
+            } else if (b.packing_size === undefined) {
+              return 1;
+            }
+          }
+          return a.packing_size.localeCompare(b.packing_size);
+        },
+        render: (item) => {
+          return item ? <p>{item}gr</p> : '';
+        },
+        width: 150,
+      },
+      {
+        title: 'Data de embalamento',
+        dataIndex: 'packing_date',
+        key: 'packing_date',
+        width: 150,
+        align: 'center',
+        render: (item) => item && moment(item).format('LL'),
+        sorter: (a: Batch, b: Batch, sortOrder) => {
+          if (sortOrder === 'ascend') {
+            if (a.packing_date === undefined) {
+              return 1;
+            } else if (b.packing_date === undefined) {
+              return -1;
+            }
+          } else {
+            if (a.packing_date === undefined) {
+              return -1;
+            } else if (b.packing_date === undefined) {
+              return 1;
+            }
+          }
+          return moment(a.packing_date).unix() - moment(b.packing_date).unix();
+        },
+        filterDropdown: DropdownRangePicker,
+        onFilter: (value: any, record: Batch) => {
+          if (record.packing_date === undefined) {
+            return false;
+          }
+          if (
+            moment(record.packing_date).isBetween(
+              value['start'],
+              value['end'],
+              'days',
+              '[]',
+            )
+          ) {
+            return true;
+          } else {
+            return false;
+          }
+        },
+      },
+      {
         title: 'Estado atual',
         dataIndex: 'current_state',
         key: 'current_state',
@@ -347,7 +575,7 @@ const ProductionsTable: React.FC = () => {
           a.current_state.localeCompare(b.current_state),
         onFilter: (value: any, record: Batch) =>
           record.current_state.indexOf(value) === 0,
-        width: 100,
+        width: 150,
       },
       {
         title: 'Status',
@@ -423,14 +651,14 @@ const ProductionsTable: React.FC = () => {
         title: 'Gerir Informação',
         width: 100,
         dataIndex: '1',
-        className: rolesAllowedEdit.includes(userRole) ? 'show' : 'hide',
+        className: rolesAllowedEditBatch.includes(userRole) ? 'show' : 'hide',
         key: '1',
         align: 'center',
         render: (_, item: Batch) => {
-          if (rolesAllowedEdit.includes(userRole)) {
+          if (rolesAllowedEditBatch.includes(userRole)) {
             return (
               <>
-                <a onClick={() => {}}>
+                <a onClick={() => showEditBatchModal(item)}>
                   <EditOutlined />
                 </a>
 

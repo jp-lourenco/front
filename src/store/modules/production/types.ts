@@ -8,6 +8,10 @@ export interface ProductionState {
   production_description: string;
   production_end: string;
   production_location: string;
+  temp_min: number | undefined;
+  temp_max: number | undefined;
+  umi_min: number | undefined;
+  umi_max: number | undefined;
   batch_codes: BatchCode[];
   loadingGetProductionsByUserRequest: boolean;
   myProductions: Production[];
@@ -36,6 +40,10 @@ export interface Production {
   production_description: string | undefined;
   production_end: string | undefined;
   production_location: string | undefined;
+  temp_min: number | undefined;
+  temp_max: number | undefined;
+  umi_min: number | undefined;
+  umi_max: number | undefined;
   created: string;
   updated: string;
   batchs: Batch[] | undefined;
@@ -46,9 +54,22 @@ export interface Batch {
   batch_code: string;
   current_state: string;
   history: History[] | undefined;
+  amount_produced: number | undefined;
+  transformation_description: string | undefined;
+  processed_quantity: number | undefined;
+  packing_size: string | undefined;
+  packing_date: string | undefined;
 }
 export interface History {
   date: string;
   transition: string;
   user_id: string;
+  max_value_temp: string | undefined;
+  min_value_temp: string | undefined;
+  average_value_temp: string | undefined;
+  values_temp: any[] | undefined;
+  max_value_umi: string | undefined;
+  min_value_umi: string | undefined;
+  average_value_umi: string | undefined;
+  values_umi: any[] | undefined;
 }

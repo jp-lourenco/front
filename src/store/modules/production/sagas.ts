@@ -62,6 +62,10 @@ export function* editProduction({
       production_location,
       production_end,
       production_description,
+      temp_max,
+      temp_min,
+      umi_min,
+      umi_max,
       batch_codes,
     } = yield select(({ production }) => production);
 
@@ -81,6 +85,10 @@ export function* editProduction({
           production_location: production_location,
           production_end: production_end,
           production_description: production_description,
+          temp_max: temp_max,
+          temp_min: temp_min,
+          umi_min: umi_min,
+          umi_max: umi_max,
           batchs: batch_codes,
         },
         { headers: headerParams },
@@ -95,6 +103,10 @@ export function* editProduction({
           production_location: production_location,
           production_end: production_end,
           production_description: production_description,
+          temp_max: temp_max,
+          temp_min: temp_min,
+          umi_min: umi_min,
+          umi_max: umi_max,
         },
         { headers: headerParams },
       );

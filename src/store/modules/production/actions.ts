@@ -164,6 +164,34 @@ export function setProductionEnd({
   };
 }
 
+export function setTempMin({ temp_min }: { temp_min: number }) {
+  return {
+    type: '@production/SET_TEMP_MIN',
+    payload: { temp_min },
+  };
+}
+
+export function setTempMax({ temp_max }: { temp_max: number }) {
+  return {
+    type: '@production/SET_TEMP_MAX',
+    payload: { temp_max },
+  };
+}
+
+export function setUmiMin({ umi_min }: { umi_min: number }) {
+  return {
+    type: '@production/SET_UMI_MIN',
+    payload: { umi_min },
+  };
+}
+
+export function setUmiMax({ umi_max }: { umi_max: number }) {
+  return {
+    type: '@production/SET_UMI_MAX',
+    payload: { umi_max },
+  };
+}
+
 export function resetFormProduction() {
   return {
     type: '@production/RESET_FORM_PRODUCTION',

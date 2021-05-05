@@ -1,8 +1,12 @@
 import React, { useContext, useEffect } from 'react';
 import { PlusOutlined } from '@ant-design/icons';
-import { Button, Form, Space, Input } from 'antd';
+import { Button, Form, Space, Input, InputNumber } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  setTempMin,
+  setTempMax,
+  setUmiMin,
+  setUmiMax,
   setProductionDescription,
   setProductionEnd,
   setProductionLocation,
@@ -16,11 +20,13 @@ import {
 } from '../../../../store/modules/production/actions';
 import { BatchCode } from '../../../../store/modules/production/types';
 import {
-  DatePickerStyled,
-  FormStyled,
-  InputStyled,
-  ItemStyled,
   ButtonStyled,
+  FormStyled,
+  ItemStyled,
+  InputStyled,
+} from '../../../../styles/App';
+import {
+  DatePickerStyled,
   ContentStyled,
   MinusCircleOutlinedStyled,
 } from '../../styles/MyProductions';
@@ -37,6 +43,10 @@ const EditForm: React.FC = () => {
     production_location,
     production_description,
     production_end,
+    temp_max,
+    temp_min,
+    umi_max,
+    umi_min,
   } = useSelector((state: any) => state.production);
 
   const [form] = Form.useForm();
@@ -48,6 +58,10 @@ const EditForm: React.FC = () => {
       production_end: production_end && moment(production_end),
       production_description: production_description,
       production_location: production_location,
+      temp_max: temp_max,
+      temp_min: temp_min,
+      umi_max: umi_max,
+      umi_min: umi_min,
     });
   }, [title]);
 
@@ -149,6 +163,74 @@ const EditForm: React.FC = () => {
             )
           }
         />
+      </ItemStyled>
+      <ItemStyled
+        name="temp"
+        label="Temperatura Ideal"
+        style={{ marginBottom: 0 }}
+      >
+        <ItemStyled
+          name="temp_min"
+          label="Miníma"
+          style={{ display: 'inline-block', width: 'calc(50%)' }}
+        >
+          <InputNumber
+            onChange={(value) =>
+              dispatch(
+                setTempMin({
+                  temp_min: Number(value),
+                }),
+              )
+            }
+          />
+        </ItemStyled>
+        <ItemStyled
+          name="temp_max"
+          label="Maxíma"
+          style={{ display: 'inline-block', width: 'calc(50%)' }}
+        >
+          <InputNumber
+            onChange={(value) =>
+              dispatch(
+                setTempMax({
+                  temp_max: Number(value),
+                }),
+              )
+            }
+          />
+        </ItemStyled>
+      </ItemStyled>
+      <ItemStyled label="Humidade Ideal" style={{ marginBottom: 0 }}>
+        <ItemStyled
+          name="umi_min"
+          label="Miníma"
+          style={{ display: 'inline-block', width: 'calc(50%)' }}
+        >
+          <InputNumber
+            onChange={(value) =>
+              dispatch(
+                setUmiMin({
+                  umi_min: Number(value),
+                }),
+              )
+            }
+          />
+        </ItemStyled>
+        <ItemStyled
+          name="umi_max"
+          label="Maxíma"
+          style={{ display: 'inline-block', width: 'calc(50%)' }}
+        >
+          <InputNumber
+            onChange={(value) =>
+              dispatch(
+                setUmiMax({
+                  umi_max: Number(value),
+                }),
+              )
+            }
+          />
+        </ItemStyled>
       </ItemStyled>
       <Form.List name="batch_codes">
         {(fields, { add, remove }) => (
