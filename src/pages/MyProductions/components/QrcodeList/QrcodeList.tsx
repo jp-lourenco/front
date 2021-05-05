@@ -1,5 +1,6 @@
+import React, { useContext, useEffect, useState } from 'react';
 import { List } from 'antd';
-import { useContext, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { MyProductionsContext } from '../../MyProductions';
 import {
   CodeItem,
@@ -10,12 +11,11 @@ import {
   QRCodeStyled,
   TitleList,
 } from './styles/QrcodeList';
-import { useSelector } from 'react-redux';
 import { Batch, Production } from '../../../../store/modules/production/types';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import { Document, Page, Image, View, Text } from '@react-pdf/renderer';
 
-const QrcodeList = () => {
+const QrcodeList: React.FC = () => {
   const { selectedRowKeys } = useContext(MyProductionsContext);
   const [data, setData] = useState<Batch[]>([]);
   const [uris, setUris] = useState<string[]>([]);
@@ -113,7 +113,7 @@ const QrcodeList = () => {
                 <CodeItem>{item.batch_code}</CodeItem>
                 <QRCodeStyled
                   id={item.key?.toString()}
-                  value={item?.key?.toString()}
+                  value={`https://localhost:3000/rastreabilidade/${item?.key?.toString()}`}
                 />
               </ContainerItem>
             </List.Item>

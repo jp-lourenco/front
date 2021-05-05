@@ -20,7 +20,9 @@ const Camera: React.FC = () => {
     if (data) {
       setResult(true);
       setCameraEnabled(false);
-      dispatch(readQrcodeRequest({ qrcode: data }));
+      if (data.split('/').length > 4) {
+        dispatch(readQrcodeRequest({ qrcode: data.split('/')[4] }));
+      }
     }
   };
 

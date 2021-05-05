@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { notification } from 'antd';
-import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import {
   Container,
   Header,
@@ -11,9 +11,13 @@ import {
 import { Link } from 'react-router-dom';
 
 const ReadQrcodeClient: React.FC = () => {
-  const dispatch = useDispatch();
+  const history = useHistory();
 
-  const handleScan = (data: string | null) => {};
+  const handleScan = (data: string | null) => {
+    if (data != null) {
+      return history.push('rastreabilidade/' + data?.toString().split('/')[4]);
+    }
+  };
 
   const handleError = (err: any) => {
     const args = {
