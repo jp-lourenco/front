@@ -4,6 +4,7 @@ import ProductionsTable from './components/ProductionsTable';
 import { Batch, Production } from '../../store/modules/production/types';
 import TraceModal from './components/TraceModal';
 import EditModal from './components/Edit/EditModal';
+import EditBatchModal from './components/EditBatch/EditBatchModal';
 import CreateModal from './components/Create/CreateModal';
 import QrcodeList from './components/QrcodeList/QrcodeList';
 
@@ -21,6 +22,8 @@ export const MyProductionsContext = createContext({
   setProductionSelected: (productionSelected: Production) => {},
   visibleEditModal: false,
   setVisibleEditModal: (visibleEditModal: boolean) => {},
+  visibleEditBatchModal: false,
+  setVisibleEditBatchModal: (visibleEditBatchModal: boolean) => {},
   visibleCreateModal: false,
   setVisibleCreateModal: (visibleCreateModal: boolean) => {},
   selectedRowKeys: [],
@@ -30,6 +33,7 @@ export const MyProductionsContext = createContext({
 const MyProductions: React.FC = () => {
   const [visibleTraceModal, setVisibleTraceModal] = useState(false);
   const [visibleEditModal, setVisibleEditModal] = useState(false);
+  const [visibleEditBatchModal, setVisibleEditBatchModal] = useState(false);
   const [visibleCreateModal, setVisibleCreateModal] = useState(false);
   const [productionSelected, setProductionSelected] = useState<any>([]);
   const [batchSelected, setBatchSelected] = useState<any>({
@@ -51,6 +55,8 @@ const MyProductions: React.FC = () => {
         setProductionSelected,
         visibleEditModal,
         setVisibleEditModal,
+        visibleEditBatchModal,
+        setVisibleEditBatchModal,
         visibleCreateModal,
         setVisibleCreateModal,
         selectedRowKeys,
@@ -61,6 +67,7 @@ const MyProductions: React.FC = () => {
       <ProductionsTable />
       <TraceModal />
       <EditModal />
+      <EditBatchModal />
       <CreateModal />
       <QrcodeList />
     </MyProductionsContext.Provider>
