@@ -1,7 +1,14 @@
 export interface BatchState {
   loadingReadQrcodeRequest: boolean;
+  loadingEditBatchRequest: boolean;
   error: boolean;
-  message: string;
+  msg: string;
+  batch_code: string;
+  packing_date: string;
+  packing_size: number;
+  processed_quantity: number;
+  transformation_description: string;
+  amount_produced: number;
 }
 
 export interface Production {
