@@ -71,7 +71,7 @@ const EmployeesTable = () => {
         a.email.localeCompare(b.email),
     },
     {
-      title: 'Role',
+      title: 'Cargo',
       width: 100,
       dataIndex: 'role',
       key: 'role',

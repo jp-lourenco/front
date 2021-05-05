@@ -37,7 +37,7 @@ const Home: React.FC = () => {
       <Background>
         <Container>
           <Nav>
-            <Logo>BioTRACE</Logo>
+            <Logo>Bioma</Logo>
           </Nav>
           <Hero>
             <Title>Sistema de Rastreabilidade de Alimentos</Title>
