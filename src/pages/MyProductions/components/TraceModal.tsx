@@ -1,7 +1,12 @@
 import React, { useContext } from 'react';
 import { Timeline } from 'antd';
 import { MyProductionsContext } from '../MyProductions';
-import { ModalStyled, Text } from '../styles/MyProductions';
+import {
+  LabelSensor,
+  ModalStyled,
+  Text,
+  ValueSensor,
+} from '../styles/MyProductions';
 import { History } from '../../../store/modules/production/types';
 import 'moment/locale/pt-br';
 import moment from 'moment';
@@ -34,14 +39,44 @@ const TraceModal: React.FC = () => {
                 );
               } else if (item.transition !== 'Lojista recebeu') {
                 return (
-                  <Timeline.Item key={index}>
-                    {item.transition} - {moment(item.date).format('llll')}
-                  </Timeline.Item>
+                  <>
+                    <Timeline.Item key={index}>
+                      {item.transition} - {moment(item.date).format('llll')}
+                      {item?.max_value_temp &&
+                        item?.min_value_temp &&
+                        item?.average_value_temp && (
+                          <>
+                            <LabelSensor>Temperatura:</LabelSensor>
+                            <ValueSensor>
+                              Min: {item.min_value_temp}°C - Max:{' '}
+                              {item.max_value_temp}°C
+                            </ValueSensor>
+
+                            <ValueSensor>
+                              {item.average_value_temp}°C
+                            </ValueSensor>
+                          </>
+                        )}
+                      {item?.max_value_umi &&
+                        item?.min_value_umi &&
+                        item?.average_value_umi && (
+                          <>
+                            <LabelSensor>Humidade:</LabelSensor>
+                            <ValueSensor>
+                              Min: {item.min_value_umi}% - Max:{' '}
+                              {item.max_value_umi}%
+                            </ValueSensor>
+
+                            <ValueSensor>{item.average_value_umi}%</ValueSensor>
+                          </>
+                        )}
+                    </Timeline.Item>
+                  </>
                 );
               } else {
                 return (
                   <Timeline.Item color="green" key={index}>
-                    {item.transition} - {moment(item.date).format('llll')}
+                    {item.transition} - {moment(item.date).format('llll')}{' '}
                   </Timeline.Item>
                 );
               }
