@@ -23,3 +23,8 @@ export const ContainerLogo = styled.div`
   justify-content: center;
   align-items: center;
 `;
+
+export const Image = styled.img`
+  width: 180px;
+  margin-top: 15px;
+`;

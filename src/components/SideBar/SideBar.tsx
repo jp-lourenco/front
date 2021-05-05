@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { SiderStyled, Logo, ContainerLogo } from './styles/SideBar';
+import { SiderStyled, Logo, ContainerLogo, Image } from './styles/SideBar';
 import Drawer from '../Drawer';
 import { ToggleContext } from '../BasicLayout';
 
@@ -16,7 +16,9 @@ const SideBar: React.FC = () => {
       trigger={null}
     >
       <ContainerLogo>
-        <Logo href="/#">BioTRACE</Logo>
+        <Logo href="/#">
+          <Image src="/logo_Bioma.png" />
+        </Logo>
       </ContainerLogo>
       <Drawer />
     </SiderStyled>
