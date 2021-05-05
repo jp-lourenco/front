@@ -1,13 +1,12 @@
 import React, { useContext } from 'react';
 import { SignInContext } from '../SignIn';
 import {
-  Container,
   ButtonStyled,
-  ForgotPasswordStyled,
   FormStyled,
   ItemStyled,
   InputStyled,
-} from '../styles/SignIn';
+} from '../../../styles/App';
+import { Container, ForgotPasswordStyled, Image } from '../styles/SignIn';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   setEmail,
@@ -40,6 +39,7 @@ const SignInForm: React.FC = () => {
 
   return (
     <Container>
+      <Image src="/logo_Biom.png" alt="Imagem" />
       <FormStyled
         name="basic"
         layout="vertical"

@@ -9,12 +9,12 @@ import { ProfileContext } from '../../Profile';
 import {
   ButtonStyled,
   FormStyled,
-  InputStyled,
   ItemStyled,
+  InputStyled,
   Text,
   List,
   ListItem,
-} from '../../styles/Profile';
+} from '../../../../styles/App';
 
 const UpdatePasswordForm: React.FC = () => {
   const { setVisibleUpdatePasswordModal } = useContext(ProfileContext);

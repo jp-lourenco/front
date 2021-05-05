@@ -8,7 +8,7 @@ import {
   Text,
   ListItem,
   List,
-} from '../../styles/SignIn';
+} from '../../../../styles/App';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   forgotPasswordRequest,

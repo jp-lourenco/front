@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
 import {
   ButtonStyled,
-  FormStyled,
-  InputStyled,
-  ItemStyled,
   SelectStyled,
-} from '../../styles/MyEmployees';
+  FormStyled,
+  ItemStyled,
+  InputStyled,
+} from '../../../../styles/App';
 import { CreateEmployeeContext } from './CreateEmployeeModal';
 import { MyEmployeesContext } from '../../MyEmployees';
 import { useDispatch, useSelector } from 'react-redux';

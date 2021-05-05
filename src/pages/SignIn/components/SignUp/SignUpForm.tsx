@@ -7,7 +7,7 @@ import {
   ItemStyled,
   InputStyled,
   SelectStyled,
-} from '../../styles/SignIn';
+} from '../../../../styles/App';
 import {
   setCompanyEmail,
   setCompanyName,

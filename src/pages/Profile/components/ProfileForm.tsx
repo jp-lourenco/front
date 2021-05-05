@@ -7,12 +7,12 @@ import {
   editProfileRequest,
 } from '../../../store/modules/profile/actions';
 import {
-  InputStyled,
-  ItemStyled,
-  Container,
-  FormStyled,
   ButtonStyled,
-} from './../styles/Profile';
+  FormStyled,
+  ItemStyled,
+  InputStyled,
+} from '../../../styles/App';
+import { Container } from './../styles/Profile';
 import { LoadingOutlined } from '@ant-design/icons';
 import { ProfileContext } from '../Profile';
 

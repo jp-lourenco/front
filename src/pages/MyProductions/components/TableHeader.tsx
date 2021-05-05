@@ -9,7 +9,7 @@ import {
   ButtonRefresh,
   ButtonAdd,
   ButtonIconAdd,
-} from '../styles/MyProductions';
+} from '../../../styles/App';
 import { DownOutlined, PlusOutlined, SyncOutlined } from '@ant-design/icons';
 import {
   getProductionsByUserRequest,
