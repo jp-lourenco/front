@@ -11,6 +11,7 @@ import {
   ReadQrcodeClient,
   Profile,
   MyEmployees,
+  MySensors,
 } from './pages';
 import { PrivateRoute, PublicRoute } from './helpers';
 import Batch from './pages/Batch';
@@ -64,6 +65,12 @@ const App: React.FC = () => {
           />
           <PrivateRoute
             exact
+            path="/admin/sensores"
+            component={MySensors}
+            roles={'*'}
+          />
+          <PrivateRoute
+            exact
             path="/admin/ler-qrcode"
             component={ReadQrcode}
             roles={'*'}
@@ -79,12 +86,6 @@ const App: React.FC = () => {
             path="/admin/funcionarios"
             component={MyEmployees}
             roles={ADMINS}
-          />
-          <PrivateRoute
-            exact
-            path="/admin/pesquisar-qrcode"
-            component={SearchQrcode}
-            roles={['EMPLOYEE_PRODUCER']}
           />
         </Switch>
       </Router>

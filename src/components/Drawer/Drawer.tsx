@@ -52,6 +52,17 @@ const Drawer: React.FC = () => {
     },
     {
       key: '5',
+      label: 'Meus Sensores',
+      path: '/admin/sensores',
+      roles: [
+        'ADMIN_TRANSPORTER',
+        'MANAGER_TRANSPORTER',
+        'ADMIN_STORER',
+        'MANAGER_STORER',
+      ],
+    },
+    {
+      key: '6',
       label: 'Pesquisar QR Code',
       path: '/admin/pesquisar-qrcode',
       roles: ['EMPLOYEE_PRODUCER'],
