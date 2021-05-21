@@ -1,5 +1,6 @@
-import moment from 'moment';
 import React, { useContext } from 'react';
+import moment from 'moment';
+import { FileOutlined } from '@ant-design/icons';
 import { BatchContext } from '../Batch';
 import {
   ContainerText,
@@ -11,7 +12,10 @@ import {
   PanelStyled,
   ContentPanel,
   TitlePanel,
+  Item,
+  ItemTitle,
 } from '../styles/Batch';
+import Player from '../../../components/Player';
 
 const Traceability: React.FC = () => {
   const { batch, histories } = useContext(BatchContext);
@@ -81,11 +85,11 @@ const Traceability: React.FC = () => {
             </Text>
           </ContainerText>
         )}
-        {batch?.umi_min && batch?.umi_max && (
+        {batch?.humi_min && batch?.humi_max && (
           <ContainerText>
             <Label>Humidade:</Label>
             <Text>
-              Min: {batch?.umi_min}% - Max: {batch?.umi_max}%
+              Min: {batch?.humi_min}% - Max: {batch?.humi_max}%
             </Text>
           </ContainerText>
         )}
@@ -93,6 +97,19 @@ const Traceability: React.FC = () => {
           <Label>Produtor enviou:</Label>
           <Text>{moment(batch?.history[0]?.date).format('llll')}</Text>
         </ContainerText>
+        {batch.src_videos?.map((item: any, index: number) => {
+          return (
+            <Item key={item.url}>
+              <FileOutlined style={{ fontSize: '32px', color: '#08c' }} />
+              <ItemTitle>{item.name}</ItemTitle>
+
+              <Player>
+                <Player.Button />
+                <Player.Video src={item.url} />
+              </Player>
+            </Item>
+          );
+        })}
       </PanelStyled>
       {histories?.map((history: any[], index: number) => {
         return (
@@ -169,20 +186,20 @@ const Traceability: React.FC = () => {
                           </ContainerText>
                         </>
                       )}
-                    {item?.max_value_umi &&
-                      item?.min_value_umi &&
-                      item?.average_value_umi && (
+                    {item?.max_value_humi &&
+                      item?.min_value_humi &&
+                      item?.average_value_humi && (
                         <>
                           <ContainerText>
                             <Label>Humidade:</Label>
                             <Text>
-                              Min: {item.min_value_umi}% - Max:{' '}
-                              {item.max_value_umi}%
+                              Min: {item.min_value_humi}% - Max:{' '}
+                              {item.max_value_humi}%
                             </Text>
                           </ContainerText>
                           <ContainerText>
                             <Label>Humidade Média:</Label>
-                            <Text>{item.average_value_umi}%</Text>
+                            <Text>{item.average_value_humi}%</Text>
                           </ContainerText>
                         </>
                       )}
