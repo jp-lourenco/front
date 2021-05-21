@@ -60,19 +60,19 @@ const Home: React.FC = () => {
             <FlowItemTitle>PRODUTOR</FlowItemTitle>
             <FlowItemText>(Origem)</FlowItemText>
           </FlowItem>
-          <Next src="next.png" />
+          <Next src="Next.png" />
           <FlowItem>
             <FlowItemImage src="icon_truck.png" />
             <FlowItemTitle>FORNECEDOR</FlowItemTitle>
             <FlowItemText>(Distribuidor)</FlowItemText>
           </FlowItem>
-          <Next src="next.png" />
+          <Next src="Next.png" />
           <FlowItem>
             <FlowItemImage src="mercado.png" />
             <FlowItemTitle>LOJA</FlowItemTitle>
             <FlowItemText>(Destino)</FlowItemText>
           </FlowItem>
-          <Next src="next.png" />
+          <Next src="Next.png" />
           <FlowItem>
             <FlowItemImage src="person.png" />
             <FlowItemTitle>CONSUMIDOR</FlowItemTitle>
