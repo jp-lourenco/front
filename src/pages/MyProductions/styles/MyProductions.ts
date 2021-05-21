@@ -32,6 +32,9 @@ export const ModalStyled = styled(Modal)`
   .ant-modal-body {
     padding: 24px 24px 0px;
   }
+  .ant-modal-content {
+    margin-bottom: 10px;
+  }
 `;
 
 export const LabelSensor = styled.p`
