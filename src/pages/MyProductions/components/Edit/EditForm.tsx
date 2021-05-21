@@ -5,8 +5,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   setTempMin,
   setTempMax,
-  setUmiMin,
-  setUmiMax,
+  setTempIdeal,
+  setHumiMin,
+  setHumiMax,
+  setHumiIdeal,
   setProductionDescription,
   setProductionEnd,
   setProductionLocation,
@@ -45,8 +47,8 @@ const EditForm: React.FC = () => {
     production_end,
     temp_max,
     temp_min,
-    umi_max,
-    umi_min,
+    humi_max,
+    humi_min,
   } = useSelector((state: any) => state.production);
 
   const [form] = Form.useForm();
@@ -60,8 +62,8 @@ const EditForm: React.FC = () => {
       production_location: production_location,
       temp_max: temp_max,
       temp_min: temp_min,
-      umi_max: umi_max,
-      umi_min: umi_min,
+      humi_max: humi_max,
+      humi_min: humi_min,
     });
   }, [title]);
 
@@ -164,17 +166,15 @@ const EditForm: React.FC = () => {
           }
         />
       </ItemStyled>
-      <ItemStyled
-        name="temp"
-        label="Temperatura Ideal"
-        style={{ marginBottom: 0 }}
-      >
+      <ItemStyled name="temp" label="Temperatura" style={{ marginBottom: 0 }}>
         <ItemStyled
           name="temp_min"
           label="Miníma"
-          style={{ display: 'inline-block', width: 'calc(50%)' }}
+          style={{ display: 'inline-block', width: 'calc(33%)' }}
         >
           <InputNumber
+            precision={2}
+            step={0.1}
             onChange={(value) =>
               dispatch(
                 setTempMin({
@@ -187,9 +187,11 @@ const EditForm: React.FC = () => {
         <ItemStyled
           name="temp_max"
           label="Maxíma"
-          style={{ display: 'inline-block', width: 'calc(50%)' }}
+          style={{ display: 'inline-block', width: 'calc(33%)' }}
         >
           <InputNumber
+            precision={2}
+            step={0.1}
             onChange={(value) =>
               dispatch(
                 setTempMax({
@@ -199,33 +201,71 @@ const EditForm: React.FC = () => {
             }
           />
         </ItemStyled>
-      </ItemStyled>
-      <ItemStyled label="Humidade Ideal" style={{ marginBottom: 0 }}>
         <ItemStyled
-          name="umi_min"
-          label="Miníma"
-          style={{ display: 'inline-block', width: 'calc(50%)' }}
+          name="temp_ideal"
+          label="Ideal"
+          style={{ display: 'inline-block', width: 'calc(33%)' }}
         >
           <InputNumber
+            precision={2}
+            step={0.1}
             onChange={(value) =>
               dispatch(
-                setUmiMin({
-                  umi_min: Number(value),
+                setTempIdeal({
+                  temp_ideal: Number(value),
+                }),
+              )
+            }
+          />
+        </ItemStyled>
+      </ItemStyled>
+      <ItemStyled label="Humidade" style={{ marginBottom: 0 }}>
+        <ItemStyled
+          name="humi_min"
+          label="Miníma"
+          style={{ display: 'inline-block', width: 'calc(33%)' }}
+        >
+          <InputNumber
+            precision={2}
+            step={0.1}
+            onChange={(value) =>
+              dispatch(
+                setHumiMin({
+                  humi_min: Number(value),
                 }),
               )
             }
           />
         </ItemStyled>
         <ItemStyled
-          name="umi_max"
+          name="humi_max"
           label="Maxíma"
-          style={{ display: 'inline-block', width: 'calc(50%)' }}
+          style={{ display: 'inline-block', width: 'calc(33%)' }}
         >
           <InputNumber
+            precision={2}
+            step={0.1}
             onChange={(value) =>
               dispatch(
-                setUmiMax({
-                  umi_max: Number(value),
+                setHumiMax({
+                  humi_max: Number(value),
+                }),
+              )
+            }
+          />
+        </ItemStyled>
+        <ItemStyled
+          name="humi_ideal"
+          label="Ideal"
+          style={{ display: 'inline-block', width: 'calc(33%)' }}
+        >
+          <InputNumber
+            precision={2}
+            step={0.1}
+            onChange={(value) =>
+              dispatch(
+                setHumiIdeal({
+                  humi_ideal: Number(value),
                 }),
               )
             }
