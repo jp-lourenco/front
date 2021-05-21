@@ -1,5 +1,5 @@
 import styled from 'styled-components/macro';
-import { Avatar, Collapse, Tabs } from 'antd';
+import { Avatar, Collapse, Tabs, Image } from 'antd';
 
 const { TabPane } = Tabs;
 
@@ -36,12 +36,12 @@ export const TitlePage = styled.h1`
   margin: 0;
 `;
 
-export const Image = styled.img`
-  width: 300px;
-  height: 300px;
-  margin-bottom: 40px;
-  margin-top: 40px;
-`;
+// export const Image = styled.img`
+//   width: 300px;
+//   height: 300px;
+//   margin-bottom: 40px;
+//   margin-top: 40px;
+// `;
 
 export const ContainerText = styled.div`
   display: flex;
@@ -69,12 +69,8 @@ export const TabPaneStyled = styled(TabPane)``;
 export const AvatarStyled = styled(Avatar)`
   margin-bottom: 2.5vh;
   margin-top: 2.5vh;
-  position: absolute;
-  top: 70px;
-  z-index: 2;
   max-width: 300px;
   max-height: 300px;
-
   height: 30vh;
   width: 30vh;
 
@@ -116,8 +112,7 @@ export const ContentPanel = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  border-top-left-radius: 15px;
-  border-bottom-left-radius: 15px;
+
   border-top-right-radius: 15px;
   border-bottom-right-radius: 15px;
 
@@ -240,29 +235,50 @@ export const CollapseStyled = styled(Collapse)`
   }
 `;
 
-export const Background = styled.div`
-  background-image: url('/fruit.png');
+interface BackgroundProps {
+  src: string;
+}
+
+export const Background = styled.div<BackgroundProps>`
+  background-image: url(${(props) => props.src});
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
   filter: blur(8px);
   -webkit-filter: blur(8px);
+  padding: 8px;
   max-height: 380px;
   height: 35vh;
-  width: 100%;
+  width: 100vw;
   display: flex;
   justify-content: center;
-  padding: 20px;
-  margin-bottom: 5px;
 
   @media screen and (max-width: 700px) {
     height: 25vh;
+  }
+
+  display: none;
+
+  &.active {
+    display: block !important;
+  }
+`;
+
+export const ImageStyled = styled(Image)`
+  max-width: 300px;
+  max-height: 300px;
+  height: 30vh;
+  width: 30vh;
+
+  @media screen and (max-width: 700px) {
+    height: 20vh;
+    width: 20vh;
   }
 `;
 
 export const Overlay = styled.div`
   position: absolute;
-  top: 70px;
+  top: 131px;
   background-color: rgba(0, 0, 0, 0.3);
   max-height: 380px;
   height: 35vh;
@@ -270,7 +286,6 @@ export const Overlay = styled.div`
   display: flex;
   justify-content: center;
   padding: 20px;
-  margin-bottom: 5px;
 
   @media screen and (max-width: 700px) {
     height: 25vh;
@@ -352,18 +367,18 @@ export const Label = styled.p`
 
 export const TextInformation = styled.p`
   font-weight: normal;
-  font-size: 18px;
-  line-height: 28px;
+  font-size: 14px;
+  line-height: 22px;
   color: #000;
-  margin-right: 10px;
+  margin-right: 5px;
 `;
 
 export const LabelInformation = styled.p`
   font-weight: bold;
-  font-size: 21px;
-  line-height: 25px;
+  font-size: 16px;
+  line-height: 20px;
   color: #000;
-  margin-right: 10px;
+  margin-right: 5px;
 `;
 
 export const Line = styled.div`
@@ -376,4 +391,110 @@ export const Line = styled.div`
 
 export const ContainerInformation = styled.div`
   margin-top: 30px;
+`;
+
+export const SlideShow = styled.div`
+  max-width: 1000px;
+  position: absolute;
+  top: 131px;
+  margin: auto;
+`;
+
+export const MySlides = styled.div`
+  display: none;
+
+  &.active {
+    display: block !important;
+  }
+`;
+
+export const ButtonPrev = styled.div`
+  cursor: pointer;
+  position: absolute;
+  left: 0;
+  width: auto;
+  margin-top: -20px;
+  padding: 16px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+  height: 35vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+  }
+
+  @media screen and (max-width: 700px) {
+    height: 25vh;
+  }
+`;
+
+export const ButtonNext = styled.div`
+  border-radius: 3px 0 0 3px;
+  cursor: pointer;
+  position: absolute;
+  right: 0;
+  width: auto;
+  margin-top: -20px;
+  padding: 16px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  user-select: none;
+  height: 35vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+  }
+  @media screen and (max-width: 700px) {
+    height: 25vh;
+  }
+`;
+
+export const Item = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  position: relative;
+  height: 66px;
+  padding: 8px;
+  border: 1px solid #d9d9d9;
+  border-radius: 2px;
+  width: 200px;
+  margin: 5px;
+`;
+
+export const ItemTitle = styled.p`
+  margin: 0 10px 0 0;
+  padding: 0;
+`;
+
+export const Content = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background-color: #fff;
+  -webkit-box-shadow: 3px 3px 5px 6px #ccc;
+  -moz-box-shadow: 3px 3px 5px 6px #ccc;
+  box-shadow: 3px 3px 5px 6px #ccc;
+  padding: 10px 20px;
+  border-radius: 2px;
+  margin-bottom: 5px;
+  margin-top: 15px;
+  border-radius: 5px;
+
+  @media screen and (max-width: 700px) {
+    flex-direction: column;
+  }
 `;

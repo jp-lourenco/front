@@ -8,9 +8,16 @@ import {
   Container,
   Background,
   AvatarStyled,
+  ImageStyled,
   Overlay,
+  SlideShow,
+  ButtonNext,
+  MySlides,
+  ButtonPrev,
+  Content,
 } from './styles/Batch';
 import 'moment/locale/pt-br';
+import { useLocation } from 'react-router-dom';
 import {
   FileTextOutlined,
   LoadingOutlined,
@@ -18,7 +25,6 @@ import {
 } from '@ant-design/icons';
 import Traceability from './components/Traceability';
 import api from '../../services/api';
-import { useLocation } from 'react-router-dom';
 import Information from './components/Information';
 
 // export interface BatchInterface {
@@ -43,6 +49,7 @@ export const BatchContext = createContext({
     food_name: '',
     producer: '',
     batch_code: '',
+    src_videos: [],
     production_location: '',
     production_start: '',
     production_description: '',
@@ -50,8 +57,8 @@ export const BatchContext = createContext({
     amount_produced: '',
     temp_min: '',
     temp_max: '',
-    umi_min: '',
-    umi_max: '',
+    humi_min: '',
+    humi_max: '',
     history: [{ date: '', transition: '', company_name: '' }],
     transformation_description: '',
     processed_quantity: '',
@@ -77,7 +84,26 @@ const Batch: React.FC = () => {
   const location = useLocation();
 
   const [loadingRequest, setLoadingRequest] = useState<boolean>(true);
+
   const [errorRequest, setErrorRequest] = useState<boolean>(false);
+
+  const [slideIndex, setSlideIndex] = useState<number>(0);
+
+  const showSlides = (n: number) => {
+    var slides = document.getElementsByClassName('mySlides');
+
+    if (n >= slides?.length) {
+      setSlideIndex(0);
+    }
+    if (n < 0) {
+      setSlideIndex(slides?.length - 1);
+    }
+  };
+
+  const plusSlides = (n: number) => {
+    setSlideIndex((c) => c + n);
+    showSlides(slideIndex + n);
+  };
 
   const [batchId, _] = useState(
     location.pathname.split('/rastreabilidade/')[1],
@@ -101,7 +127,6 @@ const Batch: React.FC = () => {
       });
   }, [batchId]);
 
-  console.log(batch);
   return (
     <BatchContext.Provider
       value={{
@@ -124,20 +149,55 @@ const Batch: React.FC = () => {
             </ContainerLoading>
           ) : (
             <Container>
-              <Background />
-              <Overlay />
-              <AvatarStyled src={batch['src_images'][0]} />
               <TabsStyled defaultActiveKey="1">
                 <TabPaneStyled
                   tab={
                     <span>
                       <FileTextOutlined />
-                      Informação
+                      Informações
                     </span>
                   }
                   key="1"
                 >
-                  <Information />
+                  <Container>
+                    {batch['src_images']?.map((item: any, index: number) => {
+                      return (
+                        <Background
+                          src={item.url}
+                          className={index == slideIndex ? 'active' : ''}
+                        />
+                      );
+                    })}
+                    <Overlay>
+                      <ButtonNext onClick={() => plusSlides(1)}>
+                        &#10095;
+                      </ButtonNext>
+                      <ButtonPrev onClick={() => plusSlides(-1)}>
+                        &#10094;
+                      </ButtonPrev>
+                    </Overlay>
+                    <SlideShow>
+                      {batch['src_images']?.map((item: any, index: number) => {
+                        return (
+                          <MySlides
+                            key={item.url}
+                            className={
+                              index == slideIndex
+                                ? 'mySlides active'
+                                : 'mySlides'
+                            }
+                          >
+                            <AvatarStyled
+                              src={<ImageStyled src={item.url} />}
+                            />
+                          </MySlides>
+                        );
+                      })}
+                    </SlideShow>
+                    <Content>
+                      <Information />
+                    </Content>
+                  </Container>
                 </TabPaneStyled>
                 <TabPaneStyled
                   tab={
@@ -150,6 +210,58 @@ const Batch: React.FC = () => {
                 >
                   <Traceability />
                 </TabPaneStyled>
+                {/* <TabPaneStyled
+                  tab={
+                    <span>
+                      <FileTextOutlined />
+                      Imagens
+                    </span>
+                  }
+                  key="3"
+                >
+                  <SlideShow>
+                    {batch['src_images']?.map((item: any, index: number) => {
+                      return (
+                        <MySlides
+                          key={item.url}
+                          className={
+                            index == slideIndex ? 'mySlides active' : 'mySlides'
+                          }
+                        >
+                          <Image width={300} src={item.url} />
+                        </MySlides>
+                      );
+                    })}
+                    <ButtonNext onClick={() => plusSlides(1)}>
+                      &#10095;
+                    </ButtonNext>
+                    <ButtonPrev onClick={() => plusSlides(-1)}>
+                      &#10094;
+                    </ButtonPrev>
+                  </SlideShow>
+                </TabPaneStyled>
+                <TabPaneStyled
+                  tab={
+                    <span>
+                      <FileTextOutlined />
+                      Vídeos
+                    </span>
+                  }
+                  key="4"
+                >
+                  {batch['src_videos']?.map((item: any, index: number) => {
+                    return (
+                      <Item key={item.url}>
+                        <ItemTitle>{item.name}</ItemTitle>
+
+                        <Player>
+                          <Player.Button />
+                          <Player.Video src={item.url} />
+                        </Player>
+                      </Item>
+                    );
+                  })}
+                </TabPaneStyled> */}
               </TabsStyled>
             </Container>
           ),
