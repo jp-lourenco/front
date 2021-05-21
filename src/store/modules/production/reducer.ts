@@ -13,8 +13,10 @@ const initialState: ProductionState = {
   production_description: '',
   temp_min: undefined,
   temp_max: undefined,
-  umi_min: undefined,
-  umi_max: undefined,
+  temp_ideal: undefined,
+  humi_min: undefined,
+  humi_max: undefined,
+  humi_ideal: undefined,
   batch_codes: [],
   loadingGetProductionsByUserRequest: false,
   myProductions: [],
@@ -161,15 +163,25 @@ export default function production(
         ...state,
         temp_max: action.payload.temp_max,
       };
-    case '@production/SET_UMI_MIN':
+    case '@production/SET_TEMP_IDEAL':
       return {
         ...state,
-        umi_min: action.payload.umi_min,
+        temp_ideal: action.payload.temp_ideal,
       };
-    case '@production/SET_UMI_MAX':
+    case '@production/SET_HUMI_MIN':
       return {
         ...state,
-        umi_max: action.payload.umi_max,
+        humi_min: action.payload.humi_min,
+      };
+    case '@production/SET_HUMI_MAX':
+      return {
+        ...state,
+        humi_max: action.payload.humi_max,
+      };
+    case '@production/SET_HUMI_IDEAL':
+      return {
+        ...state,
+        humi_ideal: action.payload.humi_ideal,
       };
     case '@production/EDIT_PRODUCTION_REQUEST':
       return {
@@ -187,10 +199,12 @@ export default function production(
         production_end: '',
         production_location: '',
         production_description: '',
+        temp_ideal: undefined,
         temp_max: undefined,
         temp_min: undefined,
-        umi_max: undefined,
-        umi_min: undefined,
+        humi_ideal: undefined,
+        humi_max: undefined,
+        humi_min: undefined,
         batch_codes: [],
       };
     case '@production/EDIT_PRODUCTION_FAILURE':
@@ -203,10 +217,12 @@ export default function production(
         production_end: '',
         production_location: '',
         production_description: '',
+        temp_ideal: undefined,
         temp_max: undefined,
         temp_min: undefined,
-        umi_max: undefined,
-        umi_min: undefined,
+        humi_ideal: undefined,
+        humi_max: undefined,
+        humi_min: undefined,
         batch_codes: [],
       };
     case '@production/RESET_FORM_PRODUCTION':
@@ -219,10 +235,12 @@ export default function production(
         production_end: '',
         production_location: '',
         production_description: '',
+        temp_ideal: undefined,
         temp_max: undefined,
         temp_min: undefined,
-        umi_max: undefined,
-        umi_min: undefined,
+        humi_ideal: undefined,
+        humi_max: undefined,
+        humi_min: undefined,
         batch_codes: [],
       };
     default:

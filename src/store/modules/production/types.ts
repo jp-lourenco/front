@@ -10,8 +10,10 @@ export interface ProductionState {
   production_location: string;
   temp_min: number | undefined;
   temp_max: number | undefined;
-  umi_min: number | undefined;
-  umi_max: number | undefined;
+  temp_ideal: number | undefined;
+  humi_min: number | undefined;
+  humi_max: number | undefined;
+  humi_ideal: number | undefined;
   batch_codes: BatchCode[];
   loadingGetProductionsByUserRequest: boolean;
   myProductions: Production[];
@@ -42,8 +44,10 @@ export interface Production {
   production_location: string | undefined;
   temp_min: number | undefined;
   temp_max: number | undefined;
-  umi_min: number | undefined;
-  umi_max: number | undefined;
+  temp_ideal: number | undefined;
+  humi_min: number | undefined;
+  humi_max: number | undefined;
+  humi_ideal: number | undefined;
   created: string;
   updated: string;
   batchs: Batch[] | undefined;
@@ -67,9 +71,8 @@ export interface History {
   max_value_temp: string | undefined;
   min_value_temp: string | undefined;
   average_value_temp: string | undefined;
-  values_temp: any[] | undefined;
-  max_value_umi: string | undefined;
-  min_value_umi: string | undefined;
-  average_value_umi: string | undefined;
-  values_umi: any[] | undefined;
+  max_value_humi: string | undefined;
+  min_value_humi: string | undefined;
+  average_value_humi: string | undefined;
+  values_sensor: any[] | undefined;
 }

@@ -178,17 +178,31 @@ export function setTempMax({ temp_max }: { temp_max: number }) {
   };
 }
 
-export function setUmiMin({ umi_min }: { umi_min: number }) {
+export function setTempIdeal({ temp_ideal }: { temp_ideal: number }) {
   return {
-    type: '@production/SET_UMI_MIN',
-    payload: { umi_min },
+    type: '@production/SET_TEMP_IDEAL',
+    payload: { temp_ideal },
   };
 }
 
-export function setUmiMax({ umi_max }: { umi_max: number }) {
+export function setHumiMin({ humi_min }: { humi_min: number }) {
   return {
-    type: '@production/SET_UMI_MAX',
-    payload: { umi_max },
+    type: '@production/SET_HUMI_MIN',
+    payload: { humi_min },
+  };
+}
+
+export function setHumiMax({ humi_max }: { humi_max: number }) {
+  return {
+    type: '@production/SET_HUMI_MAX',
+    payload: { humi_max },
+  };
+}
+
+export function setHumiIdeal({ humi_ideal }: { humi_ideal: number }) {
+  return {
+    type: '@production/SET_HUMI_IDEAL',
+    payload: { humi_ideal },
   };
 }
 
