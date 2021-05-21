@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Badge, Modal } from 'antd';
 import {
@@ -11,8 +11,8 @@ import {
   setTempMax,
   setTempMin,
   setTitle,
-  setUmiMin,
-  setUmiMax,
+  setHumiMin,
+  setHumiMax,
 } from '../../../store/modules/production/actions';
 import { Production, Batch } from '../../../store/modules/production/types';
 import Table, { ColumnsType } from 'antd/es/table';
@@ -101,8 +101,8 @@ const ProductionsTable: React.FC = () => {
     dispatch(setProductionEnd({ production_end: item?.production_end }));
     dispatch(setTempMax({ temp_max: item?.temp_max }));
     dispatch(setTempMin({ temp_min: item?.temp_min }));
-    dispatch(setUmiMax({ umi_max: item?.umi_max }));
-    dispatch(setUmiMin({ umi_min: item?.umi_min }));
+    dispatch(setHumiMax({ humi_max: item?.humi_max }));
+    dispatch(setHumiMin({ humi_min: item?.humi_min }));
     setVisibleEditModal(true);
   };
 
@@ -162,11 +162,19 @@ const ProductionsTable: React.FC = () => {
       sorter: (a: ProductionProps, b: ProductionProps) =>
         a.title.localeCompare(b.title),
       render: (dataIndex: any, production: any) => {
-        return (
-          <span>
-            <a onClick={() => showModalEditFiles(production)}>{dataIndex}</a>
-          </span>
-        );
+        if (['ADMIN_PRODUCER', 'MANAGER_PRODUCER'].includes(userRole)) {
+          return (
+            <span>
+              <a onClick={() => showModalEditFiles(production)}>{dataIndex}</a>
+            </span>
+          );
+        } else {
+          return (
+            <span>
+              <p>{dataIndex}</p>
+            </span>
+          );
+        }
       },
     },
     {
@@ -353,17 +361,26 @@ const ProductionsTable: React.FC = () => {
             return item ? <p>{item}°C</p> : '';
           },
         },
+        {
+          title: 'Ideal',
+          dataIndex: 'temp_ideal',
+          key: 'temp_ideal',
+          width: 50,
+          render: (item) => {
+            return item ? <p>{item}°C</p> : '';
+          },
+        },
       ],
     },
     {
       title: 'Humidade',
       width: 100,
-      key: 'umi',
+      key: 'humi',
       children: [
         {
           title: 'Min',
-          dataIndex: 'umi_min',
-          key: 'umi_min',
+          dataIndex: 'humi_min',
+          key: 'humi_min',
           width: 50,
           render: (item) => {
             return item ? <p>{item}%</p> : '';
@@ -371,8 +388,17 @@ const ProductionsTable: React.FC = () => {
         },
         {
           title: 'Max',
-          dataIndex: 'umi_max',
-          key: 'umi_max',
+          dataIndex: 'humi_max',
+          key: 'humi_max',
+          width: 50,
+          render: (item) => {
+            return item ? <p>{item}%</p> : '';
+          },
+        },
+        {
+          title: 'Ideal',
+          dataIndex: 'humi_ideal',
+          key: 'humi_ideal',
           width: 50,
           render: (item) => {
             return item ? <p>{item}%</p> : '';
