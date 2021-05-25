@@ -14,6 +14,7 @@ const Drawer: React.FC = () => {
       label: 'Dashboard',
       path: '/admin/dashboard',
       roles: '*',
+      notAllowed: [''],
     },
     {
       key: '2',
@@ -31,12 +32,14 @@ const Drawer: React.FC = () => {
         'MANAGER_STORER',
         'MANAGER_SHOPKEEPER',
       ],
+      notAllowed: [''],
     },
     {
       key: '3',
       label: 'Entregar/Receber lote',
       path: '/admin/ler-qrcode',
       roles: '*',
+      notAllowed: ['ADMIN_BIOTRACE'],
     },
     {
       key: '4',
@@ -49,6 +52,7 @@ const Drawer: React.FC = () => {
         'ADMIN_STORER',
         'ADMIN_SHOPKEEPER',
       ],
+      notAllowed: [''],
     },
     {
       key: '5',
@@ -60,12 +64,21 @@ const Drawer: React.FC = () => {
         'ADMIN_STORER',
         'MANAGER_STORER',
       ],
+      notAllowed: [''],
     },
     {
       key: '6',
-      label: 'Pesquisar QR Code',
-      path: '/admin/pesquisar-qrcode',
-      roles: ['EMPLOYEE_PRODUCER'],
+      label: 'Empresas',
+      path: '/admin/empresas',
+      roles: ['ADMIN_BIOTRACE'],
+      notAllowed: [''],
+    },
+    {
+      key: '7',
+      label: 'Alimentos',
+      path: '/admin/alimentos',
+      roles: ['ADMIN_BIOTRACE'],
+      notAllowed: [''],
     },
   ];
 
@@ -86,7 +99,10 @@ const Drawer: React.FC = () => {
       selectedKeys={selectedKey ? [selectedKey] : ['']}
     >
       {items.map((item) => {
-        if (item.roles === '*' || item.roles?.includes(userRole)) {
+        if (
+          (item.roles === '*' || item.roles?.includes(userRole)) &&
+          !item.notAllowed?.includes(userRole)
+        ) {
           return (
             <MenuItemStyled key={item.key}>
               <Link to={item.path}>{item.label}</Link>
