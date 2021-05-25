@@ -50,7 +50,7 @@ const PublicRoute = ({
   }
 
   if (isAuthenticated) {
-    return <Redirect to="/admin/producoes" />;
+    return <Redirect to="/admin/dashboard" />;
   } else {
     return (
       <Route exact={exact} path={path}>
