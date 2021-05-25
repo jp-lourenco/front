@@ -15,11 +15,13 @@ const PrivateRoute = ({
   path,
   component: Component,
   roles,
+  notAllowed,
 }: {
   exact: boolean;
   component: React.FC;
   path: string;
   roles: string[] | string;
+  notAllowed: string[];
 }) => {
   const { isSignedIn } = useSelector((state: any) => state.auth);
 
@@ -40,7 +42,10 @@ const PrivateRoute = ({
             setIsAuthenticated(false);
           } else {
             setIsAuthenticated(true);
-            if (roles === '*' || roles?.includes(userRole)) {
+            if (
+              (roles === '*' || roles?.includes(userRole)) &&
+              !notAllowed?.includes(userRole)
+            ) {
               setCanPermission(true);
             } else {
               setCanPermission(false);
