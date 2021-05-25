@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import moment from 'moment';
-import { FileOutlined } from '@ant-design/icons';
+import { CaretRightOutlined, FileOutlined } from '@ant-design/icons';
 import { BatchContext } from '../Batch';
 import {
   ContainerText,
@@ -9,9 +9,11 @@ import {
   HeaderPanel,
   ImagePanel,
   CollapseStyled,
+  ExpandIconStyled,
   PanelStyled,
   ContentPanel,
   TitlePanel,
+  SubtitlePanel,
   Item,
   ItemTitle,
 } from '../styles/Batch';
@@ -23,8 +25,11 @@ const Traceability: React.FC = () => {
   return (
     <CollapseStyled
       bordered={false}
-      ghost={true}
-      expandIcon={({ isActive }) => <></>}
+      ghost={false}
+      expandIcon={({ isActive }) => (
+        <ExpandIconStyled className="expand-icon" rotate={isActive ? 90 : 0} />
+      )}
+      expandIconPosition="right"
     >
       <PanelStyled
         header={
@@ -32,15 +37,13 @@ const Traceability: React.FC = () => {
             <ImagePanel src="/producer2.jpg" />
             <ContentPanel>
               <TitlePanel>Produtor</TitlePanel>
+
+              <SubtitlePanel>{batch?.producer}</SubtitlePanel>
             </ContentPanel>
           </HeaderPanel>
         }
         key="1"
       >
-        <ContainerText>
-          <Label>Produtor:</Label>
-          <Text>{batch?.producer}</Text>
-        </ContainerText>
         {batch?.batch_code && (
           <ContainerText>
             <Label>Código do lote:</Label>
@@ -121,6 +124,7 @@ const Traceability: React.FC = () => {
                 />
                 <ContentPanel>
                   <TitlePanel>{history[0].transition.split(' ')[0]}</TitlePanel>
+                  <SubtitlePanel>{history[0].company_name}</SubtitlePanel>
                 </ContentPanel>
               </HeaderPanel>
             }
@@ -130,10 +134,6 @@ const Traceability: React.FC = () => {
               if (item.transition == 'Transformador recebeu') {
                 return (
                   <>
-                    <ContainerText>
-                      <Label>{item.transition.split(' ')[0]}:</Label>
-                      <Text>{item.company_name}</Text>
-                    </ContainerText>
                     <ContainerText>
                       <Label>{item.transition}:</Label>
                       <Text>{moment(item?.date).format('llll')}</Text>
@@ -213,10 +213,6 @@ const Traceability: React.FC = () => {
                 return (
                   <>
                     <ContainerText>
-                      <Label>{item.transition.split(' ')[0]}:</Label>
-                      <Text>{item.company_name}</Text>
-                    </ContainerText>
-                    <ContainerText>
                       <Label>{item.transition}:</Label>
                       <Text>{moment(item?.date).format('llll')}</Text>
                     </ContainerText>
@@ -234,22 +230,14 @@ const Traceability: React.FC = () => {
             <ImagePanel src="/shopkeeper.jpg" />
             <ContentPanel>
               <TitlePanel>Lojista</TitlePanel>
+              <SubtitlePanel>
+                {batch.history[batch?.history?.length - 1]?.company_name}
+              </SubtitlePanel>
             </ContentPanel>
           </HeaderPanel>
         }
         key="3"
       >
-        <ContainerText>
-          <Label>
-            {
-              batch.history[batch?.history?.length - 1]?.transition.split(
-                ' ',
-              )[0]
-            }
-            :
-          </Label>
-          <Text>{batch.history[batch?.history?.length - 1]?.company_name}</Text>
-        </ContainerText>
         <ContainerText>
           <Label>
             {batch.history[batch?.history?.length - 1]?.transition}:

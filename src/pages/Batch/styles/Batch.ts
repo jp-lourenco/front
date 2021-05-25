@@ -1,5 +1,6 @@
 import styled from 'styled-components/macro';
 import { Avatar, Collapse, Tabs, Image } from 'antd';
+import { CaretRightOutlined } from '@ant-design/icons';
 
 const { TabPane } = Tabs;
 
@@ -81,10 +82,10 @@ export const AvatarStyled = styled(Avatar)`
 `;
 
 export const TitlePanel = styled.h1`
-  font-weight: normal;
+  font-weight: bold;
   font-size: 28px;
   line-height: 33px;
-  color: #444;
+  color: #222;
   margin-left: 20px;
 
   @media screen and (max-width: 570px) {
@@ -103,15 +104,38 @@ export const TitlePanel = styled.h1`
   }
 `;
 
+export const SubtitlePanel = styled.h1`
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 33px;
+  color: #222;
+  margin-left: 20px;
+
+  @media screen and (max-width: 570px) {
+    font-size: 19px;
+    line-height: 25px;
+  }
+
+  @media screen and (max-width: 470px) {
+    font-size: 16px;
+    line-height: 21px;
+  }
+
+  @media screen and (max-width: 380px) {
+    font-size: 13px;
+    line-height: 16px;
+  }
+`;
+
 export const ContentPanel = styled.div`
   width: calc(90vw - 300px);
   height: 100%;
-  background: #fff;
   position: relative;
   left: -20px;
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 
   border-top-right-radius: 15px;
   border-bottom-right-radius: 15px;
@@ -232,6 +256,31 @@ export const CollapseStyled = styled(Collapse)`
   .site-collapse-custom-collapse .site-collapse-custom-panel,
   .site-collapse-custom-collapse .site-collapse-custom-panel {
     padding-left: 0;
+  }
+`;
+
+export const ExpandIconStyled = styled(CaretRightOutlined)`
+  font-size: 20px !important;
+  bottom: 20px;
+
+  @media screen and (min-width: 1420px) {
+    font-size: 24px !important;
+  }
+
+  @media screen and (max-width: 1420px) {
+    font-size: 22px !important;
+  }
+
+  @media screen and (max-width: 770px) {
+    font-size: 20px !important;
+  }
+
+  @media screen and (max-width: 550px) {
+    font-size: 18px !important;
+  }
+
+  @media screen and (max-width: 420px) {
+    font-size: 16px !important;
   }
 `;
 
@@ -425,6 +474,7 @@ export const ButtonPrev = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  max-height: 380px;
 
   &:hover {
     background-color: rgba(0, 0, 0, 0.8);
@@ -452,6 +502,7 @@ export const ButtonNext = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  max-height: 380px;
 
   &:hover {
     background-color: rgba(0, 0, 0, 0.8);
