@@ -6,6 +6,8 @@ import production from './production/reducer';
 import employee from './employee/reducer';
 import sensor from './sensor/reducer';
 import profile from './profile/reducer';
+import company from './company/reducer';
+import food from './food/reducer';
 
 export default combineReducers({
   auth,
@@ -14,4 +16,6 @@ export default combineReducers({
   employee,
   profile,
   sensor,
+  company,
+  food,
 });
