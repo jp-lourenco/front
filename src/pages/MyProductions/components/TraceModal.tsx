@@ -18,9 +18,8 @@ const TraceModal: React.FC = () => {
 
   const [historySelected, setHistorySelected] = useState<History>();
 
-  const { batchSelected, visibleTraceModal, setVisibleTraceModal } = useContext(
-    MyProductionsContext,
-  );
+  const { batchSelected, visibleTraceModal, setVisibleTraceModal } =
+    useContext(MyProductionsContext);
 
   const columns: ColumnsType<any> = [
     {
@@ -28,7 +27,6 @@ const TraceModal: React.FC = () => {
       width: 100,
       dataIndex: 'payload',
       key: 'payload',
-      fixed: 'left',
       align: 'center',
       sorter: (a: any, b: any) => {
         return a.payload.temperature - b.payload.temperature;
@@ -46,7 +44,6 @@ const TraceModal: React.FC = () => {
       width: 100,
       dataIndex: 'payload',
       key: 'payload',
-      fixed: 'left',
       align: 'center',
       sorter: (a: any, b: any) => {
         return a.payload.humidity - b.payload.humidity;
@@ -64,7 +61,6 @@ const TraceModal: React.FC = () => {
       width: 100,
       dataIndex: 'date',
       key: 'date',
-      fixed: 'left',
       align: 'center',
       render: (dataIndex: any) => {
         return (

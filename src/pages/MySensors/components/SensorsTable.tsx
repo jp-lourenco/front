@@ -72,7 +72,6 @@ const SensorsTable: React.FC = () => {
       width: 100,
       dataIndex: 'synced',
       key: 'synced',
-      fixed: 'left',
       align: 'center',
       render: (dataIndex: any) => {
         return (

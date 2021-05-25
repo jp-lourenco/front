@@ -23,7 +23,7 @@ const TableHeader: React.FC = () => {
   const [filterSelect, setFilterSelect] = useState('identificador');
   const [labelSearch, setlabelSearch] = useState('identificador');
 
-  const { mySensors } = useSelector((state: any) => state.employee);
+  const { mySensors } = useSelector((state: any) => state.sensor);
 
   const dispatch = useDispatch();
 
