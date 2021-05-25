@@ -15,18 +15,23 @@ import { Dropdown, Menu } from 'antd';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { logoutRequest } from '../../store/modules/auth/actions';
+import { useUserRole } from '../../hooks/useUserRole';
 
 const Header: React.FC = () => {
   const { toggleShow, setToggleShow } = useContext(ToggleContext);
   const [visible, setVisible] = useState(false);
 
+  const userRole = useUserRole();
+
   const dispatch = useDispatch();
 
   const menu = (
     <Menu>
-      <Menu.Item>
-        <Link to="/admin/perfil">Meu Perfil</Link>
-      </Menu.Item>
+      {userRole !== 'ADMIN_BIOTRACE' && (
+        <Menu.Item>
+          <Link to="/admin/perfil">Meu Perfil</Link>
+        </Menu.Item>
+      )}
       <Menu.Item>
         <a onClick={() => dispatch(logoutRequest())}>Sair</a>
       </Menu.Item>
