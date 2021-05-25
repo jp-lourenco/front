@@ -5,11 +5,12 @@ import { store } from './store';
 import {
   Home,
   SignIn,
-  SearchQrcode,
+  Companies,
   ReadQrcode,
   MyProductions,
   ReadQrcodeClient,
   Profile,
+  Foods,
   MyEmployees,
   MySensors,
 } from './pages';
@@ -45,6 +46,7 @@ const App: React.FC = () => {
             path="/admin/dashboard"
             component={() => <h1>DASHBOARD</h1>}
             roles={'*'}
+            notAllowed={[]}
           />
           <PrivateRoute
             exact
@@ -62,30 +64,49 @@ const App: React.FC = () => {
               'MANAGER_STORER',
               'MANAGER_SHOPKEEPER',
             ]}
+            notAllowed={[]}
           />
           <PrivateRoute
             exact
             path="/admin/sensores"
             component={MySensors}
-            roles={'*'}
+            roles={['ADMIN_TRANSPORTER', 'ADMIN_STORER']}
+            notAllowed={[]}
           />
           <PrivateRoute
             exact
             path="/admin/ler-qrcode"
             component={ReadQrcode}
             roles={'*'}
+            notAllowed={['ADMIN_BIOTRACE']}
           />
           <PrivateRoute
             exact
             path="/admin/perfil"
             component={Profile}
             roles={'*'}
+            notAllowed={['ADMIN_BIOTRACE']}
           />
           <PrivateRoute
             exact
             path="/admin/funcionarios"
             component={MyEmployees}
             roles={ADMINS}
+            notAllowed={[]}
+          />
+          <PrivateRoute
+            exact
+            path="/admin/alimentos"
+            component={Foods}
+            roles={['ADMIN_BIOTRACE']}
+            notAllowed={[]}
+          />
+          <PrivateRoute
+            exact
+            path="/admin/empresas"
+            component={Companies}
+            roles={['ADMIN_BIOTRACE']}
+            notAllowed={[]}
           />
         </Switch>
       </Router>
