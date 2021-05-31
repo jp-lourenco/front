@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useState } from 'react';
 import { notification } from 'antd';
 import { useHistory } from 'react-router-dom';
 import {
@@ -11,12 +11,18 @@ import {
 import { Link } from 'react-router-dom';
 
 const ReadQrcodeClient: React.FC = () => {
+  const [loading, setLoading] = useState(true);
+
   const history = useHistory();
 
   const handleScan = (data: string | null) => {
     if (data != null) {
       return history.push('rastreabilidade/' + data?.toString().split('/')[4]);
     }
+  };
+
+  const handleLoad = () => {
+    setLoading(false);
   };
 
   const handleError = (err: any) => {
@@ -38,9 +44,14 @@ const ReadQrcodeClient: React.FC = () => {
           delay={10}
           onError={handleError}
           onScan={handleScan}
+          onLoad={handleLoad}
           facingMode="environment"
         />
-        <ButtonCancelarStyled type="primary" onClick={() => {}}>
+        <ButtonCancelarStyled
+          type="primary"
+          onClick={() => {}}
+          disabled={loading}
+        >
           <Link to="/">CANCELAR</Link>
         </ButtonCancelarStyled>
       </Container>

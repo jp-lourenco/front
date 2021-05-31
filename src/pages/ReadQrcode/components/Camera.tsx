@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { notification } from 'antd';
 import { useDispatch } from 'react-redux';
 import {
@@ -10,9 +10,10 @@ import { readQrcodeRequest } from '../../../store/modules/batch/actions';
 import { ReadQrcodeContext } from '../ReadQrcode';
 
 const Camera: React.FC = () => {
-  const { setResult, isCameraEnabled, setCameraEnabled } = useContext(
-    ReadQrcodeContext,
-  );
+  const { setResult, isCameraEnabled, setCameraEnabled } =
+    useContext(ReadQrcodeContext);
+
+  const [loading, setLoading] = useState(true);
 
   const dispatch = useDispatch();
 
@@ -24,6 +25,10 @@ const Camera: React.FC = () => {
         dispatch(readQrcodeRequest({ qrcode: data.split('/')[4] }));
       }
     }
+  };
+
+  const handleLoad = () => {
+    setLoading(false);
   };
 
   const handleError = (err: any) => {
@@ -42,6 +47,7 @@ const Camera: React.FC = () => {
           <QrReaderStyled
             delay={10}
             onError={handleError}
+            onLoad={handleLoad}
             onScan={handleScan}
             facingMode="environment"
           />
@@ -56,6 +62,7 @@ const Camera: React.FC = () => {
         <ButtonStyled
           key="button"
           type="primary"
+          disabled={loading}
           onClick={() => setCameraEnabled(true)}
         >
           Entregar/Receber lote
