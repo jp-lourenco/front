@@ -5,6 +5,7 @@ import {
   FormStyled,
   ItemStyled,
   InputStyled,
+  InputPasswordStyled,
 } from '../../../styles/App';
 import { Container, ForgotPasswordStyled, Image } from '../styles/SignIn';
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,9 +16,8 @@ import {
 } from '../../../store/modules/auth/actions';
 
 const SignInForm: React.FC = () => {
-  const { setVisibleSignUpModal, setVisibleForgotPasswordModal } = useContext(
-    SignInContext,
-  );
+  const { setVisibleSignUpModal, setVisibleForgotPasswordModal } =
+    useContext(SignInContext);
 
   const { email, password, loadingSignInRequest } = useSelector(
     (state: any) => state.auth,
@@ -70,7 +70,7 @@ const SignInForm: React.FC = () => {
             { required: true, message: 'Por favor coloque sua palavra-passe!' },
           ]}
         >
-          <InputStyled.Password
+          <InputPasswordStyled
             value={password}
             onChange={(e) => handlePasswordChange(e.target.value)}
             placeholder="Digite a palavra-passe"

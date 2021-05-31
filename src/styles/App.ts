@@ -4,6 +4,8 @@ import { Form, Input, Button, Select } from 'antd';
 
 const { Item } = Form;
 
+const { Password } = Input;
+
 export const FormStyled = styled(Form)``;
 
 export const ItemStyled = styled(Item)`
@@ -14,16 +16,36 @@ export const InputStyled = styled(Input)`
   width: 300px;
 
   @media (max-width: 374px) {
-    width: 250px;
+    width: 100%;
+  }
+`;
+
+export const InputPasswordStyled = styled(Password)`
+  width: 300px;
+
+  @media (max-width: 374px) {
+    width: 100%;
   }
 `;
 
 export const SelectStyled = styled(Select)`
   width: 300px;
+
+  @media (max-width: 374px) {
+    width: 100%;
+  }
 `;
 
 export const ButtonStyled = styled(Button)`
   width: 300px;
+
+  @media (max-width: 374px) {
+    width: 250px;
+  }
+
+  @media (max-width: 320px) {
+    width: 100%;
+  }
 `;
 
 export const Text = styled.p`
@@ -95,7 +117,7 @@ export const ButtonAdd = styled(Button)`
   margin-left: 5px;
   margin-left: auto;
 
-  @media (max-width: 374px) {
+  @media (max-width: 520px) {
     display: none;
   }
 `;
@@ -105,7 +127,7 @@ export const ButtonIconAdd = styled(Button)`
   margin-left: 5px;
   display: none;
 
-  @media (max-width: 374px) {
+  @media (max-width: 520px) {
     display: block;
   }
 `;
