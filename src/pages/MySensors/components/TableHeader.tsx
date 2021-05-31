@@ -88,7 +88,7 @@ const TableHeader: React.FC = () => {
       <ButtonIconAdd
         icon={<PlusOutlined />}
         size="small"
-        shape="round"
+        shape="circle"
         type="primary"
         onClick={() => setVisibleCreateModal(true)}
       />
