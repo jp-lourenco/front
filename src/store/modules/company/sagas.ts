@@ -40,6 +40,7 @@ export function* approveCompanyRequest({
     const { data } = yield call(
       api.post,
       'companies/' + payload.company_id + '/approve',
+      {},
       {
         headers: headerParams,
       },

@@ -16,7 +16,7 @@ export const Background = styled.section`
 export const Container = styled.div`
   display: flex;
   height: 100vh;
-  width: 100vw;
+  width: 100%;
   flex-direction: column;
   align-items: center;
 
@@ -198,7 +198,6 @@ export const Next = styled.img`
 export const AdvantageSection = styled.section`
   display: flex;
   flex-direction: column;
-  width: 100%;
   align-items: center;
   margin: 0 0 90px 0;
   background: #446800;
