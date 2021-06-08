@@ -31,6 +31,16 @@ const CreateFoodForm: React.FC = () => {
     dispatch(setCategory({ category }));
   };
 
+  const handleReinoChange = (reino: string) => {};
+
+  const handleOrdemChange = (ordem: string) => {};
+
+  const handleFamiliaChange = (familia: string) => {};
+
+  const handleSubfamiliaChange = (subfamilia: string) => {};
+
+  const handleGeneroChange = (genero: string) => {};
+
   const handleFinish = () => {
     dispatch(createFoodRequest());
     setResult(true);
@@ -75,7 +85,41 @@ const CreateFoodForm: React.FC = () => {
           placeholder="Digite a categoria do alimento"
         />
       </ItemStyled>
-
+      <ItemStyled label="Reino" name="reino">
+        <InputStyled
+          value={name}
+          onChange={(e) => handleReinoChange(e.target.value)}
+          placeholder="Digite o Reino do alimento"
+        />
+      </ItemStyled>
+      <ItemStyled label="Ordem" name="ordem">
+        <InputStyled
+          value={name}
+          onChange={(e) => handleOrdemChange(e.target.value)}
+          placeholder="Digite a Ordem do alimento"
+        />
+      </ItemStyled>
+      <ItemStyled label="Família" name="familia">
+        <InputStyled
+          value={name}
+          onChange={(e) => handleFamiliaChange(e.target.value)}
+          placeholder="Digite a Família do alimento"
+        />
+      </ItemStyled>
+      <ItemStyled label="Subfamília" name="subfamilia">
+        <InputStyled
+          value={name}
+          onChange={(e) => handleSubfamiliaChange(e.target.value)}
+          placeholder="Digite a Subfamília do alimento"
+        />
+      </ItemStyled>
+      <ItemStyled label="Género" name="genero">
+        <InputStyled
+          value={name}
+          onChange={(e) => handleGeneroChange(e.target.value)}
+          placeholder="Digite o Género do alimento"
+        />
+      </ItemStyled>
       <ItemStyled>
         <ButtonStyled type="primary" htmlType="submit">
           Registar
