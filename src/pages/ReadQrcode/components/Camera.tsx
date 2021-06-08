@@ -53,6 +53,7 @@ const Camera: React.FC = () => {
           />
           <ButtonCancelarStyled
             type="primary"
+            disabled={loading}
             onClick={() => setCameraEnabled(false)}
           >
             Cancelar
@@ -62,7 +63,6 @@ const Camera: React.FC = () => {
         <ButtonStyled
           key="button"
           type="primary"
-          disabled={loading}
           onClick={() => setCameraEnabled(true)}
         >
           Entregar/Receber lote
