@@ -2,10 +2,32 @@ version: '3.7'
 
 services:
 
-  frontend-prod:
-    container_name: frontend-prod
+  biotrace-frontend-prod:
+    container_name: biotrace-frontend-prod
     build:
       context: .
       dockerfile: Dockerfile.prod
     ports:
-      - '1337:80'
+      - '80:80'
+      - '443:443'
+    volumes: 
+      - /etc/data/cert/bioma.estig.ipb.pt/:/etc/nginx/certs
+  
+  backend:
+    restart: always
+    container_name: backend
+    build: 
+      context: ../Backend
+      dockerfile: Dockerfile
+    expose:
+      - 5000
+    volumes:
+      - ../Backend:/usr/src/app
+
+  db:
+    image: mongo:latest
+    hostname: biotrace
+    ports:
+      - 27017
+    command: [--auth]  
+    restart: always

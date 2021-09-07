@@ -2,14 +2,14 @@ version: '3.7'
 
 services:
 
-  sample:
-    container_name: sample
+  biotrace-frontend-dev:
+    container_name: biotrace-frontend-dev
     build:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - '.:/app'
-      - '/app/node_modules'
+      - '.:/frontend'
+      - '/frontend/node_modules'
     ports:
       - 3001:3000
     environment:
