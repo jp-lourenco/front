@@ -1,6 +1,7 @@
 export { default as Home } from './Home';
 export { default as SignIn } from './SignIn';
 export { default as MyProductions } from './MyProductions';
+export { default as MySubBatchs } from './MySubBatchs';
 export { default as MySensors } from './MySensors';
 export { default as Companies } from './Companies';
 export { default as Foods } from './Foods';

@@ -11,6 +11,9 @@ const initialState: ProductionState = {
   production_end: '',
   production_location: '',
   production_description: '',
+  gtin: '',
+  sscc: '',
+  expiration_date: '',
   temp_min: undefined,
   temp_max: undefined,
   temp_ideal: undefined,
@@ -143,6 +146,21 @@ export default function production(
         ...state,
         production_location: action.payload.production_location,
       };
+    case '@production/SET_GTIN':
+      return {
+        ...state,
+        gtin: action.payload.gtin,
+      };
+    case '@production/SET_SSCC':
+      return {
+        ...state,
+        sscc: action.payload.sscc,
+      };
+    case '@production/SET_EXPIRATION_DATE':
+      return {
+        ...state,
+        expiration_date: action.payload.expiration_date,
+      };
     case '@production/SET_PRODUCTION_DESCRIPTION':
       return {
         ...state,
@@ -235,6 +253,9 @@ export default function production(
         production_end: '',
         production_location: '',
         production_description: '',
+        sscc: '',
+        gtin: '',
+        expiration_date: '',
         temp_ideal: undefined,
         temp_max: undefined,
         temp_min: undefined,

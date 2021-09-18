@@ -19,6 +19,9 @@ import {
   setBatchCodes,
   editProductionRequest,
   resetFormProduction,
+  setGtin,
+  setSscc,
+  setExpirationDate,
 } from '../../../../store/modules/production/actions';
 import { BatchCode } from '../../../../store/modules/production/types';
 import {
@@ -49,6 +52,9 @@ const EditForm: React.FC = () => {
     temp_min,
     humi_max,
     humi_min,
+    gtin,
+    sscc,
+    expiration_date,
   } = useSelector((state: any) => state.production);
 
   const [form] = Form.useForm();
@@ -64,12 +70,14 @@ const EditForm: React.FC = () => {
       temp_min: temp_min,
       humi_max: humi_max,
       humi_min: humi_min,
+      gtin: gtin,
+      sscc: sscc,
+      expiration_date: expiration_date && moment(expiration_date),
     });
   }, [title]);
 
-  const { productionSelected, setVisibleEditModal } = useContext(
-    MyProductionsContext,
-  );
+  const { productionSelected, setVisibleEditModal } =
+    useContext(MyProductionsContext);
 
   const { setResult } = useContext(EditProductionContext);
 
@@ -118,6 +126,25 @@ const EditForm: React.FC = () => {
           placeholder="Digite o título"
         />
       </ItemStyled>
+
+      <ItemStyled name="gtin" label="GTIN">
+        <InputStyled
+          defaultValue={gtin}
+          value={gtin}
+          onChange={(item) => dispatch(setGtin({ gtin: item.target.value }))}
+          placeholder="Digite o GTIN do produto"
+        />
+      </ItemStyled>
+
+      <ItemStyled name="sscc" label="SSCC">
+        <InputStyled
+          defaultValue={sscc}
+          value={sscc}
+          onChange={(item) => dispatch(setSscc({ sscc: item.target.value }))}
+          placeholder="Digite o SSCC do produto"
+        />
+      </ItemStyled>
+
       <ItemStyled name="production_start" label="Início da produção">
         <DatePickerStyled
           locale={locale}
@@ -166,6 +193,19 @@ const EditForm: React.FC = () => {
           }
         />
       </ItemStyled>
+
+      <ItemStyled name="expiration_date" label="Data de validade">
+        <DatePickerStyled
+          locale={locale}
+          format={'DD-MM-YYYY'}
+          onChange={(dateString) =>
+            dispatch(
+              setExpirationDate({ expiration_date: dateString?.toString() }),
+            )
+          }
+        />
+      </ItemStyled>
+
       <ItemStyled name="temp" label="Temperatura" style={{ marginBottom: 0 }}>
         <ItemStyled
           name="temp_min"

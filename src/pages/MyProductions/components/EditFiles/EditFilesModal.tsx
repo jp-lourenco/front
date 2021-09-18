@@ -1,7 +1,5 @@
 import React, { createContext, useContext } from 'react';
-import { Modal } from 'antd';
 import { MyProductionsContext } from '../../MyProductions';
-import EditFiles from './EditImages';
 import {
   ModalFilesStyled,
   TabPaneStyled,
@@ -16,9 +14,8 @@ export const EditFilesProductionContext = createContext({
 });
 
 const EditFilesModal: React.FC = () => {
-  const { visibleEditFilesModal, setVisibleEditFilesModal } = useContext(
-    MyProductionsContext,
-  );
+  const { visibleEditFilesModal, setVisibleEditFilesModal } =
+    useContext(MyProductionsContext);
 
   return (
     <ModalFilesStyled

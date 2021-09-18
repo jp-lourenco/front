@@ -67,7 +67,7 @@ const EditImages: React.FC = () => {
   return (
     <>
       <UploadStyled
-        action={`http://192.168.1.80:5000/api/v1/productions/${productionSelected['key']}/video`}
+        action={`http://localhost:5000/api/v1/productions/${productionSelected['key']}/video`}
         headers={{ Authorization: 'Bearer ' + token }}
         listType="picture"
         fileList={

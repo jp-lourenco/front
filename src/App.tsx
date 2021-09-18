@@ -8,6 +8,7 @@ import {
   Companies,
   ReadQrcode,
   MyProductions,
+  MySubBatchs,
   ReadQrcodeClient,
   Profile,
   Foods,
@@ -64,6 +65,13 @@ const App: React.FC = () => {
               'MANAGER_STORER',
               'MANAGER_SHOPKEEPER',
             ]}
+            notAllowed={[]}
+          />
+          <PrivateRoute
+            exact
+            path="/admin/sublotes"
+            component={MySubBatchs}
+            roles={['ADMIN_TRANSFORMER', 'MANAGER_TRANSFORMER']}
             notAllowed={[]}
           />
           <PrivateRoute

@@ -46,10 +46,18 @@ import Information from './components/Information';
 
 export const BatchContext = createContext({
   batch: {
+    type: '',
+    transformer: '',
+    product_name: '',
+    subbatch_code: '',
+    transformation_start: '',
+    transformation_end: '',
+    amount_transformed: '',
     food_name: '',
     producer: '',
     batch_code: '',
     src_videos: [],
+    batchs_father: [],
     production_location: '',
     production_start: '',
     production_description: '',
@@ -105,7 +113,7 @@ const Batch: React.FC = () => {
     showSlides(slideIndex + n);
   };
 
-  const [batchId, _] = useState(
+  const [batchId, setBatchId] = useState(
     location.pathname.split('/rastreabilidade/')[1],
   );
   const [batch, setBatch] = useState<any>();
@@ -118,7 +126,13 @@ const Batch: React.FC = () => {
         setBatch(response.data);
         setErrorRequest(false);
         setLoadingRequest(false);
-        setHistories(arrayToMatrix(response.data.history));
+        setHistories(
+          arrayToMatrix(
+            response.data.history.filter(
+              (item: any) => !item.transition.includes('tentou'),
+            ),
+          ),
+        );
       })
       .catch((error) => {
         setBatch({});
@@ -126,6 +140,10 @@ const Batch: React.FC = () => {
         setLoadingRequest(false);
       });
   }, [batchId]);
+
+  useEffect(() => {
+    setBatchId(location.pathname.split('/rastreabilidade/')[1]);
+  }, [location]);
 
   return (
     <BatchContext.Provider

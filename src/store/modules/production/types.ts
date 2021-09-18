@@ -8,6 +8,9 @@ export interface ProductionState {
   production_description: string;
   production_end: string;
   production_location: string;
+  gtin: string | undefined;
+  sscc: string | undefined;
+  expiration_date: string | undefined;
   temp_min: number | undefined;
   temp_max: number | undefined;
   temp_ideal: number | undefined;
@@ -38,6 +41,9 @@ export interface Production {
   producer_id: string;
   category: string;
   food_name: string;
+  gtin: string | undefined;
+  sscc: string | undefined;
+  expiration_date: string | undefined;
   production_start: string | undefined;
   production_description: string | undefined;
   production_end: string | undefined;

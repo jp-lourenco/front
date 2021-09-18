@@ -12,18 +12,29 @@ import {
 } from './styles/Header';
 import { UserOutlined } from '@ant-design/icons';
 import { Dropdown, Menu } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { logoutRequest } from '../../store/modules/auth/actions';
 import { useUserRole } from '../../hooks/useUserRole';
+import { timeout } from 'workbox-core/_private';
 
 const Header: React.FC = () => {
   const { toggleShow, setToggleShow } = useContext(ToggleContext);
   const [visible, setVisible] = useState(false);
 
   const userRole = useUserRole();
-
+  const location = useLocation();
   const dispatch = useDispatch();
+  const history = useHistory();
+
+  const logout = async () => {
+    dispatch(logoutRequest());
+    setTimeout(() => {
+      if (!location.pathname.endsWith('/admin')) {
+        history.push('/admin');
+      }
+    }, 1000);
+  };
 
   const menu = (
     <Menu>
@@ -33,7 +44,7 @@ const Header: React.FC = () => {
         </Menu.Item>
       )}
       <Menu.Item>
-        <a onClick={() => dispatch(logoutRequest())}>Sair</a>
+        <a onClick={() => logout()}>Sair</a>
       </Menu.Item>
     </Menu>
   );

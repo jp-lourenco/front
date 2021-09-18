@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dropdown, Menu } from 'antd';
 import {
@@ -11,28 +11,27 @@ import {
   ButtonIconAdd,
 } from '../../../styles/App';
 import { DownOutlined, PlusOutlined, SyncOutlined } from '@ant-design/icons';
-import {
-  getProductionsByUserRequest,
-  setMyProductionsFiltered,
-} from '../../../store/modules/production/actions';
-import { MyProductionsContext } from '../MyProductions';
+import { MySubBatchsContext } from '../MySubBatchs';
 import { useUserRole } from '../../../hooks/useUserRole';
-import { useLocation } from 'react-router';
+import {
+  getSubBatchsByUserRequest,
+  setMySubBatchsFiltered,
+} from '../../../store/modules/subbatch/actions';
 
 const TableHeader: React.FC = () => {
-  const { setVisibleCreateModal } = useContext(MyProductionsContext);
+  const { setVisibleCreateModal } = useContext(MySubBatchsContext);
 
-  const [filterSelect, setFilterSelect] = useState('title');
-  const [labelSearch, setlabelSearch] = useState('título');
+  const [filterSelect, setFilterSelect] = useState('product_name');
+  const [labelSearch, setlabelSearch] = useState('nome');
 
-  const { myProductions } = useSelector((state: any) => state.production);
+  const { mySubBatchs } = useSelector((state: any) => state.subbatch);
 
   const userRole = useUserRole();
 
   const dispatch = useDispatch();
 
   const handleSearch = (searchText: string) => {
-    const filteredProductions = myProductions.filter(
+    const filteredSubBatchs = mySubBatchs.filter(
       (item: { [x: string]: string }) => {
         const value = item[filterSelect]?.toLowerCase();
         return value?.includes(searchText.toLowerCase());
@@ -40,33 +39,14 @@ const TableHeader: React.FC = () => {
     );
 
     dispatch(
-      setMyProductionsFiltered({ myProductionsFiltered: filteredProductions }),
+      setMySubBatchsFiltered({ mySubBatchsFiltered: filteredSubBatchs }),
     );
   };
 
-  const location = useLocation();
-
-  useEffect(() => {
-    if (location.search) {
-      const search = location.search.split('=')[1];
-      handleSearch(decodeURIComponent(search));
-    }
-  }, [myProductions]);
-
   const handleFilter = ({ key }: any) => {
     const selected = parseInt(key);
-    const statusMap = [
-      'title',
-      'category',
-      'food_name',
-      'production_description',
-    ];
-    const statusMaplabelSearch = [
-      'título',
-      'categoria',
-      'alimento',
-      'descrição',
-    ];
+    const statusMap = ['product_name', 'transformation_description'];
+    const statusMaplabelSearch = ['nome', 'descrição'];
     const value = statusMap[selected];
     const valuelabelSearch = statusMaplabelSearch[selected];
     setFilterSelect(value);
@@ -76,9 +56,7 @@ const TableHeader: React.FC = () => {
   const menu = () => {
     return (
       <Menu onClick={handleFilter}>
-        <Menu.Item key="0">Título</Menu.Item>
-        <Menu.Item key="1">Categoria</Menu.Item>
-        <Menu.Item key="2">Alimento</Menu.Item>
+        <Menu.Item key="0">Nome</Menu.Item>
         <Menu.Item key="2">Descrição</Menu.Item>
       </Menu>
     );
@@ -100,11 +78,11 @@ const TableHeader: React.FC = () => {
         size="small"
         type="primary"
         shape="circle"
-        onClick={() => dispatch(getProductionsByUserRequest())}
+        onClick={() => dispatch(getSubBatchsByUserRequest())}
       >
         <SyncOutlined />
       </ButtonRefresh>
-      {userRole === 'ADMIN_PRODUCER' ? (
+      {userRole === 'ADMIN_TRANSFORMER' ? (
         <ButtonAdd
           icon={<PlusOutlined />}
           size="small"
@@ -112,7 +90,7 @@ const TableHeader: React.FC = () => {
           type="primary"
           onClick={() => setVisibleCreateModal(true)}
         >
-          Nova produção
+          Novo sublote
         </ButtonAdd>
       ) : (
         ''

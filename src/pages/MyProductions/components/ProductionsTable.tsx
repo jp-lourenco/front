@@ -13,6 +13,10 @@ import {
   setTitle,
   setHumiMin,
   setHumiMax,
+  setMyProductionsFiltered,
+  setGtin,
+  setSscc,
+  setExpirationDate,
 } from '../../../store/modules/production/actions';
 import { Production, Batch } from '../../../store/modules/production/types';
 import Table, { ColumnsType } from 'antd/es/table';
@@ -89,6 +93,9 @@ const ProductionsTable: React.FC = () => {
   const showEditModal = (item: any) => {
     setProductionSelected(item);
     dispatch(setTitle({ title: item?.title }));
+    dispatch(setGtin({ gtin: item?.gtin }));
+    dispatch(setSscc({ sscc: item?.sscc }));
+    dispatch(setExpirationDate({ expiration_date: item?.expiration_date }));
     dispatch(setProductionStart({ production_start: item?.production_start }));
     dispatch(
       setProductionLocation({ production_location: item?.production_location }),
@@ -188,6 +195,32 @@ const ProductionsTable: React.FC = () => {
         a.category.localeCompare(b.category),
       onFilter: (value: any, record: ProductionProps) =>
         record.category.indexOf(value) === 0,
+    },
+    {
+      title: 'Alimento',
+      width: 100,
+      dataIndex: 'food_name',
+      key: 'food_name',
+      align: 'center',
+      filters: foods,
+      sorter: (a: ProductionProps, b: ProductionProps) =>
+        a.food_name.localeCompare(b.food_name),
+      onFilter: (value: any, record: ProductionProps) =>
+        record.food_name.indexOf(value) === 0,
+    },
+    {
+      title: 'GTIN',
+      width: 100,
+      dataIndex: 'gtin',
+      key: 'gtin',
+      align: 'center',
+    },
+    {
+      title: 'SSCC',
+      width: 100,
+      dataIndex: 'sscc',
+      key: 'sscc',
+      align: 'center',
     },
     {
       title: 'Alimento',
@@ -336,6 +369,50 @@ const ProductionsTable: React.FC = () => {
           }
         }
         return a.production_description.localeCompare(b.production_description);
+      },
+    },
+    {
+      title: 'Data de validade',
+      dataIndex: 'expiration_date',
+      key: 'expiration_date',
+      width: 150,
+      align: 'center',
+      render: (item) => item && moment(item).format('LL'),
+      sorter: (a: ProductionProps, b: ProductionProps, sortOrder) => {
+        if (sortOrder === 'ascend') {
+          if (a.expiration_date === undefined) {
+            return 1;
+          } else if (b.expiration_date === undefined) {
+            return -1;
+          }
+        } else {
+          if (a.expiration_date === undefined) {
+            return -1;
+          } else if (b.expiration_date === undefined) {
+            return 1;
+          }
+        }
+        return (
+          moment(a.expiration_date).unix() - moment(b.expiration_date).unix()
+        );
+      },
+      filterDropdown: DropdownRangePicker,
+      onFilter: (value: any, record: ProductionProps) => {
+        if (record.expiration_date === undefined) {
+          return false;
+        }
+        if (
+          moment(record.expiration_date).isBetween(
+            value['start'],
+            value['end'],
+            'days',
+            '[]',
+          )
+        ) {
+          return true;
+        } else {
+          return false;
+        }
       },
     },
     {

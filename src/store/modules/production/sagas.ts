@@ -69,6 +69,9 @@ export function* editProduction({
       humi_min,
       humi_max,
       batch_codes,
+      gtin,
+      sscc,
+      expiration_date,
     } = yield select(({ production }) => production);
 
     const token = localStorage.getItem('token');
@@ -87,6 +90,9 @@ export function* editProduction({
           production_location: production_location,
           production_end: production_end,
           production_description: production_description,
+          sscc: sscc,
+          gtin: gtin,
+          expiration_date: expiration_date,
           temp_ideal: temp_ideal,
           temp_max: temp_max,
           temp_min: temp_min,
@@ -107,6 +113,9 @@ export function* editProduction({
           production_location: production_location,
           production_end: production_end,
           production_description: production_description,
+          sscc: sscc,
+          gtin: gtin,
+          expiration_date: expiration_date,
           temp_ideal: temp_ideal,
           temp_max: temp_max,
           temp_min: temp_min,

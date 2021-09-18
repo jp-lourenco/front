@@ -58,8 +58,9 @@ const FormCreateProduction: React.FC = () => {
   const [form] = Form.useForm();
 
   useEffect(() => {
+    const token = localStorage.getItem('token');
     api
-      .get('foods')
+      .get('foods', { headers: { Authorization: 'Bearer ' + token } })
       .then((response) => {
         setFoods(response.data);
 

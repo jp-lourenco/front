@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { List } from 'antd';
 import { useSelector } from 'react-redux';
-import { MyProductionsContext } from '../../MyProductions';
+import { MySubBatchsContext } from '../../MySubBatchs';
 import {
   CodeItem,
   Container,
@@ -11,60 +11,52 @@ import {
   QRCodeStyled,
   TitleList,
 } from './styles/QrcodeList';
-import { Batch, Production } from '../../../../store/modules/production/types';
-import { PDFDownloadLink } from '@react-pdf/renderer';
-import { Document, Page, Image, View, Text } from '@react-pdf/renderer';
-import Barcode from './react-barcode.js';
 import 'moment/locale/pt-br';
 import moment from 'moment';
-
+import { PDFDownloadLink } from '@react-pdf/renderer';
+import { Document, Page, Image, View, Text } from '@react-pdf/renderer';
+import { SubBatch } from '../../../../store/modules/subbatch/types';
+import Barcode from '../../../MyProductions/components/QrcodeList/react-barcode';
 interface GS1AndQr {
   uri: string;
   barcodeRef: string;
 }
 
 const QrcodeList: React.FC = () => {
-  const { selectedRowKeys } = useContext(MyProductionsContext);
-  const [data, setData] = useState<Batch[]>([]);
-  const [codes, setCodes] = useState<GS1AndQr[]>([]);
+  const { selectedRowKeys } = useContext(MySubBatchsContext);
+  const [data, setData] = useState<SubBatch[]>([]);
+  const [uris, setUris] = useState<GS1AndQr[]>([]);
   const [title, setTitle] = useState<string>();
+  const [subBatchCode, setSubBatchCode] = useState<string>();
+
   const [gtin, setGtin] = useState<string>();
   const [sscc, setSscc] = useState<string>();
-  const [batchCode, setBatchCode] = useState<string>();
-
-  const [productionLocation, setProductionLocation] = useState<string>();
-  const [productionDate, setProductionDate] = useState<string>();
   const [expirationDate, setExpirationDate] = useState<string>();
-  const [packingDate, setPackingDate] = useState<string>();
-  const [amountProduced, setAmountProduced] = useState<string>();
-  const { myProductions } = useSelector((state: any) => state.production);
+  const [amountTransoformed, setAmountTransoformed] = useState<string>();
+  const { mySubBatchs } = useSelector((state: any) => state.subbatch);
 
   useEffect(() => {
-    let result: Batch[] = [];
-    selectedRowKeys.forEach((qrcode) => {
-      myProductions.forEach((production: Production) => {
-        production.batchs?.forEach((batch: Batch) => {
-          if (qrcode == batch.key) {
-            result.push(batch);
-            setTitle(production.title);
-            production.production_location &&
-              setProductionLocation(production.production_location);
+    let result: SubBatch[] = [];
+    selectedRowKeys.forEach((qrcode: string) => {
+      console.log(qrcode);
+      mySubBatchs.forEach((subbatch: SubBatch) => {
+        if (qrcode == subbatch.key) {
+          result.push(subbatch);
+          setTitle(subbatch.product_name);
 
-            production.production_end &&
-              setProductionDate(production.production_end);
+          subbatch.expiration_date &&
+            setExpirationDate(subbatch.expiration_date);
 
-            production.expiration_date &&
-              setExpirationDate(production.expiration_date);
+          subbatch.gtin && setGtin(subbatch.gtin);
+          subbatch.sscc && setSscc(subbatch.sscc);
 
-            production.gtin && setGtin(production.gtin);
-            production.sscc && setSscc(production.sscc);
+          subbatch.subbatch_code && setSubBatchCode(subbatch.subbatch_code);
 
-            batch.batch_code && setBatchCode(batch.batch_code);
-            batch.packing_date && setPackingDate(batch.packing_date);
-            batch.amount_produced &&
-              setAmountProduced(('000000' + batch.amount_produced).slice(-6));
-          }
-        });
+          subbatch.processed_quantity &&
+            setAmountTransoformed(
+              ('000000' + subbatch.processed_quantity).slice(-6),
+            );
+        }
       });
       setData(result);
     });
@@ -72,14 +64,14 @@ const QrcodeList: React.FC = () => {
 
   useEffect(() => {
     let result: GS1AndQr[] = [];
-    data.forEach((batch: Batch) => {
+    data.forEach((subbatch: SubBatch) => {
       let qrCodeCanvas = document.getElementById(
-        batch.key,
+        subbatch.key,
       ) as HTMLCanvasElement;
       let qrCodeDataUri = qrCodeCanvas?.toDataURL('image/jpg', 0.3);
 
       let barcodeCanvas = document.getElementById(
-        `barcode-${batch.key}`,
+        `barcode-${subbatch.key}`,
       ) as HTMLCanvasElement;
 
       let barcodeDataUri = barcodeCanvas?.toDataURL('image/jpg', 0.3);
@@ -89,7 +81,8 @@ const QrcodeList: React.FC = () => {
         barcodeRef: barcodeDataUri,
       });
     });
-    setCodes(result);
+
+    setUris(result);
   }, [data]);
 
   const CreateValueGS1 = () => {
@@ -99,20 +92,12 @@ const QrcodeList: React.FC = () => {
       valueGS1 = valueGS1 + '(01)' + gtin;
     }
 
-    if (amountProduced) {
-      valueGS1 = valueGS1 + '(3102)' + amountProduced;
+    if (amountTransoformed) {
+      valueGS1 = valueGS1 + '(3102)' + amountTransoformed;
     }
 
-    if (batchCode) {
-      valueGS1 = valueGS1 + '(10)' + batchCode;
-    }
-
-    if (productionDate) {
-      valueGS1 = valueGS1 + '(11)' + moment(productionDate).format('YYMMDD');
-    }
-
-    if (packingDate) {
-      valueGS1 = valueGS1 + '(13)' + moment(packingDate).format('YYMMDD');
+    if (subBatchCode) {
+      valueGS1 = valueGS1 + '(10)' + subBatchCode;
     }
 
     if (expirationDate) {
@@ -129,34 +114,20 @@ const QrcodeList: React.FC = () => {
   const PdfDocument = () => {
     return (
       <Document>
-        {codes.map((code, index) => {
+        {uris.map((uri, index) => {
           return (
-            <Page key={code.uri} size="A4">
+            <Page key={uri.uri} size="A4">
               <View style={{ textAlign: 'center', margin: 30 }}>
                 <Text style={{ margin: 10, fontSize: 20 }}>{title}</Text>
-                {productionLocation && (
-                  <Text style={{ margin: 3, fontSize: 16 }}>
-                    Local: {productionLocation}
-                  </Text>
-                )}
-                {productionDate && (
-                  <Text style={{ margin: 3, fontSize: 16 }}>
-                    Data de produção: {moment(productionDate).format('LL')}
-                  </Text>
-                )}
                 {gtin && (
                   <Text style={{ margin: 3, fontSize: 16 }}>GTIN: {gtin}</Text>
                 )}
-                {amountProduced && (
+                {amountTransoformed && (
                   <Text style={{ margin: 3, fontSize: 16 }}>
-                    Peso: {Number(amountProduced)} kg
+                    Peso: {Number(amountTransoformed)} kg
                   </Text>
                 )}
-                {packingDate && (
-                  <Text style={{ margin: 3, fontSize: 16 }}>
-                    Data de embalamento: {moment(packingDate).format('LL')}
-                  </Text>
-                )}
+
                 {expirationDate && (
                   <Text style={{ margin: 3, fontSize: 16 }}>
                     Data de validade: {moment(expirationDate).format('LL')}
@@ -165,12 +136,9 @@ const QrcodeList: React.FC = () => {
                 {sscc && (
                   <Text style={{ margin: 3, fontSize: 16 }}>SSCC: {sscc}</Text>
                 )}
-
-                <Text style={{ margin: 10 }}>
-                  Lote: {data[index]?.batch_code}
-                </Text>
-                <Image src={code.uri} />
-                <Image src={code.barcodeRef} />
+                <Text style={{ margin: 10 }}>{data[index]?.subbatch_code}</Text>
+                <Image src={uri.uri} />
+                <Image src={uri.barcodeRef} />
               </View>
             </Page>
           );
@@ -219,10 +187,10 @@ const QrcodeList: React.FC = () => {
             xxl: 3,
           }}
           dataSource={data}
-          renderItem={(item: Batch) => (
+          renderItem={(item: SubBatch) => (
             <List.Item>
               <ContainerItem>
-                <CodeItem>{item.batch_code}</CodeItem>
+                <CodeItem>{item.subbatch_code}</CodeItem>
                 <QRCodeStyled
                   id={item.key?.toString()}
                   value={`https://localhost:3000/rastreabilidade/${item?.key?.toString()}`}

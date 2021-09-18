@@ -35,6 +35,13 @@ const Drawer: React.FC = () => {
       notAllowed: [''],
     },
     {
+      key: '8',
+      label: 'Meus Sublotes',
+      path: '/admin/sublotes',
+      roles: ['ADMIN_TRANSFORMER', 'MANAGER_TRANSFORTER'],
+      notAllowed: [''],
+    },
+    {
       key: '3',
       label: 'Entregar/Receber lote',
       path: '/admin/ler-qrcode',

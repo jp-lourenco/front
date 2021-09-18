@@ -142,6 +142,31 @@ export function setProductionLocation({
   };
 }
 
+export function setSscc({ sscc }: { sscc: string }) {
+  return {
+    type: '@production/SET_SSCC',
+    payload: { sscc },
+  };
+}
+
+export function setGtin({ gtin }: { gtin: string }) {
+  return {
+    type: '@production/SET_GTIN',
+    payload: { gtin },
+  };
+}
+
+export function setExpirationDate({
+  expiration_date,
+}: {
+  expiration_date: string | undefined;
+}) {
+  return {
+    type: '@production/SET_EXPIRATION_DATE',
+    payload: { expiration_date },
+  };
+}
+
 export function setProductionDescription({
   production_description,
 }: {
