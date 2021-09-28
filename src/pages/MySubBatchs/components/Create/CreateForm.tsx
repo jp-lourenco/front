@@ -59,9 +59,7 @@ const FormCreateProduction: React.FC = () => {
     [],
   );
 
-  const [batchCodeSelected, setBatchCodeSelected] = useState({
-    amount_transformed: 1,
-  });
+  const [batchCodeSelected, setBatchCodeSelected] = useState<any>({});
 
   const [amountTransformedMax, setAmountTransformedMax] = useState(1);
 
@@ -83,17 +81,6 @@ const FormCreateProduction: React.FC = () => {
       })
       .catch((error) => {});
   }, []);
-
-  useEffect(() => {
-    setBatchCodesAvailable(
-      batchCodesAvailable.filter((item) => item !== batchCodeSelected),
-    );
-  }, [batchCodeSelected]);
-
-  // const handleCategoryChange = (category: string) => {
-  //   // setCategorySelected(category);
-  //   // dispatch(setCategory({ category }));
-  // };
 
   const handleBatchCodeChange = (batch_code: string) => {
     const batchSelected = batchCodesAvailable.filter(
@@ -159,6 +146,25 @@ const FormCreateProduction: React.FC = () => {
     setResult(false);
   };
 
+  const getBatchsAvailable = () => {
+    let flag;
+    return allBatchCodesAvailable.filter((item) => {
+      flag = true;
+      if (item._id == batch_code) {
+        flag = false;
+        return flag;
+      }
+      console.log(batch_codes);
+      batch_codes.forEach((e: any) => {
+        if (item._id == e.batch_code) {
+          flag = false;
+          return flag;
+        }
+      });
+      return flag;
+    });
+  };
+
   return (
     <FormStyled
       form={form}
@@ -181,7 +187,6 @@ const FormCreateProduction: React.FC = () => {
         ]}
       >
         <SelectStyled
-          value={batchs}
           onChange={(value) => {
             handleBatchCodeChange(value.toString());
           }}
@@ -190,11 +195,7 @@ const FormCreateProduction: React.FC = () => {
         >
           {batchCodesAvailable.map((item) => {
             return (
-              <Select.Option
-                key={item._id}
-                onChange={handleBatchCodeChange}
-                value={item._id}
-              >
+              <Select.Option key={item._id} value={item._id}>
                 {`${item.batch_code} (${item.amount_avaiable} Kg)`}
               </Select.Option>
             );
@@ -269,41 +270,6 @@ const FormCreateProduction: React.FC = () => {
                           })}
                         </SelectStyled>
                       </ItemStyled>
-                      <MinusCircleOutlinedStyled
-                        onClick={() => {
-                          remove(field.name);
-                          dispatch(removeBatchCodes({ index }));
-
-                          if (index == 0) {
-                            setBatchCodesAvailable(allBatchCodesAvailable);
-                          } else if (index == 1) {
-                            setBatchCodesAvailable(
-                              allBatchCodesAvailable.filter(
-                                (item) => item != batchCodeSelected,
-                              ),
-                            );
-                          } else {
-                            setBatchCodesAvailable(
-                              allBatchCodesAvailable.filter((item) => {
-                                if (item == batchCodeSelected) {
-                                  return false;
-                                } else {
-                                  var flag;
-                                  batch_codes.forEach((el: any, i: number) => {
-                                    flag = true;
-
-                                    if (item._id == el.batch_code) {
-                                      flag = false;
-                                      return;
-                                    }
-                                  });
-                                  return flag;
-                                }
-                              }),
-                            );
-                          }
-                        }}
-                      />
                     </ContentStyled>
                     <ItemStyled
                       {...field}
@@ -338,21 +304,10 @@ const FormCreateProduction: React.FC = () => {
               <Button
                 type="dashed"
                 onClick={() => {
-                  add();
                   var flag;
-                  setBatchCodesAvailable(
-                    batchCodesAvailable.filter((item) => {
-                      flag = true;
-                      batch_codes.forEach((e: any) => {
-                        if (item._id == e.batch_code) {
-                          flag = false;
-                          return;
-                        }
-                      });
-                      console.log(batch_codes);
-                      return flag;
-                    }),
-                  );
+                  const batchsAvailable = getBatchsAvailable();
+                  setBatchCodesAvailable(batchsAvailable);
+                  add();
                   dispatch(addBatchCodes());
                 }}
                 block

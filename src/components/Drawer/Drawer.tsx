@@ -38,7 +38,16 @@ const Drawer: React.FC = () => {
       key: '8',
       label: 'Meus Sublotes',
       path: '/admin/sublotes',
-      roles: ['ADMIN_TRANSFORMER', 'MANAGER_TRANSFORTER'],
+      roles: [
+        'ADMIN_TRANSFORMER',
+        'MANAGER_TRANSFORTER',
+        'ADMIN_TRANSPORTER',
+        'ADMIN_STORER',
+        'ADMIN_SHOPKEEPER',
+        'MANAGER_TRANSPORTER',
+        'MANAGER_STORER',
+        'MANAGER_SHOPKEEPER',
+      ],
       notAllowed: [''],
     },
     {

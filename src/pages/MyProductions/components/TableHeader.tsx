@@ -79,7 +79,7 @@ const TableHeader: React.FC = () => {
         <Menu.Item key="0">Título</Menu.Item>
         <Menu.Item key="1">Categoria</Menu.Item>
         <Menu.Item key="2">Alimento</Menu.Item>
-        <Menu.Item key="2">Descrição</Menu.Item>
+        <Menu.Item key="3">Descrição</Menu.Item>
       </Menu>
     );
   };
@@ -117,13 +117,17 @@ const TableHeader: React.FC = () => {
       ) : (
         ''
       )}
-      <ButtonIconAdd
-        icon={<PlusOutlined />}
-        size="small"
-        shape="circle"
-        type="primary"
-        onClick={() => setVisibleCreateModal(true)}
-      />
+      {userRole === 'ADMIN_PRODUCER' ? (
+        <ButtonIconAdd
+          icon={<PlusOutlined />}
+          size="small"
+          shape="circle"
+          type="primary"
+          onClick={() => setVisibleCreateModal(true)}
+        />
+      ) : (
+        ''
+      )}
     </HeaderStyled>
   );
 };
